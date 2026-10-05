@@ -45,10 +45,11 @@ watch(
   { immediate: true, flush: 'post' },
 )
 function move(event: PointerEvent) {
-  if (!dragging.value || !track.value || !props.target) return
+  const target = props.target
+  if (!dragging.value || !track.value || !target) return
   const box = track.value.getBoundingClientRect(),
     available = box.width - width.value
-  props.target.scrollLeft =
+  target.scrollLeft =
     Math.max(0, Math.min(1, (event.clientX - box.left - grab) / Math.max(1, available))) *
     maximum.value
 }

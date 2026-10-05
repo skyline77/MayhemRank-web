@@ -18,12 +18,10 @@ import SummonerSpells from './SummonerSpells.vue'
 import HeroRunePairs from './HeroRunePairs.vue'
 import { useCompactBoard } from './useCompactBoard'
 import RecentChanges from './RecentChanges.vue'
-import DetailSection from './DetailSection.vue'
 import HeroFilterControls from './HeroFilterControls.vue'
 import { heroFilter, type HeroFilter, type HeroFilterAction, type RuneFilter } from './heroFilter'
 import { loadHeroDetail, type HeroDetailPayload } from './heroCohorts'
 import { usePatchAvailability } from './usePatchAvailability'
-import championTitles from './championTitles'
 import { computed, onMounted, onUnmounted, provide, ref, watch, nextTick } from 'vue'
 import { closeTip } from './tooltip'
 import { championBuilds, type BuildEntry } from './buildBoard'
@@ -162,7 +160,6 @@ const loading = ref(true),
 const appliedFilter = ref<HeroFilter>(filter.value)
 const displayedFilter = computed(() => (data.value ? appliedFilter.value : filter.value))
 const initialLoading = computed(() => loading.value && !data.value)
-let loadedScope = ''
 let requestId = 0
 const groups = [
   { id: 'kPrismatic', name: '棱彩海克斯', label: '棱彩', css: 'prismatic' },
@@ -264,7 +261,6 @@ const pct = (v: number) => (v * 100).toFixed(1) + '%'
 const count = formatCount
 async function load() {
   const request = ++requestId
-  const scope = JSON.stringify([entry.value.championId, props.patch, entry.value.snapshotId])
   const requestedFilter = filter.value
   // Keep the prior same-hero view until the new version arrives atomically.
   // This gives the shared content animation both the old and new values.
@@ -281,7 +277,6 @@ async function load() {
     allSortData.value = all
     data.value = result
     appliedFilter.value = requestedFilter
-    loadedScope = scope
   } catch (e) {
     if (request === requestId) error.value = e instanceof Error ? e.message : '英雄详情暂时无法读取'
   } finally {
@@ -685,9 +680,9 @@ onUnmounted(() => {
     column-gap: 14px;
   }
   .hero-detail :deep(.build-detail-paired) {
-    grid-template-columns: calc(
-        6 * (var(--detail-card-width) + var(--detail-card-gap)) + 6px
-      ) minmax(calc(var(--detail-rail-width) + 8px + var(--detail-card-width)), 1fr);
+    grid-template-columns:
+      calc(6 * (var(--detail-card-width) + var(--detail-card-gap)) + 6px)
+      minmax(calc(var(--detail-rail-width) + 8px + var(--detail-card-width)), 1fr);
   }
   .hero-detail :deep(.build-detail-paired > .build-detail-row) {
     padding-top: 20px;

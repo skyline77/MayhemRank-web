@@ -1,5 +1,5 @@
 <script setup lang="ts" generic="T extends { id: string; name: string; icon: string }">
-import { t, message } from './i18n'
+import { t } from './i18n'
 import { computed, nextTick, onMounted, onUnmounted, ref, useId, watch } from 'vue'
 import SearchBox from './SearchBox.vue'
 import DetailLink from './DetailLink.vue'

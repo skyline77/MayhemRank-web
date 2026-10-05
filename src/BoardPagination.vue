@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { t, message } from './i18n'
+import { t } from './i18n'
 defineProps<{
   page: number
   pageCount: number

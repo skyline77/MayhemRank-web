@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { t, message } from './i18n'
+import { t } from './i18n'
 import LanguagePicker from './LanguagePicker.vue'
 import { locale, brands } from './locale'
 import { onMounted, onUnmounted, ref } from 'vue'

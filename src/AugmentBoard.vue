@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { locale, brands } from './locale'
 import { t, message } from './i18n'
-import { gameName, gameTitle, roleName } from './gameLocalization'
+import { gameName } from './gameLocalization'
 import DetailEdges from './DetailEdges.vue'
 import { createBoardScrollFloor } from './boardScrollFloor'
 import { formatCount } from './formatCount'

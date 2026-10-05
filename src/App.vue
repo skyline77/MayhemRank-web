@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { locale, brands } from './locale'
 import { loadGameLocale } from './gameLocalization'
-import { t, message } from './i18n'
+import { t } from './i18n'
 import { selectedPatch, selectedVersion, defaultVersion, loadVersions } from './versions'
 import { dataPatch } from './versionSelection'
 import {

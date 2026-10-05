@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { t, message } from './i18n'
+import { t } from './i18n'
 import { nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
 const props = withDefaults(defineProps<{ query?: string }>(), { query: '' })
 // Reuse each board's search state, suggestions and handlers in the mobile dock.

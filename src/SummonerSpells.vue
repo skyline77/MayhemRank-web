@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { t, message } from './i18n'
-import { gameName, gameText } from './gameLocalization'
+import { gameName } from './gameLocalization'
 import { formatCount } from './formatCount'
 
 import { showTip, hideTip, toggleTip, type TipData } from './tooltip'
@@ -39,7 +39,6 @@ function revealSpell(event: Event, spell: { id: number; icon: string | null }) {
   if (event.type === 'mouseenter' && matchMedia('(hover:none)').matches) return
   showTip(event, spellTip(spell))
 }
-const pct = (value: number) => (value * 100).toFixed(1) + '%'
 </script>
 <template>
   <DetailStatRow

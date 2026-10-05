@@ -418,7 +418,7 @@ async function navigateMobileTabs(event: KeyboardEvent, index: number) {
         @scrollend="settleTabScroll"
       >
         <div
-          v-for="(tab, index) in contentTabs"
+          v-for="tab in contentTabs"
           :key="tab.id"
           class="hero-tab-pane"
           :class="{ 'unpaged-tab-pane': tab.paginated === false }"

@@ -14,10 +14,9 @@
   width: 100%;
 }
 .hero-board .board-row {
-  grid-template-columns: var(--hero-axis-width) repeat(2, minmax(0, 3fr)) minmax(0, 2fr) repeat(
-      2,
-      minmax(0, 3fr)
-    ) minmax(0, 2fr);
+  grid-template-columns:
+    var(--hero-axis-width) repeat(2, minmax(0, 3fr)) minmax(0, 2fr) repeat(2, minmax(0, 3fr))
+    minmax(0, 2fr);
 }
 .hero-board .board-range-label {
   width: var(--hero-axis-width);

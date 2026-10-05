@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { t, message } from './i18n'
-import { gameName, gameTitle, roleName } from './gameLocalization'
+import { gameName } from './gameLocalization'
 import { locale } from './locale'
 import { formatCount } from './formatCount'
 import RuneMiniChart from './RuneMiniChart.vue'
@@ -258,12 +258,7 @@ onUnmounted(() => {
             ></span>
           </div>
         </component>
-        <button
-          v-if="data.onFilter"
-          type="button"
-          class="game-tip-filter"
-          @click="filterAndClose"
-        >
+        <button v-if="data.onFilter" type="button" class="game-tip-filter" @click="filterAndClose">
           {{ t('筛选') }}
         </button>
         <div v-if="data.kind === 'spells' && description" class="game-tip-spell-meta">

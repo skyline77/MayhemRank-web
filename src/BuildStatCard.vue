@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { t, message } from './i18n'
-import { gameName, gameTitle, roleName } from './gameLocalization'
+import { gameName } from './gameLocalization'
 import { formatCount, formatCompactCount } from './formatCount'
 
 import { computed } from 'vue'

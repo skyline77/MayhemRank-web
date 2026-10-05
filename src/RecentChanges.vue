@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { t, message } from './i18n'
+import { t } from './i18n'
 import DetailSection from './DetailSection.vue'
 import DetailPatchNotes from './DetailPatchNotes.vue'
 import type { PatchKind } from './patchNotes'

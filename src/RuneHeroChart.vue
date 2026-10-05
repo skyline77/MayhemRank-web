@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { locale } from './locale'
 import { gameName } from './gameLocalization'
-import { t, message } from './i18n'
+import { t } from './i18n'
 import { computed, onMounted, onBeforeUnmount, ref, watch } from 'vue'
 import type { EChartsType } from 'echarts/core'
 import type { RuneHeroes } from './runeHeroes'

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { locale } from './locale'
 import { t, message } from './i18n'
-import { gameName, gameTitle, roleName } from './gameLocalization'
+import { gameName } from './gameLocalization'
 import { formatCount } from './formatCount'
 
 import BoardBanner from './BoardBanner.vue'

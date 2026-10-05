@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { t, message } from './i18n'
-import { gameName, gameTitle, roleName } from './gameLocalization'
+import { t } from './i18n'
 import { computed } from 'vue'
 import { recentViews } from './recentViews'
 import SuggestionSearch from './SuggestionSearch.vue'

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { t, message } from './i18n'
+import { t } from './i18n'
 import { nextTick, ref } from 'vue'
 const element = ref<HTMLDetailsElement | null>(null)
 const trailingSpace = ref(0)

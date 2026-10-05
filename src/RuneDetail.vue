@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { t, message } from './i18n'
 import { locale } from './locale'
-import { gameName, gameTitle, roleName } from './gameLocalization'
+import { gameName } from './gameLocalization'
 import { rememberView } from './recentViews'
 import { formatCount } from './formatCount'
 
@@ -14,7 +14,7 @@ import DetailHeading from './DetailHeading.vue'
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
 import { augmentIcon, needsGoldTint } from './augmentIcons'
 import { loadRuneBoard, type RuneEntry } from './augmentBoard'
-import { loadVersions, availablePatches } from './versions'
+import { loadVersions } from './versions'
 import { winRateColor } from './winRateColor'
 import { previousRunePatch, runePatchChange } from './runeComparison'
 import {
@@ -127,12 +127,6 @@ watch(
 )
 const previous = ref<RuneEntry | null>(null)
 const comparisonPatch = ref('')
-const latestDescriptionPatch = computed(
-  () =>
-    availablePatches.value
-      .map(version => version.dataPatch)
-      .sort((a, b) => b.localeCompare(a, undefined, { numeric: true }))[0] || '',
-)
 watch(
   () => [props.patch, props.entry.id],
   async (_, __, onCleanup) => {

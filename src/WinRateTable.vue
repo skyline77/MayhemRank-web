@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { t, message } from './i18n'
+import { t } from './i18n'
 import { ref, onMounted, onBeforeUpdate, onUpdated, onUnmounted } from 'vue'
 import { boardCardSize, compactHeroSlots } from './boardCardSize'
 const props = defineProps<{

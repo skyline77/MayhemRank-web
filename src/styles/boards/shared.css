@@ -104,10 +104,9 @@ main.has-visible-detail .board-sticky-header {
 }
 .board-row {
   display: grid;
-  grid-template-columns: 76px minmax(275px, 4fr) repeat(2, minmax(143px, 2fr)) minmax(
-      275px,
-      4fr
-    ) minmax(209px, 3fr) minmax(77px, 1fr);
+  grid-template-columns:
+    76px minmax(275px, 4fr) repeat(2, minmax(143px, 2fr)) minmax(275px, 4fr)
+    minmax(209px, 3fr) minmax(77px, 1fr);
   border-bottom: 1px solid var(--border);
 }
 .board-row:last-child {

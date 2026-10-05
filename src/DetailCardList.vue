@@ -143,7 +143,9 @@ watch(
     if (animation)
       try {
         await animation.finished
-      } catch {}
+      } catch {
+        // 动画被取消时 finished 会拒绝；无论完成或取消都继续收尾
+      }
     if (revision === expansionRevision) {
       animation?.cancel()
       expansionAnimation = undefined
