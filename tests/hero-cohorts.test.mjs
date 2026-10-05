@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
+import { gzipSync } from 'node:zlib'
 import { loadTS } from './load-ts.mjs'
 const { loadHeroDetail } = await loadTS('../src/details/hero/heroCohorts.ts')
 const entry = { championId: 10, snapshotId: 'generation-a' }
@@ -12,13 +13,19 @@ const value = (patch = '16.19', generation = 'generation-a', aid = '7') => ({
   detail: { games: 20 },
   spells: { games: 20 },
 })
-test('fetches only requested shard, shares concurrent requests, isolates generation and patch', async () => {
+// 符文/装备筛选数据包：{ ID: 单个筛选的内容 }，以 gzip 返回
+const bundle = content => ({
+  ok: true,
+  arrayBuffer: async () => gzipSync(JSON.stringify(content)),
+})
+
+test('rune filters share one bundle per hero, patch and generation', async () => {
   const original = global.fetch,
     urls = []
   global.fetch = async url => {
     urls.push(url)
     const [, gen, patch] = url.match(/snapshots\/([^/]+)\/([^/]+)/)
-    return { ok: true, json: async () => value(patch, gen) }
+    return bundle({ 7: value(patch, gen, '7'), 8: value(patch, gen, '8') })
   }
   try {
     const [a, b] = await Promise.all([
@@ -27,7 +34,16 @@ test('fetches only requested shard, shares concurrent requests, isolates generat
     ])
     assert.equal(a, b)
     assert.equal(urls.length, 1)
-    assert.match(urls[0], /hero-cohorts\/10\/augments\/7.json$/)
+    assert.match(
+      urls[0],
+      /\/snapshots\/generation-a\/16\.19\/hero-cohorts\/10\/augments\.json\.gz$/,
+    )
+    // 同一数据包中的另一个符文不再请求
+    assert.equal(
+      (await loadHeroDetail(entry, '16.19', { role: null, rune: { id: '8' } })).augmentId,
+      '8',
+    )
+    assert.equal(urls.length, 1)
     await loadHeroDetail(entry, '16.18', filter)
     await loadHeroDetail({ ...entry, snapshotId: 'generation-b' }, '16.19', filter)
     assert.equal(urls.length, 3)
@@ -39,17 +55,30 @@ test('rejects mismatched scope and removes failed requests so retry can succeed'
   const original = global.fetch,
     e = { ...entry, snapshotId: 'generation-retry' }
   let calls = 0
-  global.fetch = async () => ({
-    ok: true,
-    json: async () => {
-      calls++
-      return value('16.19', 'generation-retry', calls === 1 ? '8' : '7')
-    },
-  })
+  global.fetch = async () => {
+    calls++
+    return bundle({ 7: value('16.19', 'generation-retry', calls === 1 ? '8' : '7') })
+  }
   try {
     await assert.rejects(loadHeroDetail(e, '16.19', filter), /不一致/)
     await loadHeroDetail(e, '16.19', filter)
     assert.equal(calls, 2)
+  } finally {
+    global.fetch = original
+  }
+})
+test('a condition missing from the bundle reports no data without refetching the bundle', async () => {
+  const original = global.fetch,
+    e = { ...entry, snapshotId: 'generation-missing' }
+  let calls = 0
+  global.fetch = async () => {
+    calls++
+    return bundle({ 7: value('16.19', 'generation-missing') })
+  }
+  try {
+    for (let i = 0; i < 2; i++)
+      await assert.rejects(loadHeroDetail(e, '16.19', { role: null, rune: { id: '99' } }), /暂无/)
+    assert.equal(calls, 1)
   } finally {
     global.fetch = original
   }
@@ -68,18 +97,15 @@ test('all appearances use their own shard; absent data does not become zero win 
   }
 })
 
-test('equipment and no-boots requests use separate shards and validate item identity', async () => {
+test('equipment and no-boots filters use the item bundle and validate item identity', async () => {
   const original = global.fetch,
     urls = [],
     e = { ...entry, snapshotId: 'items' }
   let wrong = true
   global.fetch = async url => {
     urls.push(url)
-    const iid = url.match(/items\/(-?\d+)\.json$/)?.[1]
-    return {
-      ok: true,
-      json: async () => ({ ...value('16.19', 'items', null), itemId: wrong ? 'wrong' : iid }),
-    }
+    const item = iid => ({ ...value('16.19', 'items', null), itemId: wrong ? 'wrong' : iid })
+    return bundle({ 7: item('7'), '-1': item('-1') })
   }
   try {
     const itemFilter = { role: null, rune: null, item: { id: '7' } }
@@ -91,9 +117,12 @@ test('equipment and no-boots requests use separate shards and validate item iden
     ])
     assert.equal(a, b)
     assert.equal(urls.length, 2)
-    assert.match(urls[1], /items\/7.json$/)
-    await loadHeroDetail(e, '16.19', { role: null, rune: null, item: { id: '-1' } })
-    assert.match(urls[2], /items\/-1.json$/)
+    assert.match(urls[1], /hero-cohorts\/10\/items\.json\.gz$/)
+    assert.equal(
+      (await loadHeroDetail(e, '16.19', { role: null, rune: null, item: { id: '-1' } })).itemId,
+      '-1',
+    )
+    assert.equal(urls.length, 2)
     await assert.rejects(loadHeroDetail(e, '16.19', { ...itemFilter, rune: { id: '7' } }), /同时/)
   } finally {
     global.fetch = original

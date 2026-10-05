@@ -20,6 +20,34 @@ export interface HeroDetailPayload {
   spells: SpellRole
 }
 const cache = new Map<string, Promise<HeroDetailPayload>>()
+
+// 每个“版本 × 英雄”的符文筛选与装备筛选各合并为一个 gzip 数据包：
+// { "<符文或装备 ID>": 与原单个筛选文件相同的内容 }。首次筛选时下载，之后切换条件不再请求。
+const bundles = new Map<string, Promise<Record<string, HeroDetailPayload>>>()
+const missingCondition = '当前版本暂无这个筛选条件的数据'
+
+function loadBundle(path: string) {
+  if (!bundles.has(path))
+    bundles.set(
+      path,
+      fetch(path, { signal: AbortSignal.timeout(15000) })
+        .then(async response => {
+          if (!response.ok)
+            throw new Error(response.status === 404 ? missingCondition : '筛选统计暂时无法读取')
+          if (typeof DecompressionStream === 'undefined')
+            throw new Error('当前浏览器无法读取筛选统计，请更新浏览器')
+          const stream = new Blob([await response.arrayBuffer()])
+            .stream()
+            .pipeThrough(new DecompressionStream('gzip'))
+          return JSON.parse(await new Response(stream).text()) as Record<string, HeroDetailPayload>
+        })
+        .catch(error => {
+          bundles.delete(path)
+          throw error
+        }),
+    )
+  return bundles.get(path)!
+}
 export async function loadHeroDetail(
   entry: BuildEntry,
   patch: string,
@@ -51,19 +79,30 @@ export async function loadHeroDetail(
   if (aid && !/^\d+$/.test(aid)) throw new Error('无效的符文编号')
   const other = filter.role === 'other'
   const root = `/snapshots/${entry.snapshotId}/${patch}`
+  const cohorts = `${root}/hero-cohorts/${entry.championId}`
+  // 符文与装备筛选从数据包中取出对应条目；全部出场与未分类仍是单独文件
+  const bundle = aid || iid ? `${cohorts}/${aid ? 'augments' : 'items'}.json.gz` : null
   const path = other
     ? `${root}/hero-unclassified/${entry.championId}.json`
-    : `${root}/hero-cohorts/${entry.championId}/${iid ? 'items/' + iid : aid ? 'augments/' + aid : 'all'}.json`
+    : bundle
+      ? `${bundle}#${aid || iid}`
+      : `${cohorts}/all.json`
+  async function read() {
+    if (bundle) {
+      const value = (await loadBundle(bundle))[(aid || iid)!]
+      if (!value) throw new Error(missingCondition)
+      return value
+    }
+    const response = await fetch(path, { signal: AbortSignal.timeout(15000) })
+    if (!response.ok)
+      throw new Error(response.status === 404 ? missingCondition : '筛选统计暂时无法读取')
+    return (await response.json()) as HeroDetailPayload
+  }
   if (!cache.has(path))
     cache.set(
       path,
-      fetch(path, { signal: AbortSignal.timeout(15000) })
-        .then(async response => {
-          if (!response.ok)
-            throw new Error(
-              response.status === 404 ? '当前版本暂无这个筛选条件的数据' : '筛选统计暂时无法读取',
-            )
-          const value = (await response.json()) as HeroDetailPayload
+      read()
+        .then(value => {
           if (
             value.meta.queue !== 2400 ||
             value.meta.patch !== patch ||
@@ -85,7 +124,10 @@ export async function loadHeroDetail(
           return value
         })
         .catch(error => {
+          // 失败后清除缓存，重试时重新下载（包括数据包本身）
           cache.delete(path)
+          // 只是缺少该条件时保留数据包，避免每次点击都重新下载
+          if (bundle && error.message !== missingCondition) bundles.delete(bundle)
           throw error
         }),
     )

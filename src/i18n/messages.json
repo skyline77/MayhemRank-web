@@ -2239,6 +2239,11 @@
     "条件別統計を読み込めません",
     "Unable to load filtered statistics"
   ],
+  "当前浏览器无法读取筛选统计，请更新浏览器": [
+    "目前的瀏覽器無法載入篩選統計，請更新瀏覽器",
+    "このブラウザーでは条件別統計を読み込めません。ブラウザーを更新してください",
+    "This browser cannot load filtered statistics. Please update your browser."
+  ],
   "筛选统计与当前英雄或版本不一致": [
     "篩選統計與目前英雄或版本不一致",
     "条件別統計のチャンピオンまたはパッチが一致しません",
