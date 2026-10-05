@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { t } from '@/i18n/i18n'
-import { ref, onMounted, onBeforeUpdate, onUpdated, onUnmounted } from 'vue'
+import { ref, onMounted, onUpdated, onUnmounted } from 'vue'
 import { boardCardSize, compactHeroSlots } from './boardCardSize'
+import { useBandTransitions } from './useBandTransitions'
 const props = defineProps<{
   label: string
   columns: readonly string[]
@@ -15,7 +16,7 @@ function syncHeader(event: Event) {
   if (headerScroll.value)
     headerScroll.value.scrollLeft = (event.currentTarget as HTMLElement).scrollLeft
 }
-// Every table update shares the same band transition, regardless of its trigger.
+// 无论由什么触发，整表进入都使用同一个 240ms 淡入。
 const tableRoot = ref<HTMLDivElement | null>(null)
 let sizeObserver: ResizeObserver | undefined
 let revealFrameId = 0,
@@ -23,7 +24,7 @@ let revealFrameId = 0,
 function revealTable() {
   const root = tableRoot.value
   if (!root || matchMedia('(prefers-reduced-motion: reduce)').matches) return
-  // Start after the first complete layout, including cached-data navigation.
+  // 在首次完整布局之后开始，使用缓存数据切换页面时也一样。
   root.style.opacity = '0'
   revealFrameId = requestAnimationFrame(() => {
     revealFrameId = requestAnimationFrame(() => {
@@ -97,11 +98,13 @@ function measurePortraitSize(force = false) {
     cell.classList.remove('fits-single-portrait')
   }
 }
+// 每次表格更新后重新测量（相同几何会被跳过）
+onUpdated(measurePortraitSize)
 onMounted(() => {
   let observedWidth = -1
   sizeObserver = new ResizeObserver(entries => {
     const width = entries[0]?.contentRect.width
-    // Opening a detail changes height every frame, but never the column geometry.
+    // 展开详情每帧都会改变高度，但不会改变列宽，只在宽度变化时重新测量。
     if (width === undefined || Math.abs(width - observedWidth) < 0.5) return
     observedWidth = width
     measurePortraitSize()
@@ -124,181 +127,12 @@ onUnmounted(() => {
   cancelAnimationFrame(revealFrameId)
   revealAnimation?.cancel()
 })
-let batchingBands = false
-let previousBands = new Map<
-  string,
-  { top: number; left: number; width: number; height: number; copy: HTMLElement }
->()
-let bandCopies: HTMLElement[] = []
-let bandAnimations: Animation[] = []
-let fadeNextUpdate = false
-let revealFrame = 0
-function fadeNextBands() {
-  cancelAnimationFrame(revealFrame)
-  fadeNextUpdate = true
-  stopBands()
-  // Keep labels visible while detail height and sticky geometry settle.
-}
-function revealBands() {
-  if (!fadeNextUpdate) return
-  cancelAnimationFrame(revealFrame)
-  if (document.documentElement.classList.contains('is-detail-moving')) {
-    revealFrame = requestAnimationFrame(revealBands)
-    return
-  }
-  // Wait for detail removal, scroll compensation and sticky-header restoration.
-  revealFrame = requestAnimationFrame(() => {
-    revealFrame = requestAnimationFrame(() => {
-      if (document.documentElement.classList.contains('is-detail-moving')) {
-        revealBands()
-        return
-      }
-      fadeNextUpdate = false
-      // The detail transition already moved the rows. Do not replay a second
-      // fade or position animation after the final grid update.
-      previousBands.clear()
-    })
-  })
-}
-function stopBands() {
-  bandAnimations.forEach(animation => animation.cancel())
-  bandAnimations = []
-  bandCopies.forEach(copy => copy.remove())
-  bandCopies = []
-}
-function bandLabels() {
-  return Array.from(
-    tableRoot.value?.querySelectorAll<HTMLElement>('.board-range-label:not(.band-fade-copy)') || [],
-  )
-}
-function captureBands() {
-  if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    stopBands()
-    return
-  }
-  previousBands = new Map(
-    bandLabels().flatMap(band => {
-      const label = band.querySelector<HTMLElement>('b')
-      if (!label) return []
-      const rect = label.getBoundingClientRect(),
-        copy = document.createElement('div')
-      copy.className = 'board-range-label band-fade-copy'
-      copy.setAttribute('aria-hidden', 'true')
-      copy.style.setProperty('--range-ink', getComputedStyle(band).getPropertyValue('--range-ink'))
-      copy.append(label.cloneNode(true))
-      return [
-        [
-          band.dataset.range!,
-          {
-            top: rect.top + window.scrollY,
-            left: rect.left + window.scrollX,
-            width: rect.width,
-            height: rect.height,
-            copy,
-          },
-        ] as const,
-      ]
-    }),
-  )
-  stopBands()
-}
-function beginBandLayout() {
-  captureBands()
-  batchingBands = true
-}
-function finishBandLayout() {
-  batchingBands = false
-  measurePortraitSize()
-  animateBands()
-}
-onBeforeUpdate(() => {
-  if (!batchingBands) captureBands()
-})
-onUpdated(() => {
-  measurePortraitSize()
-  if (batchingBands) return
-  animateBands()
-})
-function animateBands() {
-  if (document.documentElement.classList.contains('is-detail-moving')) {
-    fadeNextBands()
-    revealBands()
-    return
-  }
-  if (fadeNextUpdate) {
-    revealBands()
-    return
-  }
-  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return
-  const root = tableRoot.value
-  if (!root) return
-  const bounds = root.getBoundingClientRect(),
-    current = new Map(bandLabels().map(band => [band.dataset.range!, band]))
-  for (const [key, previous] of previousBands) {
-    const label = current.get(key)?.querySelector<HTMLElement>('b')
-    if (label && Math.abs(label.getBoundingClientRect().top + window.scrollY - previous.top) < 0.5)
-      continue
-    if (
-      previous.top + previous.height < window.scrollY ||
-      previous.top > window.scrollY + innerHeight
-    )
-      continue
-    const copy = previous.copy
-    Object.assign(copy.style, {
-      position: 'absolute',
-      left: previous.left - window.scrollX - bounds.left + 'px',
-      top: previous.top - window.scrollY - bounds.top + 'px',
-      width: previous.width + 'px',
-      height: previous.height + 'px',
-      display: 'grid',
-      placeItems: 'center',
-      border: '0',
-      padding: '0',
-      background: 'transparent',
-      pointerEvents: 'none',
-      zIndex: '2',
-      clipPath:
-        'inset(' +
-        Math.max(
-          0,
-          (header.value?.getBoundingClientRect().bottom ?? 0) - (previous.top - window.scrollY),
-        ) +
-        'px 0 0 0)',
-    })
-    root.append(copy)
-    bandCopies.push(copy)
-    const animation = copy.animate([{ opacity: 1 }, { opacity: 0 }], {
-      duration: 120,
-      easing: 'ease-out',
-      fill: 'both',
-    })
-    bandAnimations.push(animation)
-    void animation.finished.then(
-      () => copy.remove(),
-      () => {},
-    )
-  }
-  for (const [key, band] of current) {
-    const label = band.querySelector<HTMLElement>('b')
-    if (!label) continue
-    const previous = previousBands.get(key),
-      rect = label.getBoundingClientRect()
-    if (previous && Math.abs(previous.top - rect.top - window.scrollY) < 0.5) continue
-    if (rect.bottom < 0 || rect.top > innerHeight) continue
-    bandAnimations.push(
-      label.animate([{ opacity: 0 }, { opacity: 1 }], {
-        duration: 180,
-        delay: previous ? 80 : 0,
-        easing: 'ease-out',
-        fill: 'both',
-      }),
-    )
-  }
-}
-onUnmounted(() => {
-  cancelAnimationFrame(revealFrame)
-  stopBands()
-})
+// ---- 区间标签过渡（须在上面的 onUpdated 测量之后注册） ----
+const { fadeNextBands, revealBands, beginBandLayout, finishBandLayout } = useBandTransitions(
+  tableRoot,
+  header,
+  measurePortraitSize,
+)
 defineExpose({ header, fadeNextBands, revealBands, beginBandLayout, finishBandLayout })
 </script>
 <template>
