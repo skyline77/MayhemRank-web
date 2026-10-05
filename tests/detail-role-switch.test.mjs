@@ -3,9 +3,8 @@ import {readFileSync} from 'node:fs'
 import {test} from 'node:test'
 import ts from 'typescript'
 import {ref,computed,watch,nextTick,effectScope,reactive} from 'vue'
-import {loadTS} from './load-ts.mjs'
-const source=readFileSync(new URL('../src/BuildDetail.vue',import.meta.url),'utf8')
-const setup=source.match(/<script setup lang="ts">([\s\S]*?)<\/script>/)[1].replace(/^import .*$/gm,'')
+import {loadTS,scriptSetup,stripImports} from './load-ts.mjs'
+const setup=stripImports(scriptSetup('../src/BuildDetail.vue'))
 const compiled=ts.transpile(setup+'\nreturn {entry,roles,filter,changeFilter,detail,baseline,loading,error,load,displayedFilter,initialLoading,scopeName,displayedPatch,allSortData}',{target:ts.ScriptTarget.ES2022})
 const {championBuilds}=await loadTS('../src/buildBoard.ts')
 const {t:translate,message}=await loadTS('../src/i18n.ts')

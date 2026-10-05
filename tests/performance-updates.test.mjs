@@ -3,7 +3,7 @@ import assert from 'node:assert/strict'
 import {readFileSync} from 'node:fs'
 import vm from 'node:vm'
 import ts from 'typescript'
-import {loadTS} from './load-ts.mjs'
+import {loadTS,scriptSetup,stripImports} from './load-ts.mjs'
 const {normalizeSearch,matchesSearch}=await loadTS('../src/search.ts')
 test('cached search retains Unicode, empty queries and changed labels after eviction',()=>{
  assert.equal(normalizeSearch(' ＡＢ，Ｃ '),'abc')
@@ -14,8 +14,7 @@ test('cached search retains Unicode, empty queries and changed labels after evic
  assert.ok(!matchesSearch(['新名'],'旧名'))
 })
 test('hero selection reuses theme and only updates series; zoom dispatches without rebuilding',()=>{
- const text=readFileSync(new URL('../src/RuneHeroChart.vue',import.meta.url),'utf8').split('<script setup lang="ts">')[1].split('</script>')[0]
- const script=ts.transpile(text.replace(/^import .*$/gm,''),{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.ES2022})
+ const script=ts.transpile(stripImports(scriptSetup('../src/RuneHeroChart.vue')),{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.ES2022})
  const calls=[],actions=[],watchers=[]
  const sandbox={locale:{value:'zh-CN'},defineProps:()=>({data:{entries:[],meta:{}}}),ref:v=>({value:v}),computed:f=>({get value(){return f()}}),watch:(s,f)=>watchers.push(f),onMounted:()=>{},onBeforeUnmount:()=>{},DEFAULT_RUNE_HERO_MIN_GAMES:50,chartHeroes:()=>[],heroChartBounds:()=>({xMax:1,yMin:0,yMax:1})}
  vm.createContext(sandbox)
@@ -29,8 +28,7 @@ test('hero selection reuses theme and only updates series; zoom dispatches witho
 })
 
 test('navigation reuses targets and skips identical opacity writes, refreshing after invalidation',()=>{
- const text=readFileSync(new URL('../src/BoardNavigation.vue',import.meta.url),'utf8').split('<script setup lang="ts">')[1].split('</script>')[0]
- const script=ts.transpile(text.replace(/^import .*$/gm,'').replace(/^const wordmark\w*=.*$/gm,''),{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.ES2022})
+ const script=ts.transpile(stripImports(scriptSetup('../src/BoardNavigation.vue')).replace(/^const wordmark\w*\s*=.*$/gm,''),{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.ES2022})
  let queries=0,writes=0,top=300
  const sandbox={defineEmits:()=>()=>{},ref:v=>({value:v}),onMounted:()=>{},onUnmounted:()=>{},window:{innerWidth:1200,scrollY:0},navigationInset:()=>60,requestAnimationFrame:()=>1,
  fakeNav:{style:{setProperty:()=>writes++}},fakeMain:{style:{setProperty:()=>writes++},querySelector:selector=>{queries++;return selector.includes('art')?{isConnected:true,offsetHeight:279}:{isConnected:true,closest:()=>null,getBoundingClientRect:()=>({top,height:50})}}}}

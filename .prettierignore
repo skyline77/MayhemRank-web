@@ -1,0 +1,7 @@
+dist
+node_modules
+public
+pnpm-lock.yaml
+*.log
+# 数据文件保持原样，避免格式化造成大量无意义差异
+src/**/*.json

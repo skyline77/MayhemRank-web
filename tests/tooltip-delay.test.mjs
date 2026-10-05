@@ -2,9 +2,10 @@ import assert from 'node:assert/strict'
 import {readFileSync} from 'node:fs'
 import {test} from 'node:test'
 import ts from 'typescript'
+import {stripImports} from './load-ts.mjs'
 import {shallowRef} from 'vue'
 const source=readFileSync(new URL('../src/tooltip.ts',import.meta.url),'utf8')
-const script=ts.transpile(source.replace(/^import .*$/gm,'').replace(/export /g,''),{target:ts.ScriptTarget.ES2022})
+const script=ts.transpile(stripImports(source).replace(/export /g,''),{target:ts.ScriptTarget.ES2022})
 function harness(t){
  t.mock.timers.enable({apis:['setTimeout']})
  return new Function('shallowRef',script+';return {activeTip,showTip,hideTip,closeTip,keepTip,toggleTip}')(shallowRef)

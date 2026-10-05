@@ -3,11 +3,10 @@ import {readFileSync} from 'node:fs'
 import {test} from 'node:test'
 import ts from 'typescript'
 import {ref} from 'vue'
-import {loadTS} from './load-ts.mjs'
+import {loadTS,scriptSetup,stripImports} from './load-ts.mjs'
 const {isSearchSubmit}=await loadTS('../src/search.ts')
 const {heroSuggestions}=await loadTS('../src/heroSuggestions.ts')
-const source=readFileSync(new URL('../src/SearchBox.vue',import.meta.url),'utf8').match(/<script setup lang="ts">([\s\S]*?)<\/script>/)[1]
-const script=ts.transpile(source.replace(/^import .*$/gm,''),{target:ts.ScriptTarget.ES2022})
+const script=ts.transpile(stripImports(scriptSetup('../src/SearchBox.vue')),{target:ts.ScriptTarget.ES2022})
 function harness(){
  const model=ref(''),events=[]
  const api=new Function('ref','defineModel','defineEmits','defineProps','isSearchSubmit','handleSearchArrow',script+';return {onInput,onCompositionStart,onCompositionEnd,onKeydown}')(

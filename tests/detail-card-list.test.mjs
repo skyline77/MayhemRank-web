@@ -3,11 +3,10 @@ import {readFileSync} from 'node:fs'
 import {test} from 'node:test'
 import ts from 'typescript'
 import {ref,reactive,watch,nextTick,effectScope,computed,watchEffect} from 'vue'
-import {loadTS} from './load-ts.mjs'
+import {loadTS,scriptSetup,stripImports} from './load-ts.mjs'
 const {scheduleDetailMeasurement,cancelDetailMeasurement}=await loadTS('../src/detailMeasurements.ts')
 const {detailPaginationKey,pageWindow}=await loadTS('../src/detailPagination.ts')
-const source=readFileSync(new URL('../src/DetailCardList.vue',import.meta.url),'utf8')
-const setup=source.match(/<script setup lang="ts">([\s\S]*?)<\/script>/)[1].replace(/^import .*$/gm,'')
+const setup=stripImports(scriptSetup('../src/DetailCardList.vue'))
 const compiled=ts.transpile(setup+'\nreturn {scroller,hasMore,schedule,scroll,visibleCount}',{target:ts.ScriptTarget.ES2022})
 function harness(t,loading=false,options={}){
  const props=reactive({loading,resetKey:'items',...options})

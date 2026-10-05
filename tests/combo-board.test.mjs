@@ -2,11 +2,12 @@ import {test} from 'node:test'
 import assert from 'node:assert/strict'
 import {readFileSync} from 'node:fs'
 import ts from 'typescript'
+import {stripImports} from './load-ts.mjs'
 
 test('combo requests isolate query and sort, reuse results, reject unbounded payloads and retry failures',async()=>{
- const source=readFileSync(new URL('../src/comboBoard.ts',import.meta.url),'utf8')
-  .replace("import {locale} from './locale'","const locale={value:'zh-CN'}")
-  .replace("import {loadVersions,selectedPatch} from './versions'",`const selectedPatch={value:'16.19'};const loadVersions=async()=>({generation:'test-generation',patches:[{patch:'16.19'},{patch:'16.18'}]})`)
+ const source=stripImports(readFileSync(new URL('../src/comboBoard.ts',import.meta.url),'utf8'),{
+  './locale':"const locale={value:'zh-CN'}",
+  './versions':`const selectedPatch={value:'16.19'};const loadVersions=async()=>({generation:'test-generation',patches:[{patch:'16.19'},{patch:'16.18'}]})`})
  const js=ts.transpile(source,{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.ES2022})
  const {loadComboBoard,cachedComboBoard}=await import('data:text/javascript;base64,'+Buffer.from(js).toString('base64'))
  const original=globalThis.fetch,calls=[]
