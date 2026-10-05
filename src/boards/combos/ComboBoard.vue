@@ -6,7 +6,7 @@ import { formatCount } from '@/stats/formatCount'
 
 import BoardBanner from '@/boards/BoardBanner.vue'
 import BoardPagination from '@/boards/BoardPagination.vue'
-import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
+import { computed, onUnmounted, ref, watch } from 'vue'
 import SearchBox from '@/search/SearchBox.vue'
 import BoardNavSearch from '@/navigation/BoardNavSearch.vue'
 import WinRateDelta from '@/details/WinRateDelta.vue'
@@ -22,6 +22,7 @@ import {
 import { buildDetailUrl, runeDetailUrl } from '@/app/detailLink'
 import { loadComboBoard, cachedComboBoard, type ComboBoard } from './comboBoard'
 import { orderComboRunes, type ComboSort, type ComboEntry } from './comboRanking'
+import { useComboPaging } from './useComboPaging'
 
 const props = withDefaults(defineProps<{ runeCount?: 1 | 2 }>(), { runeCount: 1 })
 
@@ -34,44 +35,21 @@ const data = ref<ComboBoard | null>(null),
   error = ref('')
 const query = ref(''),
   sort = ref<ComboSort>('winRate')
-const page = ref(1)
+const rows = computed(() => data.value?.entries || [])
+// ---- 分页：桌面翻页，手机下滑追加 ----
 const list = ref<HTMLElement | null>(null)
-const pageSize = 10
-const mobileQuery = window.matchMedia('(max-width:800px)')
-const mobile = ref(mobileQuery.matches),
-  mobileLimit = ref(20)
-const sentinel = ref<HTMLElement | null>(null)
-let observer: IntersectionObserver | undefined
-function updateViewport() {
-  mobile.value = mobileQuery.matches
-  page.value = 1
-  mobileLimit.value = 20
-}
-onMounted(() => {
-  mobileQuery.addEventListener('change', updateViewport)
-})
-watch(
+const {
+  page,
+  pageCount,
+  mobile,
+  mobileLimit,
   sentinel,
-  element => {
-    observer?.disconnect()
-    if (!element) return
-    observer = new IntersectionObserver(
-      entries => {
-        if (
-          entries.some(entry => entry.isIntersecting) &&
-          mobile.value &&
-          !loading.value &&
-          !error.value
-        ) {
-          mobileLimit.value = Math.min(rows.value.length, mobileLimit.value + 20)
-        }
-      },
-      { rootMargin: '0px 0px 120px 0px' },
-    )
-    observer.observe(element)
-  },
-  { flush: 'post' },
-)
+  visibleStart,
+  visibleEnd,
+  turnPageFromBottom,
+} = useComboPaging(rows, () => loading.value || !!error.value, list)
+
+// ---- 读取组合统计：搜索 500ms 防抖，单符文榜空查询时预取双符文榜 ----
 let serial = 0
 let searchTimer: ReturnType<typeof setTimeout> | undefined
 let prefetchTimer: ReturnType<typeof setTimeout> | undefined
@@ -125,45 +103,22 @@ watch(query, () => {
     void load()
   }, 500)
 })
-const rows = computed(() => data.value?.entries || [])
-const pageCount = computed(() => Math.max(1, Math.ceil(rows.value.length / pageSize)))
-const pageStart = computed(() => (page.value - 1) * pageSize)
-const visibleStart = computed(() => (mobile.value ? 0 : pageStart.value))
 const slots = computed(() =>
-  rows.value
-    .slice(visibleStart.value, mobile.value ? mobileLimit.value : pageStart.value + pageSize)
-    .map((row, index) => ({
-      row: dual.value
-        ? orderComboRunes(row, {
-            [row.runeId]: row.runeRarity || '',
-            [row.secondRuneId || '']: row.secondRuneRarity || '',
-          })
-        : row,
-      index: visibleStart.value + index,
-    })),
+  rows.value.slice(visibleStart.value, visibleEnd.value).map((row, index) => ({
+    row: dual.value
+      ? orderComboRunes(row, {
+          [row.runeId]: row.runeRarity || '',
+          [row.secondRuneId || '']: row.secondRuneRarity || '',
+        })
+      : row,
+    index: visibleStart.value + index,
+  })),
 )
-watch(rows, () => {
-  page.value = 1
-  mobileLimit.value = 20
-})
-async function turnPageFromBottom(direction: number) {
-  const target = Math.max(1, Math.min(pageCount.value, page.value + direction))
-  if (loading.value || error.value || target === page.value) return
-  page.value = target
-  await nextTick()
-  list.value?.focus({ preventScroll: true })
-  list.value?.scrollIntoView({
-    block: 'start',
-    behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',
-  })
-}
 
 onUnmounted(() => {
   serial++
   clearTimeout(prefetchTimer)
   clearTimeout(searchTimer)
-  observer?.disconnect()
-  mobileQuery.removeEventListener('change', updateViewport)
 })
 const percent = (value: number) => (value * 100).toFixed(1) + '%'
 const sampleText = (row: ComboEntry) =>
