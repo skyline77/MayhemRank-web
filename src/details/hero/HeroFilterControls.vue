@@ -3,15 +3,17 @@ import { t, message } from '@/i18n/i18n'
 import { gameName, roleName } from '@/i18n/gameLocalization'
 import { formatCount } from '@/stats/formatCount'
 
-import { computed, ref, watch, onMounted, onUpdated, onUnmounted } from 'vue'
+import { computed, watch } from 'vue'
 import DetailLink from '@/details/DetailLink.vue'
 import RoleChoiceContent from './RoleChoiceContent.vue'
-import { loadBuildDetail, type DetailCell } from '@/details/buildDetails'
 import { buildDetailUrl } from '@/app/detailLink'
 import { type BuildEntry } from '@/boards/heroes/buildBoard'
 import { augmentIcon } from '@/data/augmentIcons'
 import { winRateColor } from '@/stats/winRateColor'
 import type { HeroFilter, HeroFilterAction } from './heroFilter'
+import { useRoleItemIcons } from './useRoleItemIcons'
+import { useMobileRoleMenu } from './useMobileRoleMenu'
+import { useRolePicker } from './useRolePicker'
 const props = defineProps<{
   hero: { name: string; icon: string; winRate?: number; games?: number }
   selectionGames?: number
@@ -23,51 +25,10 @@ const props = defineProps<{
   otherStats?: { games: number; heroGames: number; winRate: number } | null
 }>()
 const emit = defineEmits<{ change: [action: HeroFilterAction] }>()
-const roleItems = ref<Record<string, DetailCell[]>>({})
-const failedIcons = ref<Set<string>>(new Set())
-watch(
-  () => [props.patch, props.roles[0]?.championId, props.roles[0]?.snapshotId],
-  async (_scope, _previous, onCleanup) => {
-    let active = true
-    onCleanup(() => {
-      active = false
-    })
-    roleItems.value = {}
-    failedIcons.value = new Set()
-    const first = props.roles[0]
-    if (!first || props.roles.every(role => role.nameItems)) return
-    try {
-      const detail = await loadBuildDetail(first.championId, props.patch, first.snapshotId)
-      if (active)
-        roleItems.value = Object.fromEntries(
-          Object.entries(detail.roles).map(([role, row]) => [role, row.groups.items || []]),
-        )
-    } catch {
-      /* Retain the readable name if matching item metadata is unavailable. */
-    }
-  },
-  { immediate: true },
+const { failedIcons, iconSlots } = useRoleItemIcons(
+  () => props.patch,
+  () => props.roles,
 )
-function iconsFor(option: BuildEntry) {
-  if (option.nameItems) return option.nameItems.filter(item => !failedIcons.value.has(item.icon))
-  const items = roleItems.value[option.role] || []
-  const exact = items.find(item => item.name === option.label)
-  const matches = exact
-    ? [exact]
-    : items
-        .filter(item => option.label.includes(item.name))
-        .sort((a, b) => option.label.indexOf(a.name) - option.label.indexOf(b.name))
-  return matches.filter(item => item.icon && !failedIcons.value.has(item.icon))
-}
-function iconSlots(option: BuildEntry) {
-  const icons = iconsFor(option)
-  const names = option.nameItems?.map(item => item.name) || option.label.split('＋')
-  return names.map((name, index) => ({
-    name,
-    icon: icons.find(item => item.name === name)?.icon,
-    key: index,
-  }))
-}
 const roleIconWidth = computed(
   () =>
     Math.max(
@@ -83,7 +44,6 @@ function clearSelection() {
   if (props.state.item) emit('change', { type: 'item', item: props.state.item })
   else if (props.state.rune) emit('change', { type: 'rune', rune: props.state.rune })
 }
-const mobileMenu = ref<HTMLDetailsElement | null>(null)
 function mobileIconSlots(option: BuildEntry) {
   return [{ key: -1, name: props.hero.name, icon: props.hero.icon }, ...iconSlots(option)]
 }
@@ -106,51 +66,13 @@ const runePickRate = computed(() =>
     : 0,
 )
 const activeRole = computed(() => props.roles.find(role => role.role === props.state.role))
-let menuAnimation: Animation | null = null,
-  menuTargetOpen = false
-function setMobileMenu(open: boolean) {
-  const menu = mobileMenu.value,
-    panel = menu?.querySelector<HTMLElement>('.mobile-role-options')
-  if (!menu || !panel || (menuTargetOpen === open && menu.open === open)) return
-  menuTargetOpen = open
-  const previous = menu.open ? getComputedStyle(panel) : null
-  const start = {
-    opacity: previous?.opacity || '0',
-    transform:
-      previous?.transform === 'none'
-        ? 'translateY(0px)'
-        : previous?.transform || 'translateY(-8px)',
-  }
-  menuAnimation?.cancel()
-  menuAnimation = null
-  if (matchMedia('(prefers-reduced-motion:reduce)').matches) {
-    menu.open = open
-    return
-  }
-  menu.open = true
-  const animation = panel.animate(
-    [
-      start,
-      { opacity: open ? '1' : '0', transform: open ? 'translateY(0px)' : 'translateY(-8px)' },
-    ],
-    { duration: open ? 200 : 160, easing: 'cubic-bezier(.2,0,0,1)', fill: 'both' },
-  )
-  menuAnimation = animation
-  animation.onfinish = () => {
-    if (menuAnimation !== animation) return
-    menu.open = open
-    animation.cancel()
-    menuAnimation = null
-  }
-}
-function closeMobileMenu() {
-  setMobileMenu(false)
-}
-function escapeMobileMenu() {
-  closeMobileMenu()
-  mobileMenu.value?.querySelector('summary')?.focus()
-}
-onUnmounted(() => menuAnimation?.cancel())
+// ---- 手机流派下拉菜单 ----
+const {
+  menu: mobileMenu,
+  close: closeMobileMenu,
+  toggle: toggleMobileMenu,
+  escape: escapeMobileMenu,
+} = useMobileRoleMenu()
 function chooseMobileRole(role: string) {
   closeMobileMenu()
   if (role) {
@@ -158,68 +80,17 @@ function chooseMobileRole(role: string) {
   } else if (props.state.role) emit('change', { type: 'role', role: props.state.role })
   else if (selection.value) clearSelection()
 }
-function outsideMobileMenu(event: PointerEvent) {
-  if (!mobileMenu.value?.contains(event.target as Node)) closeMobileMenu()
-}
 watch(() => [props.patch, props.roles[0]?.championId], closeMobileMenu)
-onMounted(() => document.addEventListener('pointerdown', outsideMobileMenu))
-onUnmounted(() => document.removeEventListener('pointerdown', outsideMobileMenu))
-const rolePicker = ref<HTMLElement | null>(null)
-const roleHighlight = ref<HTMLElement | null>(null)
-let highlightFrame = 0,
-  highlightReady = false
-function syncRoleHighlight() {
-  const picker = rolePicker.value,
-    highlight = roleHighlight.value
-  if (!picker || !highlight) return
-  const selected = picker.querySelector<HTMLElement>('.role-choice[aria-current="true"]')
-  if (!selected) {
-    highlight.style.opacity = '0'
-    return
-  }
-  // Coordinates belong to the scroll content, so the border follows horizontal
-  // scrolling without a second scroll animation or affecting button layout.
-  if (!highlightReady) highlight.style.transition = 'none'
-  const selectedBox = selected.getBoundingClientRect(),
-    pickerBox = picker.getBoundingClientRect()
-  highlight.style.transform = `translate(${selectedBox.left - pickerBox.left + picker.scrollLeft}px,${selectedBox.top - pickerBox.top + picker.scrollTop}px)`
-  highlight.style.width = selectedBox.width + 'px'
-  highlight.style.height = selectedBox.height + 'px'
-  highlight.style.opacity = '1'
-  if (!highlightReady) {
-    cancelAnimationFrame(highlightFrame)
-    highlightFrame = requestAnimationFrame(() => {
-      highlightReady = true
-      highlight.style.removeProperty('transition')
-    })
-  }
-}
-const scrollLeft = ref(0),
-  scrollLimit = ref(0),
-  scrollThumb = ref(24)
-let scrollObserver: ResizeObserver | undefined
-function syncRoleScroll() {
-  const el = rolePicker.value
-  if (!el) return
-  syncRoleHighlight()
-  scrollLimit.value = Math.max(0, el.scrollWidth - el.clientWidth)
-  scrollLeft.value = el.scrollLeft
-  scrollThumb.value = Math.max(24, (el.clientWidth * el.clientWidth) / Math.max(1, el.scrollWidth))
-}
-function moveRoleScroll(event: Event) {
-  if (rolePicker.value)
-    rolePicker.value.scrollLeft = Number((event.target as HTMLInputElement).value)
-}
-onMounted(() => {
-  scrollObserver = new ResizeObserver(syncRoleScroll)
-  if (rolePicker.value) scrollObserver.observe(rolePicker.value)
-  syncRoleScroll()
-})
-onUpdated(syncRoleScroll)
-onUnmounted(() => {
-  scrollObserver?.disconnect()
-  cancelAnimationFrame(highlightFrame)
-})
+// ---- 桌面流派按钮行 ----
+const {
+  picker: rolePicker,
+  highlight: roleHighlight,
+  scrollLeft,
+  scrollLimit,
+  scrollThumb,
+  syncScroll: syncRoleScroll,
+  moveScroll: moveRoleScroll,
+} = useRolePicker()
 const pct = (v: number) => (v * 100).toFixed(1) + '%'
 </script>
 <template>
@@ -244,7 +115,7 @@ const pct = (v: number) => (v * 100).toFixed(1) + '%'
         @keydown.esc.stop.prevent="escapeMobileMenu"
       >
         <summary
-          @click.prevent="setMobileMenu(!menuTargetOpen)"
+          @click.prevent="toggleMobileMenu"
           :aria-label="activeRole ? t('选择英雄流派') : t('全部出场，选择英雄流派')"
         >
           <RoleChoiceContent
