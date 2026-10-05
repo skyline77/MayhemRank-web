@@ -9,13 +9,13 @@ import { loadRuneBoard, type RuneEntry } from '@/boards/augments/augmentBoard'
 import StatText from '@/stats/StatText.vue'
 import { computed, nextTick, onUnmounted, ref, watch } from 'vue'
 import { activeTip, closeTip, hideTip, keepTip } from './tooltip'
-import { loadDescription, type DescriptionEntry } from '@/data/tooltipData'
+import type { DescriptionEntry } from '@/data/tooltipData'
+import { loadTipDescription } from './tipDescription'
 import { winRateDelta } from '@/details/buildDetails'
 import { winRateColor } from '@/stats/winRateColor'
 import { augmentIcon, needsGoldTint } from '@/data/augmentIcons'
 import { tooltipPosition } from './tooltipPosition'
 import { runeDetailUrl } from '@/app/detailLink'
-import { loadRuneDescriptions, matchingRuneTranslation } from '@/details/rune/runeDescriptions'
 const panel = ref<HTMLElement | null>(null)
 const excerpt = ref<HTMLElement | null>(null),
   excerptOverflow = ref(false)
@@ -29,6 +29,8 @@ const position = ref({
   visibility: 'hidden' as 'hidden' | 'visible',
 })
 const data = computed(() => activeTip.value?.data)
+
+// ---- 英雄详情中的符文浮窗附带逐选走势小图 ----
 const chartRune = ref<RuneEntry | null>(null)
 watch(activeTip, async (value, _, onCleanup) => {
   let stale = false
@@ -53,6 +55,7 @@ watch(activeTip, async (value, _, onCleanup) => {
     /* A missing chart must not block the rune description. */
   }
 })
+// ---- 正文 ----
 const useWikiTranslation = computed(
   () => data.value?.kind === 'augments' && !!data.value.wikiTranslation,
 )
@@ -74,6 +77,7 @@ const pct = (value: number) => (value * 100).toFixed(1) + '%'
 const detailHref = computed(() =>
   data.value?.kind === 'augments' ? runeDetailUrl(data.value.id, data.value.patch) : undefined,
 )
+// ---- 定位：贴在整张卡片外侧，不超出 main 与视窗；锚点离开视窗时关闭 ----
 let generation = 0,
   frame = 0
 function place() {
@@ -126,6 +130,7 @@ function escape(event: Event) {
     closeTip()
   }
 }
+// ---- 打开新浮窗：更新无障碍关联，读取正文，内容到达后重新定位 ----
 watch(activeTip, async (value, previous) => {
   if (previous?.anchor !== value?.anchor) previous?.anchor.removeAttribute('aria-describedby')
   const token = ++generation
@@ -139,20 +144,7 @@ watch(activeTip, async (value, previous) => {
   await nextTick()
   place()
   try {
-    let result: DescriptionEntry | null
-    if (value.data.kind === 'augments' && value.data.wikiTranslation) {
-      const [wiki, translated] = await Promise.all([
-        loadRuneDescriptions(),
-        loadRuneDescriptions('zh_CN'),
-      ])
-      const entry =
-        locale.value === 'zh-CN'
-          ? matchingRuneTranslation(wiki.entries[value.data.id], translated.entries[value.data.id])
-          : wiki.entries[value.data.id]
-      result = entry
-        ? { name: entry.name, description: entry.description, unresolved: false }
-        : null
-    } else result = await loadDescription(value.data.patch, value.data.kind, value.data.id)
+    const result = await loadTipDescription(value.data, () => locale.value)
     if (token === generation) description.value = result
   } catch {
     if (token === generation) failed.value = true
