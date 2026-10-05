@@ -11,17 +11,13 @@ import SearchBox from '@/search/SearchBox.vue'
 import { loadDetailSearch, type DetailSearchIndex } from '@/details/detailSearch'
 import { closeTip } from '@/tooltip/tooltip'
 import DetailHeading from '@/details/DetailHeading.vue'
-import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { augmentIcon, needsGoldTint } from '@/data/augmentIcons'
-import { loadRuneBoard, type RuneEntry } from '@/boards/augments/augmentBoard'
-import { loadVersions } from '@/data/versions'
+import type { RuneEntry } from '@/boards/augments/augmentBoard'
 import { winRateColor } from '@/stats/winRateColor'
-import { previousRunePatch, runePatchChange } from '@/boards/augments/runeComparison'
-import {
-  loadRuneDescriptions,
-  matchingRuneTranslation,
-  type RuneDescriptionCatalogue,
-} from './runeDescriptions'
+import { useRuneDescriptions } from './useRuneDescriptions'
+import { useRunePatchChange } from './useRunePatchChange'
+import { useFittedRuneHeading } from './useFittedRuneHeading'
 import RuneDescriptionPanel from './RuneDescriptionPanel.vue'
 import RunePickChart from './RunePickChart.vue'
 import RuneHeroes from './RuneHeroes.vue'
@@ -34,8 +30,6 @@ import RecentChanges from '@/details/RecentChanges.vue'
 import DetailMethod from '@/details/DetailMethod.vue'
 import { usePatchAvailability } from '@/data/usePatchAvailability'
 import DetailSection from '@/details/DetailSection.vue'
-import type { DescriptionMode } from './runeDescriptionPreference'
-import { loadDescription, type DescriptionEntry } from '@/data/tooltipData'
 const props = defineProps<{
   entry: RuneEntry
   patch: string
@@ -125,106 +119,32 @@ watch(
     recentChangesOverride.value = null
   },
 )
-const previous = ref<RuneEntry | null>(null)
-const comparisonPatch = ref('')
-watch(
-  () => [props.patch, props.entry.id],
-  async (_, __, onCleanup) => {
-    let stale = false
-    onCleanup(() => {
-      stale = true
-    })
-    previous.value = null
-    comparisonPatch.value = ''
-    try {
-      const manifest = await loadVersions()
-      const patch = previousRunePatch(
-        props.patch,
-        manifest.patches.map(p => p.patch),
-      )
-      if (!patch) return
-      const board = await loadRuneBoard(patch)
-      if (!stale) {
-        comparisonPatch.value = patch
-        previous.value = board.entries.find(e => e.id === props.entry.id) || null
-      }
-    } catch {
-      /* Keep the comparison hidden when the previous snapshot is unavailable. */
-    }
-  },
-  { immediate: true },
-)
-const change = computed(() =>
-  previous.value ? runePatchChange(props.entry.winRate, previous.value.winRate) : null,
+// 标题旁“较上版本”的胜率变化
+const { comparisonPatch, change } = useRunePatchChange(
+  () => props.entry,
+  () => props.patch,
 )
 const rateColor = computed(() => winRateColor(props.entry.winRate))
-const descriptions = ref<RuneDescriptionCatalogue | null>(null)
-const descriptionError = ref('')
-const wikiLoading = ref(false)
-const translations = ref<RuneDescriptionCatalogue | null>(null)
-const translationLoading = ref(false)
-const translationError = ref('')
-async function readTranslations() {
-  if (translations.value || translationLoading.value) return
-  translationLoading.value = true
-  translationError.value = ''
-  try {
-    translations.value = await loadRuneDescriptions('zh_CN')
-  } catch {
-    translationError.value = 'Wiki 中文译文暂时无法读取。'
-  } finally {
-    translationLoading.value = false
-  }
-}
-const simple = ref<DescriptionEntry | null>(null)
-const simpleLoading = ref(false)
-const simpleError = ref('')
-let simpleRequest = 0
-async function readSimple() {
-  const request = ++simpleRequest
-  simple.value = null
-  simpleError.value = ''
-  simpleLoading.value = true
-  try {
-    const result = await loadDescription(props.patch, 'augments', props.entry.id)
-    if (request === simpleRequest) simple.value = result
-  } catch {
-    if (request === simpleRequest) simpleError.value = '中文说明暂时无法读取。'
-  } finally {
-    if (request === simpleRequest) simpleLoading.value = false
-  }
-}
-watch(() => [props.patch, props.entry.id], readSimple, { immediate: true })
-function retryDescription(mode: DescriptionMode) {
-  if (mode === 'simple') {
-    void readSimple()
-    return
-  }
-  if (mode === 'wiki' || descriptionError.value) void readDescriptions()
-  if (mode === 'translation') void readTranslations()
-}
-const description = computed(() => descriptions.value?.entries[props.entry.id])
-const translation = computed(() =>
-  matchingRuneTranslation(description.value, translations.value?.entries[props.entry.id]),
+// 符文说明：Wiki 原文、Wiki 译文与游戏内简要说明
+const {
+  descriptions,
+  translations,
+  description,
+  descriptionError,
+  wikiLoading,
+  translation,
+  translationLoading,
+  translationError,
+  readTranslations,
+  simple,
+  simpleLoading,
+  simpleError,
+  sourceUrl,
+  retry: retryDescription,
+} = useRuneDescriptions(
+  () => props.entry.id,
+  () => props.patch,
 )
-const sourceUrl = computed(
-  () =>
-    (descriptions.value?.source.url ||
-      'https://wiki.leagueoflegends.com/en-us/ARAM:_Mayhem/Augments') +
-    (description.value ? '#' + encodeURIComponent(description.value.anchor) : ''),
-)
-async function readDescriptions() {
-  descriptionError.value = ''
-  wikiLoading.value = true
-  try {
-    descriptions.value = await loadRuneDescriptions()
-  } catch {
-    descriptionError.value = '英文说明暂时无法读取。'
-  } finally {
-    wikiLoading.value = false
-  }
-}
-onMounted(readDescriptions)
 const points = computed(() => runeChartPoints(props.entry.slots || []))
 const observed = computed(() => runeChartTotal(points.value))
 const count = formatCount
@@ -235,47 +155,7 @@ const headingText = computed(() =>
   gameName('augments', props.entry.id, props.patch, props.entry.name),
 )
 const englishGap = computed(() => (locale.value === 'en-US' ? ' ' : ''))
-let headingObserver: ResizeObserver | undefined,
-  headingFrame = 0
-function fitRuneHeading() {
-  cancelAnimationFrame(headingFrame)
-  headingFrame = requestAnimationFrame(() => {
-    const el = headingName.value
-    if (!el || !el.clientWidth) return
-    el.style.removeProperty('font-size')
-    let size = parseFloat(getComputedStyle(el).fontSize)
-    // 按实际换行测量，不截断任何语言的完整符文名。
-    while (
-      size > 1 &&
-      (el.scrollHeight > parseFloat(getComputedStyle(el).lineHeight) * 2 + 1 ||
-        el.scrollWidth > el.clientWidth + 1)
-    ) {
-      size = Math.max(1, size - 0.5)
-      el.style.fontSize = size + 'px'
-    }
-  })
-}
-onMounted(() => {
-  headingObserver = new ResizeObserver(fitRuneHeading)
-  const heading = headingName.value?.closest('.build-detail-heading')
-  if (heading) headingObserver.observe(heading)
-  fitRuneHeading()
-  void document.fonts.ready.then(() => {
-    if (headingName.value) fitRuneHeading()
-  })
-})
-watch(
-  [headingText, locale, change],
-  async () => {
-    await nextTick()
-    fitRuneHeading()
-  },
-  { flush: 'post' },
-)
-onUnmounted(() => {
-  headingObserver?.disconnect()
-  cancelAnimationFrame(headingFrame)
-})
+useFittedRuneHeading(headingName, [headingText, locale, change])
 </script>
 <template>
   <section
