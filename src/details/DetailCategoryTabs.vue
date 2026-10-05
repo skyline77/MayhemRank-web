@@ -4,6 +4,13 @@ import { computed, nextTick, onUnmounted, ref, watch } from 'vue'
 import { closeTip } from '@/tooltip/tooltip'
 import DetailPageScope from './DetailPageScope.vue'
 import StatCardFrame from './StatCardFrame.vue'
+import {
+  cardGrid,
+  categoryGridVars,
+  highlightClip,
+  indicatorSpan,
+  type TabTextBound,
+} from './categoryTabsGeometry'
 const props = defineProps<{
   enabled: boolean
   paintWithIndicator?: boolean
@@ -14,6 +21,8 @@ const props = defineProps<{
 const compact = computed(() => props.enabled),
   mobileTabs = props.tabs,
   panelId = props.panelId
+// ---- 当前分类与延迟挂载 ----
+// mobileTab：tab 选中状态；renderedTab：实际挂载内容的分类，滑动到位后才切换
 const mobileTab = ref(mobileTabs[0]!.id)
 const renderedTab = ref(mobileTab.value)
 let mountFrame = 0
@@ -34,6 +43,8 @@ onUnmounted(() => cancelAnimationFrame(mountFrame))
 const visitedTabs = ref(new Set<string>([mobileTab.value]))
 watch(renderedTab, id => visitedTabs.value.add(id), { flush: 'sync' })
 const transitionHeight = ref<number | null>(null)
+
+// ---- 三行卡片分页 ----
 const pageEnabled = computed(
   () => compact.value && mobileTabs.find(tab => tab.id === mobileTab.value)?.paginated !== false,
 )
@@ -60,9 +71,10 @@ watch(mobileTab, id => {
   cardPages.value = pageStates.get(id)?.pages || 1
   cardsLoading.value = pageStates.get(id)?.loading ?? true
 })
+// ---- tab 栏几何：网格列数、分页按钮对齐、下划线位置 ----
 const tabStrip = ref<HTMLElement | null>(null),
   tabIndicator = ref<HTMLElement | null>(null)
-let tabTextBounds: { left: number; width: number; highlight: HTMLElement | null }[] = []
+let tabTextBounds: (TabTextBound & { highlight: HTMLElement | null })[] = []
 let indicatorFrame = 0
 const mobileGeometry = ref<Record<string, string>>({
   '--mobile-columns': '4',
@@ -74,9 +86,7 @@ function measureMobileGeometry() {
   const strip = tabStrip.value
   if (!strip) return
   const width = strip.clientWidth,
-    columns = Math.max(1, Math.floor((width + 6) / 82))
-  // 两侧各占两个间距：总宽 = 卡片宽 × 列数 + 间距 × (列数 + 3)。
-  const gap = Math.max(0, (width - columns * 76) / (columns + 3))
+    { gap } = cardGrid(width)
   strip
     .closest<HTMLElement>('.build-detail')
     ?.style.setProperty('--mobile-card-inset', 2 * gap + 'px')
@@ -89,19 +99,7 @@ function measureMobileGeometry() {
       highlight: text.querySelector<HTMLElement>('.hero-tab-highlight'),
     }
   })
-  mobileGeometry.value = {
-    '--mobile-columns': String(columns),
-    '--mobile-card-gap': gap + 'px',
-    '--tab-left': '0px',
-    '--tab-width': '28px',
-    '--pager-start-inset': Math.max(0, (tabTextBounds[1]?.left ?? width / 5) - width / 5) + 'px',
-    '--pager-end-inset':
-      Math.max(
-        0,
-        width - ((tabTextBounds.at(-1)?.left ?? width) + (tabTextBounds.at(-1)?.width ?? 0)),
-      ) + 'px',
-  }
-  mobileGeometry.value['--mobile-pair-width'] = (width - 5 * gap) / 2 + 'px'
+  mobileGeometry.value = categoryGridVars(width, tabTextBounds)
   syncTabIndicator()
 }
 watch(
@@ -123,6 +121,7 @@ watch(
   { flush: 'post' },
 )
 watch(mobileTab, measureMobileGeometry, { flush: 'post' })
+// ---- 内容区高度：保留已显示过的最大高度，切换分类时下方内容不跳动 ----
 const tabTrack = ref<HTMLElement | null>(null)
 const retainedContentHeight = ref(0),
   pageControlsHeight = ref(0)
@@ -168,37 +167,25 @@ const tabIndex = computed(() => mobileTabs.findIndex(tab => tab.id === mobileTab
 const contentTabs = computed(() =>
   compact.value ? mobileTabs : [{ id: 'desktop', label: '', css: '', paginated: false }],
 )
+// ---- 下划线跟随横向滚动 ----
 let settleTimer: ReturnType<typeof setTimeout> | undefined
 function syncTabIndicator() {
   const track = tabTrack.value,
     indicator = tabIndicator.value
   if (!indicator || !tabTextBounds.length) return
-  const progress = Math.max(
-    0,
-    Math.min(
-      tabTextBounds.length - 1,
-      track?.clientWidth ? track.scrollLeft / track.clientWidth : tabIndex.value,
-    ),
-  )
-  const index = Math.floor(progress),
-    fraction = progress - index
-  const from = tabTextBounds[index]!,
-    to = tabTextBounds[Math.min(index + 1, tabTextBounds.length - 1)]!
+  const progress = track?.clientWidth ? track.scrollLeft / track.clientWidth : tabIndex.value
   // 直接插值已缓存的文字边界，滚动时不触发卡片重新渲染，也不追加缓动延迟。
-  const left = from.left + (to.left - from.left) * fraction,
-    width = from.width + (to.width - from.width) * fraction
-  indicator.style.transform = `translateX(${left}px)`
-  indicator.style.width = width + 'px'
+  const span = indicatorSpan(tabTextBounds, progress)
+  indicator.style.transform = `translateX(${span.left}px)`
+  indicator.style.width = span.width + 'px'
   // 黄色文字与下划线使用同一帧、同一横向范围，支持半个字的覆盖。
   if (props.paintWithIndicator)
-    for (const text of tabTextBounds) {
-      const start = Math.max(0, Math.min(text.width, left - text.left))
-      const end = Math.max(start, Math.min(text.width, left + width - text.left))
-      if (text.highlight)
-        text.highlight.style.clipPath = `inset(0 ${text.width - end}px 0 ${start}px)`
-    }
+    for (const text of tabTextBounds)
+      if (text.highlight) text.highlight.style.clipPath = highlightClip(text, span)
 }
 
+// ---- 点击或滑动切换分类 ----
+// requestedTab：点击 tab 后正在平滑滚动前往的目标；到位前忽略中途的滚动结束事件
 let requestedTab: string | null = null
 let requestedTimer: ReturnType<typeof setTimeout> | undefined
 function releaseRequestedTab(commit = true) {
