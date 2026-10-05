@@ -1,91 +1,242 @@
 /* Fit both boards to their viewport. Without a horizontal scroll ancestor,
    shared detail headings use compositor-managed native sticky positioning. */
-.hero-board { --hero-axis-width:clamp(40px,6vw,76px); }
-:is(.hero-board,.rune-board) .board-scroll { overflow:visible; container-type:normal; }
-.hero-board .board-grid { min-width:0; }
-:is(.hero-board,.rune-board) .build-detail { width:100%; }
-.hero-board .board-row { grid-template-columns:var(--hero-axis-width) repeat(2,minmax(0,3fr)) minmax(0,2fr) repeat(2,minmax(0,3fr)) minmax(0,2fr); }
-.hero-board .board-range-label { width:var(--hero-axis-width); }
-.hero-board .board-cell { min-width:0; grid-template-columns:repeat(3,minmax(0,var(--board-portrait-size))); }
-.hero-board .board-cell.board-role-0,.hero-board .board-cell.board-role-3 { grid-template-columns:repeat(4,minmax(0,var(--board-portrait-size))); }
-.hero-board .board-cell.board-role-1,.hero-board .board-cell.board-role-2 { grid-template-columns:repeat(2,minmax(0,var(--board-portrait-size))); }
-.hero-board .board-cell.board-role-5 { grid-template-columns:minmax(0,var(--board-portrait-size)); }
-.hero-board .build-tile,.hero-board .build-portrait { width:100%; }
-@media(min-width:701px) and (max-width:1000px) {
- .hero-board .board-column-filter { flex-direction:row; gap:2px; padding:4px 2px; font-size:12px; }
+.hero-board {
+  --hero-axis-width: clamp(40px, 6vw, 76px);
+}
+:is(.hero-board, .rune-board) .board-scroll {
+  overflow: visible;
+  container-type: normal;
+}
+.hero-board .board-grid {
+  min-width: 0;
+}
+:is(.hero-board, .rune-board) .build-detail {
+  width: 100%;
+}
+.hero-board .board-row {
+  grid-template-columns: var(--hero-axis-width) repeat(2, minmax(0, 3fr)) minmax(0, 2fr) repeat(
+      2,
+      minmax(0, 3fr)
+    ) minmax(0, 2fr);
+}
+.hero-board .board-range-label {
+  width: var(--hero-axis-width);
+}
+.hero-board .board-cell {
+  min-width: 0;
+  grid-template-columns: repeat(3, minmax(0, var(--board-portrait-size)));
+}
+.hero-board .board-cell.board-role-0,
+.hero-board .board-cell.board-role-3 {
+  grid-template-columns: repeat(4, minmax(0, var(--board-portrait-size)));
+}
+.hero-board .board-cell.board-role-1,
+.hero-board .board-cell.board-role-2 {
+  grid-template-columns: repeat(2, minmax(0, var(--board-portrait-size)));
+}
+.hero-board .board-cell.board-role-5 {
+  grid-template-columns: minmax(0, var(--board-portrait-size));
+}
+.hero-board .build-tile,
+.hero-board .build-portrait {
+  width: 100%;
+}
+@media (min-width: 701px) and (max-width: 1000px) {
+  .hero-board .board-column-filter {
+    flex-direction: row;
+    gap: 2px;
+    padding: 4px 2px;
+    font-size: 12px;
+  }
 }
 
 /* Shared phone board: a narrow range axis and three equal two-card columns. */
-@media(max-width:700px) {
- :is(.rune-board,.hero-board) .board-grid { min-width:0 }
- :is(.rune-board,.hero-board) .board-row { grid-template-columns:32px repeat(3,minmax(0,1fr)) }
- :is(.rune-board,.hero-board) .board-range-label { width:32px }
- .board-range-stacked { display:grid; justify-items:center; line-height:16px }
- .rune-board { --compact-card-width:var(--rune-card-width) }
- .hero-board { --compact-card-width:var(--board-portrait-size) }
- :is(.rune-board,.hero-board) .board-row>.board-cell { min-width:0; grid-template-columns:repeat(2,minmax(0,var(--compact-card-width))); gap:4px; padding-inline:4px }
- .rune-board .rune-cell .build-stat-card { width:100% }
- .rune-cell { --stat-card-rows:70px 24px }
- /* 只跳过卡片内部绘制，保留表格、胜率轴及详情的布局和 sticky 祖先。
+@media (max-width: 700px) {
+  :is(.rune-board, .hero-board) .board-grid {
+    min-width: 0;
+  }
+  :is(.rune-board, .hero-board) .board-row {
+    grid-template-columns: 32px repeat(3, minmax(0, 1fr));
+  }
+  :is(.rune-board, .hero-board) .board-range-label {
+    width: 32px;
+  }
+  .board-range-stacked {
+    display: grid;
+    justify-items: center;
+    line-height: 16px;
+  }
+  .rune-board {
+    --compact-card-width: var(--rune-card-width);
+  }
+  .hero-board {
+    --compact-card-width: var(--board-portrait-size);
+  }
+  :is(.rune-board, .hero-board) .board-row > .board-cell {
+    min-width: 0;
+    grid-template-columns: repeat(2, minmax(0, var(--compact-card-width)));
+    gap: 4px;
+    padding-inline: 4px;
+  }
+  .rune-board .rune-cell .build-stat-card {
+    width: 100%;
+  }
+  .rune-cell {
+    --stat-card-rows: 70px 24px;
+  }
+  /* 只跳过卡片内部绘制，保留表格、胜率轴及详情的布局和 sticky 祖先。
     预留高度与上面的两行轨道一致，首次滚入时不会改变表格高度。 */
- .rune-board .rune-cell .build-stat-card > .stat-card-layout {
-  content-visibility:auto;
-  contain-intrinsic-block-size:auto 94px;
- }
- .rune-cell .build-stat-identity { grid-template-rows:38px 28px; padding:2px }
- .rune-board .rune-cell .build-stat-identity>img { width:36px; height:36px; max-width:100%; object-fit:contain }
- .rune-board .rune-cell .build-stat-result,.rune-board .rune-cell .build-stat-usage { font-size:10px; white-space:nowrap }
- .rune-board .rune-cell .rune-card-trend { margin-left:1px; font-size:9px }
+  .rune-board .rune-cell .build-stat-card > .stat-card-layout {
+    content-visibility: auto;
+    contain-intrinsic-block-size: auto 94px;
+  }
+  .rune-cell .build-stat-identity {
+    grid-template-rows: 38px 28px;
+    padding: 2px;
+  }
+  .rune-board .rune-cell .build-stat-identity > img {
+    width: 36px;
+    height: 36px;
+    max-width: 100%;
+    object-fit: contain;
+  }
+  .rune-board .rune-cell .build-stat-result,
+  .rune-board .rune-cell .build-stat-usage {
+    font-size: 10px;
+    white-space: nowrap;
+  }
+  .rune-board .rune-cell .rune-card-trend {
+    margin-left: 1px;
+    font-size: 9px;
+  }
 }
 
 /* Phone heroes share the rune board geometry, grouping related roles. */
-@media(max-width:700px) {
- :root { --portrait-label-font-size:9px; }
- .hero-board .build-tile,.hero-board .build-portrait { width:100% }
- .hero-board .board-column-filter { gap:3px; padding-inline:2px; font-size:12px; white-space:nowrap }
- .hero-board .board-role-pair { display:flex; flex-shrink:0; gap:0 }
- .hero-board .board-role-pair>span { width:24px; height:24px }
- .hero-board .board-role-pair .board-role-icon { transform:none; transform-origin:left center }
- .hero-board .build-tag { padding-inline:1px; }
- .hero-board :is(.build-tag,.build-hover-name,.build-win) { line-height:14px; }
+@media (max-width: 700px) {
+  :root {
+    --portrait-label-font-size: 9px;
+  }
+  .hero-board .build-tile,
+  .hero-board .build-portrait {
+    width: 100%;
+  }
+  .hero-board .board-column-filter {
+    gap: 3px;
+    padding-inline: 2px;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+  .hero-board .board-role-pair {
+    display: flex;
+    flex-shrink: 0;
+    gap: 0;
+  }
+  .hero-board .board-role-pair > span {
+    width: 24px;
+    height: 24px;
+  }
+  .hero-board .board-role-pair .board-role-icon {
+    transform: none;
+    transform-origin: left center;
+  }
+  .hero-board .build-tag {
+    padding-inline: 1px;
+  }
+  .hero-board :is(.build-tag, .build-hover-name, .build-win) {
+    line-height: 14px;
+  }
 }
-
 
 /* Desktop board geometry: 6px between cards, 12px inside each cell border.
    Split strips share half a gap; only the outer edges of a win-rate band get 12px. */
-@media(min-width:701px) {
- :is(.hero-board,.rune-board) { --board-portrait-gap:6px; --board-cell-inset:12px; --board-axis-width:calc(48px + 2 * var(--board-cell-inset)); }
- :is(.hero-board,.rune-board) .board-axis { padding-inline:var(--board-cell-inset); }
- :is(.hero-board,.rune-board) .board-range-label { width:var(--board-axis-width); }
- .hero-board { --hero-axis-width:var(--board-axis-width); }
- .rune-board { --rune-column-width:calc(4 * var(--rune-card-width) + 3 * var(--board-portrait-gap) + 2 * var(--board-cell-inset) + 1px); max-width:calc(var(--board-axis-width) + 3 * var(--rune-column-width) + 2px); }
- .rune-board .board-grid { min-width:0; }
- .rune-board .board-row { grid-template-columns:var(--board-axis-width) repeat(3,minmax(0,1fr)); }
- .rune-board .rune-cell { grid-template-columns:repeat(4,minmax(0,var(--rune-card-width))); }
- .rune-board .rune-cell .build-stat-card { width:100%; }
- .rune-board .rune-cell .build-stat-identity>img { max-width:100%; }
- :is(.hero-board,.rune-board) .board-cell {
-  gap:var(--board-portrait-gap);
-  padding:calc(var(--board-portrait-gap) / 2) var(--board-cell-inset);
- }
- :is(.hero-board,.rune-board) .board-strip-first .board-cell { padding-top:var(--board-cell-inset); }
- :is(.hero-board,.rune-board) .board-strip-last .board-cell { padding-bottom:var(--board-cell-inset); }
- .hero-board {
-  max-width:calc(var(--board-axis-width) + 16 * 56px + 10 * var(--board-portrait-gap) + 6 * (2 * var(--board-cell-inset) + 1px) + 2px);
-  margin-inline:auto;
- }
- .hero-board .board-row {
-  --hero-slot-space:calc(100% - var(--hero-axis-width) - 6 * (2 * var(--board-cell-inset) + 1px) - 10 * var(--board-portrait-gap));
-  --hero-cell-edge:calc(2 * var(--board-cell-inset) + 1px);
-  grid-template-columns:var(--hero-axis-width)
-   repeat(2,calc(var(--hero-slot-space) * 3 / 16 + 2 * var(--board-portrait-gap) + var(--hero-cell-edge)))
-   calc(var(--hero-slot-space) / 8 + var(--board-portrait-gap) + var(--hero-cell-edge))
-   repeat(2,calc(var(--hero-slot-space) * 3 / 16 + 2 * var(--board-portrait-gap) + var(--hero-cell-edge)))
-   calc(var(--hero-slot-space) / 8 + var(--board-portrait-gap) + var(--hero-cell-edge));
- }
- .hero-board .board-cell { grid-template-columns:repeat(3,minmax(0,1fr)); }
- .hero-board .board-cell.board-role-0,.hero-board .board-cell.board-role-3 { grid-template-columns:repeat(4,minmax(0,1fr)); }
- .hero-board .board-cell.board-role-1,.hero-board .board-cell.board-role-2 { grid-template-columns:repeat(2,minmax(0,1fr)); }
- .hero-board .board-cell.board-role-5 { grid-template-columns:minmax(0,1fr); }
+@media (min-width: 701px) {
+  :is(.hero-board, .rune-board) {
+    --board-portrait-gap: 6px;
+    --board-cell-inset: 12px;
+    --board-axis-width: calc(48px + 2 * var(--board-cell-inset));
+  }
+  :is(.hero-board, .rune-board) .board-axis {
+    padding-inline: var(--board-cell-inset);
+  }
+  :is(.hero-board, .rune-board) .board-range-label {
+    width: var(--board-axis-width);
+  }
+  .hero-board {
+    --hero-axis-width: var(--board-axis-width);
+  }
+  .rune-board {
+    --rune-column-width: calc(
+      4 * var(--rune-card-width) + 3 * var(--board-portrait-gap) + 2 * var(--board-cell-inset) + 1px
+    );
+    max-width: calc(var(--board-axis-width) + 3 * var(--rune-column-width) + 2px);
+  }
+  .rune-board .board-grid {
+    min-width: 0;
+  }
+  .rune-board .board-row {
+    grid-template-columns: var(--board-axis-width) repeat(3, minmax(0, 1fr));
+  }
+  .rune-board .rune-cell {
+    grid-template-columns: repeat(4, minmax(0, var(--rune-card-width)));
+  }
+  .rune-board .rune-cell .build-stat-card {
+    width: 100%;
+  }
+  .rune-board .rune-cell .build-stat-identity > img {
+    max-width: 100%;
+  }
+  :is(.hero-board, .rune-board) .board-cell {
+    gap: var(--board-portrait-gap);
+    padding: calc(var(--board-portrait-gap) / 2) var(--board-cell-inset);
+  }
+  :is(.hero-board, .rune-board) .board-strip-first .board-cell {
+    padding-top: var(--board-cell-inset);
+  }
+  :is(.hero-board, .rune-board) .board-strip-last .board-cell {
+    padding-bottom: var(--board-cell-inset);
+  }
+  .hero-board {
+    max-width: calc(
+      var(--board-axis-width) + 16 * 56px + 10 * var(--board-portrait-gap) + 6 *
+        (2 * var(--board-cell-inset) + 1px) + 2px
+    );
+    margin-inline: auto;
+  }
+  .hero-board .board-row {
+    --hero-slot-space: calc(
+      100% - var(--hero-axis-width) - 6 * (2 * var(--board-cell-inset) + 1px) - 10 *
+        var(--board-portrait-gap)
+    );
+    --hero-cell-edge: calc(2 * var(--board-cell-inset) + 1px);
+    grid-template-columns:
+      var(--hero-axis-width)
+      repeat(
+        2,
+        calc(
+          var(--hero-slot-space) * 3 / 16 + 2 * var(--board-portrait-gap) + var(--hero-cell-edge)
+        )
+      )
+      calc(var(--hero-slot-space) / 8 + var(--board-portrait-gap) + var(--hero-cell-edge))
+      repeat(
+        2,
+        calc(
+          var(--hero-slot-space) * 3 / 16 + 2 * var(--board-portrait-gap) + var(--hero-cell-edge)
+        )
+      )
+      calc(var(--hero-slot-space) / 8 + var(--board-portrait-gap) + var(--hero-cell-edge));
+  }
+  .hero-board .board-cell {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .hero-board .board-cell.board-role-0,
+  .hero-board .board-cell.board-role-3 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .hero-board .board-cell.board-role-1,
+  .hero-board .board-cell.board-role-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .hero-board .board-cell.board-role-5 {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
-

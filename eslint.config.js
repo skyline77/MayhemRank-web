@@ -20,7 +20,10 @@ export default tseslint.config(
       'vue/attributes-order': 'off',
       // TS 可选 props 本身表达了缺省语义，不强制写默认值
       'vue/require-default-prop': 'off',
-      '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
+      ],
     },
   },
   {

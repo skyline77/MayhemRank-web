@@ -1,4 +1,4 @@
-import {locale} from './locale'
+import { locale } from './locale'
 // Full pinyin and first-letter aliases precomputed with pypinyin 0.55.0 from Chinese names/titles
 // and frozen-board display names; includes Kayle legacy title and LeBlanc name reading.
 // Search-only identity metadata; Chinese names/titles and pinyin only.
@@ -8,9 +8,18 @@ import {locale} from './locale'
 // plugins_rcp-be-lol-game-data_global_default_v1_champion-summary.json: sha256 5c82d944fbdb8b227bfaa2f495fb7af078726d786356e0c4a0a07cf405508c89
 // Priority: name Chinese/full pinyin/initials (0–2), title equivalents (3–5).
 import fields from './generated/championSearchFields.json'
-export const championSearchFields=fields as unknown as Record<string,readonly (readonly [string,number])[]>
+export const championSearchFields = fields as unknown as Record<
+  string,
+  readonly (readonly [string, number])[]
+>
 
-const championSearch:Record<string,string[]>=Object.fromEntries(Object.entries(championSearchFields).map(([id,fields])=>[id,fields.map(([value])=>value)]))
+const championSearch: Record<string, string[]> = Object.fromEntries(
+  Object.entries(championSearchFields).map(([id, fields]) => [id, fields.map(([value]) => value)]),
+)
 export default championSearch
 
-export function localizedChampionSearchFields(id:string){return (championSearchFields[id] || []).filter(([,priority])=>locale.value==='zh-CN' || priority<3)}
+export function localizedChampionSearchFields(id: string) {
+  return (championSearchFields[id] || []).filter(
+    ([, priority]) => locale.value === 'zh-CN' || priority < 3,
+  )
+}

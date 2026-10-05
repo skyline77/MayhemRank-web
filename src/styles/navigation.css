@@ -1,47 +1,203 @@
 /* Shared version control and successful snapshot timestamp. */
-.search-with-version { display:flex; align-items:center; gap:8px; flex:1; min-width:0; }
-.board-search-controls .search-with-version { flex:0 1 444px; min-width:min(100%,300px); }
+.search-with-version {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+}
+.board-search-controls .search-with-version {
+  flex: 0 1 444px;
+  min-width: min(100%, 300px);
+}
 /* Include the detail's inner padding and the table border on the right. */
-.hero-board .board-search-controls { width:calc(var(--hero-detail-actions-width) + var(--detail-inline-padding) + 1px); max-width:calc(100% - var(--detail-inline-padding) - 1px); }
-.hero-board .board-search-controls .search-with-version { flex:1; min-width:0; }
-@media(max-width:700px) { .hero-board .board-search-controls { width:calc(100% - var(--detail-inline-padding) - 1px); } }
+.hero-board .board-search-controls {
+  width: calc(var(--hero-detail-actions-width) + var(--detail-inline-padding) + 1px);
+  max-width: calc(100% - var(--detail-inline-padding) - 1px);
+}
+.hero-board .board-search-controls .search-with-version {
+  flex: 1;
+  min-width: 0;
+}
+@media (max-width: 700px) {
+  .hero-board .board-search-controls {
+    width: calc(100% - var(--detail-inline-padding) - 1px);
+  }
+}
 
-.patch-picker { display:flex; align-items:center; flex-shrink:0; white-space:nowrap; gap:6px; color:var(--muted); font-size:12px; }
-.patch-picker select,.language-picker { color:var(--text); background:var(--surface); border:1px solid var(--border-strong); border-radius:6px; padding:6px 8px; font:inherit; cursor:pointer; }
-.patch-picker select:focus-visible,.language-picker:focus-visible { outline:1px solid var(--muted); outline-offset:2px; }
-.board-updated { margin:3px 0 0; color:var(--muted); font-size:11px; line-height:1.4; font-weight:400; }
+.patch-picker {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  white-space: nowrap;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 12px;
+}
+.patch-picker select,
+.language-picker {
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: 6px;
+  padding: 6px 8px;
+  font: inherit;
+  cursor: pointer;
+}
+.patch-picker select:focus-visible,
+.language-picker:focus-visible {
+  outline: 1px solid var(--muted);
+  outline-offset: 2px;
+}
+.board-updated {
+  margin: 3px 0 0;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.4;
+  font-weight: 400;
+}
 
 /* Shared board shell; the rune view only overrides its three-column geometry. */
-.product-nav { position:sticky; top:0; z-index:10; display:flex; align-items:center; gap:24px; padding:4px 0; border-bottom:1px solid var(--border); background:var(--bg); }
-.product-nav-links { display:flex; gap:24px; flex-shrink:0; }
-.product-nav-tools { display:flex; align-items:center; gap:8px; margin-left:auto; width:auto; max-width:100%; min-width:0; }
-.product-nav-search { display:flex; flex:1; width:calc(var(--hero-detail-actions-width) + var(--detail-inline-padding) + 1px); min-width:0; min-height:40px; }
-.product-nav-search>.search,.product-nav-search>.suggestion-search,.product-nav-search>.search-with-version { width:100%; min-width:0; flex:1; }
-.product-nav-search .search { height:40px; }
-.product-nav .patch-picker select,.product-nav .language-picker { box-sizing:border-box; width:auto; height:40px; font-size:12px; }
-@media(max-width:800px) {
- .product-nav { flex-wrap:wrap; gap:4px; }
- .product-nav-links { gap:20px; }
- .product-nav-tools { width:100%; }
+.product-nav {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 4px 0;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
 }
-.hero-board>.board-title,.rune-board>.board-title { margin-bottom:6px; }
-.product-nav .patch-picker { align-self:center; }
-.product-nav-links>a { flex-shrink:0; min-height:48px; display:flex; align-items:center; color:var(--muted); font-size:14px; border-bottom:2px solid transparent }
-.product-nav-links>a[aria-current=page] { color:var(--text); border-bottom-color:var(--accent) }
-.product-nav-links>a:hover { color:var(--text) }
+.product-nav-links {
+  display: flex;
+  gap: 24px;
+  flex-shrink: 0;
+}
+.product-nav-tools {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+  width: auto;
+  max-width: 100%;
+  min-width: 0;
+}
+.product-nav-search {
+  display: flex;
+  flex: 1;
+  width: calc(var(--hero-detail-actions-width) + var(--detail-inline-padding) + 1px);
+  min-width: 0;
+  min-height: 40px;
+}
+.product-nav-search > .search,
+.product-nav-search > .suggestion-search,
+.product-nav-search > .search-with-version {
+  width: 100%;
+  min-width: 0;
+  flex: 1;
+}
+.product-nav-search .search {
+  height: 40px;
+}
+.product-nav .patch-picker select,
+.product-nav .language-picker {
+  box-sizing: border-box;
+  width: auto;
+  height: 40px;
+  font-size: 12px;
+}
+@media (max-width: 800px) {
+  .product-nav {
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .product-nav-links {
+    gap: 20px;
+  }
+  .product-nav-tools {
+    width: 100%;
+  }
+}
+.hero-board > .board-title,
+.rune-board > .board-title {
+  margin-bottom: 6px;
+}
+.product-nav .patch-picker {
+  align-self: center;
+}
+.product-nav-links > a {
+  flex-shrink: 0;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  color: var(--muted);
+  font-size: 14px;
+  border-bottom: 2px solid transparent;
+}
+.product-nav-links > a[aria-current='page'] {
+  color: var(--text);
+  border-bottom-color: var(--accent);
+}
+.product-nav-links > a:hover {
+  color: var(--text);
+}
 /* Four 72px cards per column: 4px gaps, 8px side insets and a 1px divider. */
-.rune-board { --rune-card-width:72px; max-width:1009px; margin-inline:auto; }
-.rune-board .board-grid { min-width:0 }
-.rune-board .board-row { grid-template-columns:56px repeat(3,minmax(317px,1fr)) }
-.rune-board .board-range-label { width:56px; }
-.rune-board .rune-cell { --detail-card-width:var(--rune-card-width); grid-template-columns:repeat(4,var(--rune-card-width)); row-gap:8px; column-gap:calc((100% - 4 * var(--rune-card-width)) / 7); padding-inline:0; align-content:start }
-.rune-column-label { display:flex; width:100%; min-height:52px; align-items:center; justify-content:center }
-.rune-rarity-0 { color:var(--prismatic) }
-.rune-rarity-1 { color:var(--gold) }
-.rune-rarity-2 { color:var(--silver) }
-.rune-board-context { font-size:12px; color:var(--muted); margin:0 }
-@media(max-width:600px) { .product-nav { gap:4px } .product-nav .patch-picker { align-self:center; }
-.product-nav-links>a { font-size:13px } }
+.rune-board {
+  --rune-card-width: 72px;
+  max-width: 1009px;
+  margin-inline: auto;
+}
+.rune-board .board-grid {
+  min-width: 0;
+}
+.rune-board .board-row {
+  grid-template-columns: 56px repeat(3, minmax(317px, 1fr));
+}
+.rune-board .board-range-label {
+  width: 56px;
+}
+.rune-board .rune-cell {
+  --detail-card-width: var(--rune-card-width);
+  grid-template-columns: repeat(4, var(--rune-card-width));
+  row-gap: 8px;
+  column-gap: calc((100% - 4 * var(--rune-card-width)) / 7);
+  padding-inline: 0;
+  align-content: start;
+}
+.rune-column-label {
+  display: flex;
+  width: 100%;
+  min-height: 52px;
+  align-items: center;
+  justify-content: center;
+}
+.rune-rarity-0 {
+  color: var(--prismatic);
+}
+.rune-rarity-1 {
+  color: var(--gold);
+}
+.rune-rarity-2 {
+  color: var(--silver);
+}
+.rune-board-context {
+  font-size: 12px;
+  color: var(--muted);
+  margin: 0;
+}
+@media (max-width: 600px) {
+  .product-nav {
+    gap: 4px;
+  }
+  .product-nav .patch-picker {
+    align-self: center;
+  }
+  .product-nav-links > a {
+    font-size: 13px;
+  }
+}
 
-.rune-board-controls { justify-content:flex-end; }
-
+.rune-board-controls {
+  justify-content: flex-end;
+}

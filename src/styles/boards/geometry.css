@@ -1,162 +1,430 @@
 /* One table-wide size, independent of how many heroes occupy an individual cell. */
-.hero-board .board-row>.board-cell { grid-template-columns:repeat(auto-fit,var(--uniform-hero-size,44px)); justify-content:start; justify-items:start; }
-.hero-board .build-tile,.hero-board .build-portrait { width:var(--uniform-hero-size,44px); max-width:none; }
-.hero-board .board-column { container-type:inline-size; container-name:hero-role-heading; }
+.hero-board .board-row > .board-cell {
+  grid-template-columns: repeat(auto-fit, var(--uniform-hero-size, 44px));
+  justify-content: start;
+  justify-items: start;
+}
+.hero-board .build-tile,
+.hero-board .build-portrait {
+  width: var(--uniform-hero-size, 44px);
+  max-width: none;
+}
+.hero-board .board-column {
+  container-type: inline-size;
+  container-name: hero-role-heading;
+}
 .hero-board .board-column-name {
- display:inline-block; flex-shrink:0; width:auto; overflow:hidden; white-space:nowrap;
- opacity:1; margin-inline-start:0;
- transition:opacity 160ms ease,width 160ms ease,margin-inline-start 160ms ease;
+  display: inline-block;
+  flex-shrink: 0;
+  width: auto;
+  overflow: hidden;
+  white-space: nowrap;
+  opacity: 1;
+  margin-inline-start: 0;
+  transition:
+    opacity 160ms ease,
+    width 160ms ease,
+    margin-inline-start 160ms ease;
 }
 @container hero-role-heading (max-width:110px) {
- .hero-board .board-column-name {
-  opacity:0; width:0; margin-inline-start:-6px;
-  transition:opacity 160ms ease,width 160ms ease,margin-inline-start 160ms ease;
- }
+  .hero-board .board-column-name {
+    opacity: 0;
+    width: 0;
+    margin-inline-start: -6px;
+    transition:
+      opacity 160ms ease,
+      width 160ms ease,
+      margin-inline-start 160ms ease;
+  }
 }
-@media(prefers-reduced-motion:reduce) {
- .hero-board .board-column-name { transition:none; }
+@media (prefers-reduced-motion: reduce) {
+  .hero-board .board-column-name {
+    transition: none;
+  }
 }
-.hero-board .board-row>.board-cell.is-single-portrait-column { grid-template-columns:var(--uniform-hero-size,44px); justify-content:center; }
+.hero-board .board-row > .board-cell.is-single-portrait-column {
+  grid-template-columns: var(--uniform-hero-size, 44px);
+  justify-content: center;
+}
 
-.hero-board .board-row>.board-cell.fits-single-portrait { grid-template-columns:var(--uniform-hero-size,44px); justify-content:center; }
+.hero-board .board-row > .board-cell.fits-single-portrait {
+  grid-template-columns: var(--uniform-hero-size, 44px);
+  justify-content: center;
+}
 
 /* Use the same measured capacity for layout and centering; avoid auto-fit rounding at two-card boundaries. */
-.hero-board .board-row>.board-cell { grid-template-columns:repeat(var(--hero-cell-columns,1),var(--uniform-hero-size,44px)); }
-.hero-board .board-row>.board-cell.is-single-portrait-column { grid-template-columns:var(--uniform-hero-size,44px); }
+.hero-board .board-row > .board-cell {
+  grid-template-columns: repeat(var(--hero-cell-columns, 1), var(--uniform-hero-size, 44px));
+}
+.hero-board .board-row > .board-cell.is-single-portrait-column {
+  grid-template-columns: var(--uniform-hero-size, 44px);
+}
 
-.rune-board .board-row>.rune-cell { justify-content:start; }
-.rune-board .rune-cell .build-stat-card { width:var(--uniform-rune-size,72px); }
+.rune-board .board-row > .rune-cell {
+  justify-content: start;
+}
+.rune-board .rune-cell .build-stat-card {
+  width: var(--uniform-rune-size, 72px);
+}
 
 /* Keep the avatar rounded while allowing the route badge outside its corner. */
-.hero-board .build-portrait { overflow:visible }
-.hero-board .build-portrait > img { border-radius:6px }
-.hero-board .build-equipment-tag { --route-icon-size:var(--hero-route-icon-size,22px); display:flex; gap:1px; padding:0; background:transparent; top:calc(-1px - 5px); left:calc(-1px - 5px); max-width:none; overflow:visible; z-index:1 }
-.hero-board .build-equipment-tag img { width:var(--route-icon-size); height:var(--route-icon-size); box-sizing:border-box; object-fit:contain; border:1px solid var(--border-strong); border-radius:4px; background:var(--surface); box-shadow:0 0 0 1px var(--surface); }
-.hero-board .build-tile:is(:hover,:focus-visible) .build-equipment-tag { opacity:1 }
+.hero-board .build-portrait {
+  overflow: visible;
+}
+.hero-board .build-portrait > img {
+  border-radius: 6px;
+}
+.hero-board .build-equipment-tag {
+  --route-icon-size: var(--hero-route-icon-size, 22px);
+  display: flex;
+  gap: 1px;
+  padding: 0;
+  background: transparent;
+  top: calc(-1px - 5px);
+  left: calc(-1px - 5px);
+  max-width: none;
+  overflow: visible;
+  z-index: 1;
+}
+.hero-board .build-equipment-tag img {
+  width: var(--route-icon-size);
+  height: var(--route-icon-size);
+  box-sizing: border-box;
+  object-fit: contain;
+  border: 1px solid var(--border-strong);
+  border-radius: 4px;
+  background: var(--surface);
+  box-shadow: 0 0 0 1px var(--surface);
+}
+.hero-board .build-tile:is(:hover, :focus-visible) .build-equipment-tag {
+  opacity: 1;
+}
 
 /* Upper detail destinations must enter the viewport before their header pins. */
 [data-detail-arriving] .build-detail-heading.is-sticky,
-[data-detail-arriving] .board-detail-gold-edge { position:relative; top:auto; }
+[data-detail-arriving] .board-detail-gold-edge {
+  position: relative;
+  top: auto;
+}
 
 .hero-board .equipment-tag-enter-active,
-.hero-board .equipment-tag-leave-active { transition:opacity 220ms ease-in-out; }
+.hero-board .equipment-tag-leave-active {
+  transition: opacity 220ms ease-in-out;
+}
 .hero-board .build-equipment-tag.equipment-tag-enter-from,
-.hero-board .build-equipment-tag.equipment-tag-leave-to { opacity:0; }
-@media(prefers-reduced-motion:reduce) {
- .hero-board .equipment-tag-enter-active,
- .hero-board .equipment-tag-leave-active { transition:none; }
+.hero-board .build-equipment-tag.equipment-tag-leave-to {
+  opacity: 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-board .equipment-tag-enter-active,
+  .hero-board .equipment-tag-leave-active {
+    transition: none;
+  }
 }
 
 /* Column width is visual only: final grid and card destinations stay fixed. */
-.has-column-motion { position:relative; }
+.has-column-motion {
+  position: relative;
+}
 /* Cards cross row boundaries: keep body rows in one stacking context so
    a later row background cannot cover a moving card from an earlier row. */
-.board-column-head.has-column-motion { isolation:isolate; }
-.has-column-motion > :is(.board-cell,.board-column) { position:relative; z-index:1; border-left-color:transparent; overflow:visible; }
-.has-column-motion .board-column-filter { overflow:visible; }
-.has-column-motion .board-column-filter[aria-pressed=true] { background:transparent; box-shadow:none; }
-.column-motion-fill,.column-motion-line { position:absolute; left:0; top:0; bottom:0; z-index:0; pointer-events:none; transform-origin:0 0; }
-.column-motion-fill { background:var(--surface); }
+.board-column-head.has-column-motion {
+  isolation: isolate;
+}
+.has-column-motion > :is(.board-cell, .board-column) {
+  position: relative;
+  z-index: 1;
+  border-left-color: transparent;
+  overflow: visible;
+}
+.has-column-motion .board-column-filter {
+  overflow: visible;
+}
+.has-column-motion .board-column-filter[aria-pressed='true'] {
+  background: transparent;
+  box-shadow: none;
+}
+.column-motion-fill,
+.column-motion-line {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 0;
+  pointer-events: none;
+  transform-origin: 0 0;
+}
+.column-motion-fill {
+  background: var(--surface);
+}
 
-.column-motion-line { width:1px; background:var(--border); }
+.column-motion-line {
+  width: 1px;
+  background: var(--border);
+}
 
 /* Selection departure: fade the surface and shrink the gold line toward its center. */
-.column-motion-highlight,.column-motion-underline { position:absolute; left:0; bottom:0; pointer-events:none; transform-origin:0 0; z-index:0; }
-.column-motion-highlight { top:0; background:var(--chip); }
-.column-motion-underline { height:2px; background:var(--accent); z-index:2; }
-.board-column-filter { transition:color 320ms ease-out; }
-.has-column-motion .board-column-filter,.has-column-motion .board-column-filter:hover { background:transparent; box-shadow:none; }
-@media(prefers-reduced-motion:reduce){.board-column-filter { transition:none; }}
+.column-motion-highlight,
+.column-motion-underline {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  pointer-events: none;
+  transform-origin: 0 0;
+  z-index: 0;
+}
+.column-motion-highlight {
+  top: 0;
+  background: var(--chip);
+}
+.column-motion-underline {
+  height: 2px;
+  background: var(--accent);
+  z-index: 2;
+}
+.board-column-filter {
+  transition: color 320ms ease-out;
+}
+.has-column-motion .board-column-filter,
+.has-column-motion .board-column-filter:hover {
+  background: transparent;
+  box-shadow: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .board-column-filter {
+    transition: none;
+  }
+}
 
 /* Two base hero layouts only: desktop 3/3/2/3/3/2; compact 2/2/2. */
-.hero-board .board-table:not(.has-focused-column) .board-row>.board-cell{grid-template-columns:repeat(var(--hero-cell-columns,2),var(--uniform-hero-size,44px));justify-content:center}
+.hero-board .board-table:not(.has-focused-column) .board-row > .board-cell {
+  grid-template-columns: repeat(var(--hero-cell-columns, 2), var(--uniform-hero-size, 44px));
+  justify-content: center;
+}
 
 /* Fixed hero size tiers need the compact layout before six columns get cramped. */
-@media(max-width:1024px){
- .hero-board .board-table .board-row{grid-template-columns:32px repeat(3,minmax(0,1fr))}
- .hero-board .board-range-label{width:32px}
- .hero-board .board-range-stacked{display:grid;justify-items:center;line-height:16px}
- .hero-board .board-table .board-row>.board-cell{gap:6px;padding-inline:4px}
- .hero-board .board-role-pair{display:flex;flex-shrink:0;gap:0}
- .hero-board .board-role-pair>span{width:24px;height:24px}
- .hero-board .board-role-pair .board-role-icon{transform:none;transform-origin:left center}
- .hero-board .board-column-filter{gap:3px;padding-inline:2px;font-size:12px;white-space:nowrap}
- .hero-board .has-focused-column .board-row>.board-cell:not(.is-focused-cell){display:none}
- .hero-board .has-focused-column .board-row>.is-focused-cell{grid-column:2 / -1}
+@media (max-width: 1024px) {
+  .hero-board .board-table .board-row {
+    grid-template-columns: 32px repeat(3, minmax(0, 1fr));
+  }
+  .hero-board .board-range-label {
+    width: 32px;
+  }
+  .hero-board .board-range-stacked {
+    display: grid;
+    justify-items: center;
+    line-height: 16px;
+  }
+  .hero-board .board-table .board-row > .board-cell {
+    gap: 6px;
+    padding-inline: 4px;
+  }
+  .hero-board .board-role-pair {
+    display: flex;
+    flex-shrink: 0;
+    gap: 0;
+  }
+  .hero-board .board-role-pair > span {
+    width: 24px;
+    height: 24px;
+  }
+  .hero-board .board-role-pair .board-role-icon {
+    transform: none;
+    transform-origin: left center;
+  }
+  .hero-board .board-column-filter {
+    gap: 3px;
+    padding-inline: 2px;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+  .hero-board .has-focused-column .board-row > .board-cell:not(.is-focused-cell) {
+    display: none;
+  }
+  .hero-board .has-focused-column .board-row > .is-focused-cell {
+    grid-column: 2 / -1;
+  }
 }
-.hero-board .build-tile,.hero-board .build-portrait{transition:width 120ms ease,height 120ms ease}
-@media(prefers-reduced-motion:reduce){.hero-board .build-tile,.hero-board .build-portrait{transition:none}}
+.hero-board .build-tile,
+.hero-board .build-portrait {
+  transition:
+    width 120ms ease,
+    height 120ms ease;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-board .build-tile,
+  .hero-board .build-portrait {
+    transition: none;
+  }
+}
 
 /* Size tiers describe the image itself; draw the frame without consuming pixels. */
-.hero-board .build-portrait{border:0;outline:1px solid var(--border-strong);outline-offset:-1px}
-.hero-board .build-tile:hover .build-portrait,.hero-board .build-tile[aria-expanded=true] .build-portrait{outline-color:var(--accent)}
+.hero-board .build-portrait {
+  border: 0;
+  outline: 1px solid var(--border-strong);
+  outline-offset: -1px;
+}
+.hero-board .build-tile:hover .build-portrait,
+.hero-board .build-tile[aria-expanded='true'] .build-portrait {
+  outline-color: var(--accent);
+}
 
-.hero-board .board-table .board-row>.board-cell{gap:6px}
+.hero-board .board-table .board-row > .board-cell {
+  gap: 6px;
+}
 
-.hero-board .build-equipment-tag img{transition:width 120ms ease,height 120ms ease}
-@media(prefers-reduced-motion:reduce){.hero-board .build-equipment-tag img{transition:none}}
+.hero-board .build-equipment-tag img {
+  transition:
+    width 120ms ease,
+    height 120ms ease;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-board .build-equipment-tag img {
+    transition: none;
+  }
+}
 
 /* The win-rate badge hugs its text at every portrait tier. */
-.hero-board .build-win{left:2px;bottom:2px;top:auto;right:auto;width:max-content;height:auto;line-height:1.2;padding:.08em .12em;border-radius:.22em}
+.hero-board .build-win {
+  left: 2px;
+  bottom: 2px;
+  top: auto;
+  right: auto;
+  width: max-content;
+  height: auto;
+  line-height: 1.2;
+  padding: 0.08em 0.12em;
+  border-radius: 0.22em;
+}
 
 /* Keep header text on the same rendering path before, during and after movement. */
-.board-column-content,.rune-column-name { transform:translate3d(0,0,0); -webkit-font-smoothing:antialiased; }
-
-@media(max-width:700px) {
- .build-detail-row.is-expandable { --detail-rail-width:var(--detail-card-width); }
- .build-detail-row.is-expandable:not(.is-expanded) { grid-template-columns:var(--detail-card-width) minmax(0,1fr); column-gap:var(--detail-card-gap); }
- .build-detail-row.is-expandable.is-expanded {
-  grid-template-columns:repeat(auto-fill,var(--detail-card-width));
-  grid-auto-rows:max-content; gap:var(--detail-card-gap); align-content:start;
-  margin-bottom:14px; /* Retain the collapsed card strip’s scrollbar space. */
-  /* Three full rows plus most of the fourth advertises vertical scrolling. */
-  max-height:calc((76px + var(--stat-card-metric-count,2) * 28px) * 3.8 + var(--detail-card-gap) * 3 + 8px);
-  overflow-x:hidden; overflow-y:auto; scrollbar-width:none;
-  overflow-anchor:none;
- }
- .build-detail-row.is-expandable.is-expanded::-webkit-scrollbar { display:none; }
- .build-detail-row.is-expandable.is-expanded > .detail-card-viewport,
- .build-detail-row.is-expandable.is-expanded > .detail-card-viewport > .build-detail-cards { display:contents; }
+.board-column-content,
+.rune-column-name {
+  transform: translate3d(0, 0, 0);
+  -webkit-font-smoothing: antialiased;
 }
 
-@media(max-width:700px){
- .build-detail-row.is-expandable.is-expanded{position:relative}
- .build-detail-row.is-expandable.is-expanded.has-more-below::after{
-  content:"";position:absolute;z-index:3;left:0;right:0;top:var(--scroll-shadow-top);height:28px;
-  background:linear-gradient(to bottom,transparent,rgba(0,0,0,.5));pointer-events:none;
- }
+@media (max-width: 700px) {
+  .build-detail-row.is-expandable {
+    --detail-rail-width: var(--detail-card-width);
+  }
+  .build-detail-row.is-expandable:not(.is-expanded) {
+    grid-template-columns: var(--detail-card-width) minmax(0, 1fr);
+    column-gap: var(--detail-card-gap);
+  }
+  .build-detail-row.is-expandable.is-expanded {
+    grid-template-columns: repeat(auto-fill, var(--detail-card-width));
+    grid-auto-rows: max-content;
+    gap: var(--detail-card-gap);
+    align-content: start;
+    margin-bottom: 14px; /* Retain the collapsed card strip’s scrollbar space. */
+    /* Three full rows plus most of the fourth advertises vertical scrolling. */
+    max-height: calc(
+      (76px + var(--stat-card-metric-count, 2) * 28px) * 3.8 + var(--detail-card-gap) * 3 + 8px
+    );
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-width: none;
+    overflow-anchor: none;
+  }
+  .build-detail-row.is-expandable.is-expanded::-webkit-scrollbar {
+    display: none;
+  }
+  .build-detail-row.is-expandable.is-expanded > .detail-card-viewport,
+  .build-detail-row.is-expandable.is-expanded > .detail-card-viewport > .build-detail-cards {
+    display: contents;
+  }
 }
 
-@media(max-width:700px) {
- .rune-cell .build-stat-usage { display:none; }
- .rune-cell .build-stat-name { display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2; line-clamp:2; white-space:normal; overflow-wrap:anywhere; line-height:14px; max-height:28px; }
+@media (max-width: 700px) {
+  .build-detail-row.is-expandable.is-expanded {
+    position: relative;
+  }
+  .build-detail-row.is-expandable.is-expanded.has-more-below::after {
+    content: '';
+    position: absolute;
+    z-index: 3;
+    left: 0;
+    right: 0;
+    top: var(--scroll-shadow-top);
+    height: 28px;
+    background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.5));
+    pointer-events: none;
+  }
 }
 
-.hero-card-trend{margin-left:1px;font-size:inherit;font-weight:800;white-space:nowrap}
-
-@media(max-width:700px){
- .build-detail-row.is-expandable.is-expanded.has-more-above::before{
-  content:"";position:absolute;z-index:3;left:0;right:0;top:var(--scroll-shadow-upper-top);height:28px;
-  background:linear-gradient(to bottom,rgba(0,0,0,.5),transparent);pointer-events:none;
- }
+@media (max-width: 700px) {
+  .rune-cell .build-stat-usage {
+    display: none;
+  }
+  .rune-cell .build-stat-name {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    line-height: 14px;
+    max-height: 28px;
+  }
 }
 
-@media(max-width:700px){
- #board-nav-search{display:none}
- main{padding-bottom:calc(72px + env(safe-area-inset-bottom))}
+.hero-card-trend {
+  margin-left: 1px;
+  font-size: inherit;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+@media (max-width: 700px) {
+  .build-detail-row.is-expandable.is-expanded.has-more-above::before {
+    content: '';
+    position: absolute;
+    z-index: 3;
+    left: 0;
+    right: 0;
+    top: var(--scroll-shadow-upper-top);
+    height: 28px;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), transparent);
+    pointer-events: none;
+  }
+}
+
+@media (max-width: 700px) {
+  #board-nav-search {
+    display: none;
+  }
+  main {
+    padding-bottom: calc(72px + env(safe-area-inset-bottom));
+  }
 }
 
 /* Phone tables use the screen width; surrounding controls keep their gutters. */
-@media(max-width:700px){
- :is(.hero-board,.rune-board) .board-table,.combo-board .combo-list{
-  width:calc(100% + 32px);max-width:none;margin-inline:-16px;border-radius:0;
- }
- :is(.hero-board,.rune-board) .board-header-scroll,
- :is(.hero-board,.rune-board) .board-scroll{border:0;border-radius:0}
+@media (max-width: 700px) {
+  :is(.hero-board, .rune-board) .board-table,
+  .combo-board .combo-list {
+    width: calc(100% + 32px);
+    max-width: none;
+    margin-inline: -16px;
+    border-radius: 0;
+  }
+  :is(.hero-board, .rune-board) .board-header-scroll,
+  :is(.hero-board, .rune-board) .board-scroll {
+    border: 0;
+    border-radius: 0;
+  }
 }
 
 /* Bound the page itself, while card strips retain their own horizontal scrolling. */
-@media(max-width:700px){
- html,body{max-width:100%;overflow-x:clip;overscroll-behavior-x:none}
- main,.build-board{min-width:0}
+@media (max-width: 700px) {
+  html,
+  body {
+    max-width: 100%;
+    overflow-x: clip;
+    overscroll-behavior-x: none;
+  }
+  main,
+  .build-board {
+    min-width: 0;
+  }
 }
