@@ -1,0 +1,63 @@
+/* Keep inactive desktop role columns just wide enough for their headings. */
+.hero-board .board-column-content { display:inline-flex; align-items:center; justify-content:center; gap:6px; flex:none; white-space:nowrap; }
+@media(min-width:701px) {
+ .hero-board .has-focused-column .board-row { grid-template-columns:var(--focused-hero-columns); }
+ .hero-board .has-focused-column .board-column-content { flex-direction:row; gap:6px; }
+ .hero-board .has-focused-column .board-column-filter { flex-direction:row; padding-inline:12px; }
+ .hero-board .has-focused-column .board-cell { grid-template-columns:repeat(var(--focused-hero-slots),minmax(0,var(--focused-card-size))); }
+}
+@media(min-width:701px) and (max-width:1000px) {
+ .hero-board .board-table:not(.has-focused-column) .board-column-content { flex-direction:row; gap:6px; }
+}
+@media(max-width:700px) {
+ .hero-board .board-column-content { gap:3px; }
+}
+
+/* Card motion stays below the sticky table header (3) and navigation (10). */
+/* Intermediate column widths must not expose the final card grid as overflow. */
+.is-board-reflow .board-cell { overflow:clip; }
+.board-reflow-layer { position:absolute; inset:0; pointer-events:none; z-index:2; clip-path:inset(0); }
+
+.rune-board .board-column-filter { padding-inline:12px; white-space:nowrap; }
+.rune-board .rune-column-name { flex:none; }
+.rune-board .has-focused-column .board-row { grid-template-columns:var(--focused-rune-columns); }
+.rune-board .has-focused-column .board-row>.rune-cell { grid-template-columns:repeat(var(--focused-rune-slots),minmax(0,var(--focused-card-size))); }
+
+@media(max-width:700px) {
+ .hero-board .has-focused-column .board-row { grid-template-columns:var(--focused-hero-columns); }
+ .hero-board .has-focused-column .board-column-filter { padding-inline:12px; }
+ .hero-board .has-focused-column .board-row>.board-cell { grid-template-columns:repeat(var(--focused-hero-slots),minmax(0,var(--focused-card-size))); }
+}
+
+.rune-board .board-column-filter.rune-rarity-0[aria-pressed=true] { color:var(--prismatic); }
+.rune-board .board-column-filter.rune-rarity-2[aria-pressed=true] { color:var(--silver); }
+
+/* Phone filtering keeps the header stationary; the selected body cell spans all roles. */
+@media(max-width:700px) {
+ :is(.hero-board,.rune-board) .has-focused-column .board-row { grid-template-columns:32px repeat(3,minmax(0,1fr)); }
+ :is(.hero-board,.rune-board) .has-focused-column .board-row>.board-cell:not(.is-focused-cell) { display:none; }
+ :is(.hero-board,.rune-board) .has-focused-column .board-row>.is-focused-cell { grid-column:2 / -1; }
+ .hero-board .has-focused-column .board-column-filter { padding-inline:2px; }
+}
+
+@media(max-width:700px) {
+ .build-detail .build-detail-row { padding-block:4px; }
+ .build-detail .build-detail-grid .build-detail-row.prismatic { padding-top:10px; }
+ .build-detail .build-detail-heading:has(.build-detail-close) { padding-right:44px; }
+ .build-detail .build-detail-heading .build-detail-close { position:absolute; top:8px; right:0; width:36px; height:36px; margin:0; z-index:1; }
+ .rune-detail .build-detail-heading .build-detail-close { top:16px; }
+ .build-detail .build-detail-actions-top { display:contents; }
+ .build-detail .build-detail-heading:has(.build-detail-close) :is(.build-detail-actions,.rune-detail-actions) { flex-basis:calc(100% + 44px); width:calc(100% + 44px); margin-right:-44px; }
+}
+
+.board-updated-mobile { display:none; }
+@media(max-width:700px) {
+ .board-updated-desktop { display:none; }
+ .board-updated-mobile { display:block; position:static; margin:8px 0 12px; text-align:left; white-space:normal; }
+}
+
+@media(max-width:700px) {
+ .rune-pick-chart { min-width:0; width:100%; }
+ .rune-chart-scroll { overflow-x:hidden; }
+}
+

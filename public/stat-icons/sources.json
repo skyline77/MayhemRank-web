@@ -1,0 +1,90 @@
+{
+  "ad.webp": {
+    "url": "https://cdn7.lolalytics.com/img/tooltip20/ad.webp",
+    "sha256": "c0f34c0ca72033412faf9ef13f4b5f97b1cfd7470b4099af8eb31dad69932cfd"
+  },
+  "ap.webp": {
+    "url": "https://cdn7.lolalytics.com/img/tooltip20/ap.webp",
+    "sha256": "49e53e28556fe96c6a793d2a5d098a48e7b2049079b1781c54c3f7a4aece622d"
+  },
+  "ar.webp": {
+    "url": "https://cdn7.lolalytics.com/img/tooltip20/ar.webp",
+    "sha256": "f5e3302d98e16a446f0dcb3f78adad81eceae2f1810c714fd2c1104af1c58f2d"
+  },
+  "as.webp": {
+    "url": "https://cdn7.lolalytics.com/img/tooltip20/as.webp",
+    "sha256": "c95a319bb8faa601b9eac1c2031bd909f3e0742b4868576254eadc04bc8f9760"
+  },
+  "cdr.webp": {
+    "url": "https://cdn7.lolalytics.com/img/tooltip20/cdr.webp",
+    "sha256": "ee090bc42ded2282d670a9de5ce61bbb06a3d6a6fef3c40c7916699ff40514f9"
+  },
+  "crit.webp": {
+    "url": "https://cdn7.lolalytics.com/img/tooltip20/crit.webp",
+    "sha256": "fc8f1c6ff96ca7d0b65e6ed034a06e4c914a840e1c3fa2aac00ffb1494b14915"
+  },
+  "critx.webp": {
+    "url": "https://cdn7.lolalytics.com/img/tooltip20/critx.webp",
+    "sha256": "c7f28209ad69878863a3ab34718214d20809acf164da26b81442bc31a245dcdc"
+  },
+  "gold.webp": {
+    "url": "https://cdn7.lolalytics.com/img/tooltip20/gold.webp",
+    "sha256": "4a34645f845f5f5880739aeb28c7ab1bd5cfc4540ac30492cc43fc81041488ce"
+  },
+  "heal.webp": {
+    "url": "https://cdn7.lolalytics.com/img/tooltip20/heal.webp",
+    "sha256": "3c21076838a7ee3744c1647a8e352c1063baaf24c6744471bc4f5d229e7f961d"
+  },
+  "hp.webp": {
+    "url": "https://cdn7.lolalytics.com/img/tooltip20/hp.webp",
+    "sha256": "0d0bdff60179d8c96e1d3add06ce1c9a0733c794f397c49e8b610240778b71c5"
+  },
+  "lethality.webp": {
+    "url": "https://cdn7.lolalytics.com/img/tooltip20/lethality.webp",
+    "sha256": "54327fc6f9d994ff2f72ed00e2aab7133992d5f61b3cb9bdd6f5ef1f6e26e620"
+  },
+  "ls.webp": {
+    "url": "https://cdn7.lolalytics.com/img/tooltip20/ls.webp",
+    "sha256": "f989410bdac3355e1b9df647532ee945d15c9eb0c0c1c8d927435ac2cb88d3be"
+  },
+  "mana.webp": {
+    "url": "https://cdn7.lolalytics.com/img/tooltip20/mana.webp",
+    "sha256": "2a1648b32f56de2fda872a9db580931eaa273760f2812a1e2f98f37f4fcb65f7"
+  },
+  "mgen.webp": {
+    "url": "https://cdn7.lolalytics.com/img/tooltip20/mgen.webp",
+    "sha256": "5c7f0186f70e3fd6cc8cb15f14d2a798303e7f89dc902179bde05e631349777e"
+  },
+  "mpen.webp": {
+    "url": "https://cdn7.lolalytics.com/img/tooltip20/mpen.webp",
+    "sha256": "f7ed2dbbcf3200b4c43e6841093285edad709d0cfda3923189244fe1884a3d83"
+  },
+  "mr.webp": {
+    "url": "https://cdn7.lolalytics.com/img/tooltip20/mr.webp",
+    "sha256": "fb06681907d74b1640e346b204830894ee801e1d1fd2039e5aa060d8f2d8e7c1"
+  },
+  "ms.webp": {
+    "url": "https://cdn7.lolalytics.com/img/tooltip20/ms.webp",
+    "sha256": "a3e7e35f4a63b6e85f46a84b08bbf0b66467e3bf2e5e2cd8d3fb8244c378fb46"
+  },
+  "onhit.webp": {
+    "url": "https://cdn7.lolalytics.com/img/tooltip20/onhit.webp",
+    "sha256": "f1a44bb12002da5926f03e3814c005e97fef09b31c2add06459b233d096a4ebd"
+  },
+  "regen.webp": {
+    "url": "https://cdn7.lolalytics.com/img/tooltip20/regen.webp",
+    "sha256": "1bc9368bee0d16614b2d373ca0efa6dfc5a5c0a83338043ba7fbb22b34a64e48"
+  },
+  "tenacity.webp": {
+    "url": "https://cdn7.lolalytics.com/img/tooltip20/tenacity.webp",
+    "sha256": "a2ac2971b7748640b5e4bc0513c8d82cf3b8c8b2765b25d374331ec6e9442ce2"
+  },
+  "vamp.webp": {
+    "url": "https://cdn7.lolalytics.com/img/tooltip20/vamp.webp",
+    "sha256": "b65e042ce4ab93ab150efb9571d345f8cdfa295db83ce4c895f128fe13849dc8"
+  },
+  "adaptive.webp": {
+    "url": "https://cdn5.lolalytics.com/statmod32/5008.webp",
+    "sha256": "d48b1a60fe0c759b3f9e78e872acdc43457319237ae252173188d70a0bb862be"
+  }
+}

@@ -1,0 +1,74 @@
+/* One background belongs to the page shell, independently of board data loading. */
+.shared-board-background { display:none; }
+@media(min-width:701px) {
+ html { scrollbar-gutter:stable; }
+ main[data-board] {
+  isolation:isolate;
+  --board-banner-height:max(64px,calc(clamp(144px,25vh,240px) - var(--site-nav-height,59px)));
+ }
+ .shared-board-background { display:block; position:relative; height:0; z-index:-1; pointer-events:none; }
+ .shared-board-art {
+  --banner-shade:rgba(7,14,23,.64); --banner-wash:rgba(7,14,23,.10);
+  position:absolute; top:calc(-1 * var(--site-nav-height,59px)); left:50%; transform:translateX(-50%); width:min(100%,1180px); height:calc(var(--board-banner-height) + var(--site-nav-height,59px) + 160px);
+  background-image:linear-gradient(90deg,var(--banner-shade),var(--banner-wash)),linear-gradient(0deg,var(--bg),transparent 96px),url('../assets/board-background.webp');
+  background-size:cover; background-position:center top,center top,center calc(var(--site-nav-height,59px) - 75px); background-repeat:no-repeat;
+ }
+ :root[data-theme=light] .shared-board-art { --banner-shade:rgba(240,244,249,.80); --banner-wash:rgba(240,244,249,.25); }
+ /* Sum complementary alpha weights inside an isolated group; do not stack masks over the image. */
+ .board-vignette-blend { position:absolute; inset:0; isolation:isolate; }
+ .board-vignette { position:absolute; inset:0; opacity:0; mix-blend-mode:plus-lighter; transition:opacity 240ms linear; }
+ .board-vignette-heroes {
+  background:linear-gradient(90deg,var(--bg),transparent 48px,transparent calc(100% - 48px),var(--bg));
+ }
+ .board-vignette-augments {
+  --vignette-edge:max(64px,calc((100% - 1067px) / 2 + 64px));
+  background:linear-gradient(90deg,var(--bg),transparent var(--vignette-edge),transparent calc(100% - var(--vignette-edge)),var(--bg));
+ }
+ .board-vignette-combos { --vignette-edge:max(112px,calc((100% - 1067px) / 2 + 112px)); background:linear-gradient(90deg,var(--bg),transparent var(--vignette-edge),transparent calc(100% - var(--vignette-edge)),var(--bg)); }
+}
+
+@media(min-width:701px) {
+ .product-nav { background:color-mix(in srgb,var(--bg) var(--nav-opacity,80%),transparent); }
+}
+
+@media(hover:hover) {
+ .product-nav-links>a { transition:background-color 160ms ease,color 160ms ease; }
+ .product-nav-links>a:hover { background:color-mix(in srgb,var(--text) 10%,transparent); color:var(--text); box-shadow:none; }
+}
+
+@media(prefers-reduced-motion:reduce) { .product-nav-links>a { transition:none; } }
+
+/* Fade only opacity: transforming the table would change its sticky descendants. */
+@keyframes board-content-reveal { from { opacity:0 } to { opacity:1 } }
+#board-nav-search .search-hint {
+ animation:board-content-reveal 240ms ease-out;
+}
+@media(prefers-reduced-motion:reduce) {
+ #board-nav-search .search-hint,
+ :is(.hero-board,.rune-board) .board-table { animation:none; }
+}
+
+/* Persistent overlays cross-fade; the artwork itself never moves or remounts. */
+main[data-board=heroes] .board-vignette-heroes,
+main[data-board=augments] .board-vignette-augments,
+main[data-board=combos] .board-vignette-combos { opacity:1; }
+@media(prefers-reduced-motion:reduce) { .board-vignette { transition:none; } }
+@media(max-width:700px) {
+ .rune-cell .build-stat-name { font-size:12px; }
+}
+
+/* Wrap cards before their numeric labels become unreadable; keep sticky ancestors unclipped. */
+.hero-board .build-tile,.hero-board .build-portrait { min-width:42px; }
+.rune-cell .build-stat-card { min-width:56px; max-width:72px; }
+.rune-cell .build-stat-result,.rune-cell .build-stat-usage { white-space:nowrap; }
+@media(min-width:701px) {
+ .hero-board .board-row>.board-cell { grid-template-columns:repeat(auto-fit,minmax(44px,1fr)); }
+ .hero-board .build-tile { max-width:56px; }
+ .rune-board .board-row>.rune-cell { grid-template-columns:repeat(auto-fill,var(--uniform-rune-size,72px)); }
+}
+@media(max-width:700px) {
+ .hero-board .board-row>.board-cell { grid-template-columns:repeat(auto-fit,minmax(44px,1fr)); }
+ .hero-board .build-tile { max-width:56px; }
+ .rune-board .board-row>.rune-cell { grid-template-columns:repeat(auto-fill,var(--uniform-rune-size,44px)); }
+ .rune-cell .build-stat-card { min-width:44px; }
+}

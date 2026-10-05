@@ -1,0 +1,38 @@
+/* Content widths exclude the two 24px desktop gutters. */
+main { --page-content-width:1200px; max-width:calc(var(--page-content-width) + 48px); margin:auto; padding:0 24px }
+main.is-standalone { --page-content-width:1000px }
+.team-section { padding:24px 0 }
+.section-head { display:flex; align-items:center; justify-content:space-between; gap:16px; padding-bottom:16px }
+.section-title { display:flex; align-items:center; gap:12px }
+h1 { margin:0; font-size:18px; font-weight:600; letter-spacing:.02em }
+.count { color:var(--muted); font-size:12px }
+.connection { display:flex; align-items:center; gap:8px; color:var(--muted); font-size:12px }
+.connection i { width:6px; height:6px; border-radius:50%; background:var(--green) }
+.connection.demo i { background:var(--accent) }
+.demo-notice { margin:0 0 16px; color:var(--muted); font-size:12px; line-height:1.7 }
+.team-row { display:flex; gap:12px; align-items:flex-start }
+.champion { width:80px; flex-shrink:0; padding:0; background:none; text-align:center; border-radius:8px }
+.portrait {
+  position:relative; display:block; width:80px; height:80px; padding:2px;
+  border:1px solid var(--border-strong); border-radius:8px; background:var(--surface);
+  transition:border-color 120ms var(--ease),box-shadow 120ms var(--ease);
+}
+.portrait img { width:100%; height:100%; border-radius:5px; object-fit:cover }
+.champion.selected .portrait { border-color:var(--accent); box-shadow:0 0 0 1px var(--accent) }
+.champion:hover .portrait { border-color:var(--accent) }
+.hero-win {
+  position:absolute; bottom:5px; left:5px; padding:1px 4px; border-radius:3px;
+  background:var(--portrait-bg); color:var(--portrait-text); font-size:12px; font-weight:700; line-height:1.4;
+}
+.self-tag {
+  position:absolute; top:5px; right:5px; padding:1px 4px; border-radius:3px;
+  background:var(--accent); color:var(--accent-on); font-size:10px;
+}
+.champion-name { display:block; margin-top:7px; color:var(--muted); font-size:12px }
+.selected .champion-name { color:var(--text) }
+.empty-slot {
+  width:80px; height:80px; flex-shrink:0; display:grid; place-content:center; gap:4px;
+  border:1px dashed var(--border-strong); border-radius:8px; color:var(--muted); text-align:center;
+}
+.empty-slot span { font-size:22px }
+.empty-slot small { font-size:10px }

@@ -1,0 +1,2632 @@
+{
+  "英雄榜": [
+    "英雄榜",
+    "チャンピオン",
+    "Champions"
+  ],
+  "海克斯榜": [
+    "增幅榜",
+    "オーグメント",
+    "Augments"
+  ],
+  "组合榜": [
+    "組合榜",
+    "組み合わせ",
+    "Combos"
+  ],
+  "主要页面": [
+    "主要頁面",
+    "メインナビゲーション",
+    "Main navigation"
+  ],
+  "海斗榜": [
+    "海鬥榜",
+    "MayhemRank",
+    "MayhemRank"
+  ],
+  "海斗": [
+    "混戰",
+    "Mayhem",
+    "Mayhem"
+  ],
+  "版本": [
+    "版本",
+    "パッチ",
+    "Patch"
+  ],
+  "版本范围": [
+    "版本範圍",
+    "パッチ範囲",
+    "Patch range"
+  ],
+  "统计版本": [
+    "統計版本",
+    "統計パッチ",
+    "Statistics patch"
+  ],
+  "英雄": [
+    "英雄",
+    "チャンピオン",
+    "Champions"
+  ],
+  "装备": [
+    "道具",
+    "アイテム",
+    "Items"
+  ],
+  "符文": [
+    "增幅裝置",
+    "オーグメント",
+    "Augments"
+  ],
+  "海克斯": [
+    "增幅裝置",
+    "オーグメント",
+    "Augments"
+  ],
+  "棱彩": [
+    "稜彩",
+    "プリズム",
+    "Prismatic"
+  ],
+  "黄金": [
+    "金色",
+    "ゴールド",
+    "Gold"
+  ],
+  "白银": [
+    "銀色",
+    "シルバー",
+    "Silver"
+  ],
+  "棱彩海克斯": [
+    "稜彩增幅裝置",
+    "プリズムオーグメント",
+    "Prismatic augments"
+  ],
+  "黄金海克斯": [
+    "金色增幅裝置",
+    "ゴールドオーグメント",
+    "Gold augments"
+  ],
+  "白银海克斯": [
+    "銀色增幅裝置",
+    "シルバーオーグメント",
+    "Silver augments"
+  ],
+  "常见装备": [
+    "常見道具",
+    "よく使われるアイテム",
+    "Common items"
+  ],
+  "鞋子": [
+    "鞋子",
+    "ブーツ",
+    "Boots"
+  ],
+  "其他": [
+    "其他",
+    "その他",
+    "Other"
+  ],
+  "坦克": [
+    "坦克",
+    "タンク",
+    "Tank"
+  ],
+  "战士": [
+    "鬥士",
+    "ファイター",
+    "Fighter"
+  ],
+  "刺客": [
+    "刺客",
+    "アサシン",
+    "Assassin"
+  ],
+  "AD输出": [
+    "物理輸出",
+    "物理ダメージ",
+    "Physical damage"
+  ],
+  "AP输出": [
+    "魔法輸出",
+    "魔法ダメージ",
+    "Magic damage"
+  ],
+  "辅助": [
+    "輔助",
+    "サポート",
+    "Support"
+  ],
+  "坦辅": [
+    "坦輔",
+    "タン・サポ",
+    "Tnk./Sup."
+  ],
+  "战刺": [
+    "鬥刺",
+    "ファイ・アサ",
+    "Ftr./Asn."
+  ],
+  "输出": [
+    "輸出",
+    "ダメージ",
+    "Mrk./Mag."
+  ],
+  "AD": [
+    "AD",
+    "AD",
+    "AD"
+  ],
+  "AP": [
+    "AP",
+    "AP",
+    "AP"
+  ],
+  "胜率": [
+    "勝率",
+    "勝率",
+    "WR"
+  ],
+  "胜率：": [
+    "勝率：",
+    "勝率：",
+    "WR:"
+  ],
+  "使用率": [
+    "使用率",
+    "使用率",
+    "Usage"
+  ],
+  "使用率：": [
+    "使用率：",
+    "使用率：",
+    "Usage:"
+  ],
+  "选用率": [
+    "選用率",
+    "選択率",
+    "Pick rate"
+  ],
+  "场次": [
+    "場次",
+    "試合数",
+    "Games"
+  ],
+  "Δ胜率": [
+    "Δ勝率",
+    "Δ勝率",
+    "ΔWR"
+  ],
+  "综合Δ": [
+    "綜合 Δ",
+    "調整 Δ",
+    "Adjusted Δ"
+  ],
+  "样本较少": [
+    "樣本較少",
+    "少数サンプル",
+    "Low sample"
+  ],
+  "全部出场": [
+    "全部出場",
+    "全出場",
+    "All appearances"
+  ],
+  "按英雄": [
+    "依英雄",
+    "チャンピオン別",
+    "By champion"
+  ],
+  "按最强流派": [
+    "依最強流派",
+    "最強ビルド別",
+    "By best build"
+  ],
+  "英雄榜统计方式": [
+    "英雄榜統計方式",
+    "ランキング方式",
+    "Ranking mode"
+  ],
+  "英雄流派": [
+    "英雄流派",
+    "ビルド",
+    "Builds"
+  ],
+  "英雄流派榜": [
+    "英雄流派榜",
+    "ビルドランキング",
+    "Build rankings"
+  ],
+  "搜索英雄或流派": [
+    "搜尋英雄或流派",
+    "チャンピオン・ビルドを検索",
+    "Search champions or builds"
+  ],
+  "搜索符文": [
+    "搜尋增幅裝置",
+    "オーグメントを検索",
+    "Search augments"
+  ],
+  "搜索装备或符文": [
+    "搜尋道具或增幅裝置",
+    "アイテム・オーグメントを検索",
+    "Search items or augments"
+  ],
+  "搜索详情中的英雄、符文或装备": [
+    "搜尋詳情中的英雄、增幅裝置或道具",
+    "詳細のチャンピオン・オーグメント・アイテムを検索",
+    "Search champions, augments or items in details"
+  ],
+  "匹配的英雄": [
+    "符合的英雄",
+    "一致するチャンピオン",
+    "Matching champions"
+  ],
+  "匹配的符文": [
+    "符合的增幅裝置",
+    "一致するオーグメント",
+    "Matching augments"
+  ],
+  "未找到英雄": [
+    "找不到英雄",
+    "チャンピオンが見つかりません",
+    "No champions found"
+  ],
+  "未找到达到样本门槛的符文": [
+    "找不到符合樣本門檻的增幅裝置",
+    "サンプル条件を満たすオーグメントがありません",
+    "No augments meet the sample threshold"
+  ],
+  "正在加载英雄……": [
+    "正在載入英雄……",
+    "チャンピオンを読み込み中…",
+    "Loading champions…"
+  ],
+  "正在加载符文……": [
+    "正在載入增幅裝置……",
+    "オーグメントを読み込み中…",
+    "Loading augments…"
+  ],
+  "正在读取当前范围的统计……": [
+    "正在讀取目前範圍的統計……",
+    "選択範囲の統計を読み込み中…",
+    "Loading statistics for this selection…"
+  ],
+  "正在读取英雄流派统计……": [
+    "正在讀取英雄流派統計……",
+    "ビルド統計を読み込み中…",
+    "Loading build statistics…"
+  ],
+  "正在读取海克斯符文统计……": [
+    "正在讀取增幅裝置統計……",
+    "オーグメント統計を読み込み中…",
+    "Loading augment statistics…"
+  ],
+  "正在读取组合统计": [
+    "正在讀取組合統計",
+    "組み合わせ統計を読み込み中",
+    "Loading combo statistics"
+  ],
+  "正在读取说明……": [
+    "正在讀取說明……",
+    "説明を読み込み中…",
+    "Loading description…"
+  ],
+  "正在读取近期改动……": [
+    "正在讀取近期改動……",
+    "最近の変更を読み込み中…",
+    "Loading recent changes…"
+  ],
+  "正在加载图表……": [
+    "正在載入圖表……",
+    "グラフを読み込み中…",
+    "Loading chart…"
+  ],
+  "重新加载": [
+    "重新載入",
+    "再読み込み",
+    "Reload"
+  ],
+  "重试": [
+    "重試",
+    "再試行",
+    "Retry"
+  ],
+  "重试搜索词加载": [
+    "重新載入搜尋詞",
+    "検索インデックスを再読み込み",
+    "Retry search index"
+  ],
+  "关闭流派详情": [
+    "關閉流派詳情",
+    "ビルド詳細を閉じる",
+    "Close build details"
+  ],
+  "关闭符文详情": [
+    "關閉增幅装置詳情",
+    "オーグメント詳細を閉じる",
+    "Close augment details"
+  ],
+  "英雄统计分类": [
+    "英雄統計分類",
+    "チャンピオン統計の分類",
+    "Champion statistics categories"
+  ],
+  "符文统计分类": [
+    "增幅裝置統計分類",
+    "オーグメント統計の分類",
+    "Augment statistics categories"
+  ],
+  "筛选英雄出场": [
+    "篩選英雄出場",
+    "出場データを絞り込む",
+    "Filter champion appearances"
+  ],
+  "横向滚动流派按钮": [
+    "橫向捲動流派按鈕",
+    "ビルドを横にスクロール",
+    "Scroll builds horizontally"
+  ],
+  "当前分类的竖向滚动条": [
+    "目前分類的垂直捲軸",
+    "現在のカテゴリの縦スクロール",
+    "Vertical scroll for current category"
+  ],
+  "无鞋": [
+    "未購買鞋子",
+    "ブーツなし",
+    "No boots"
+  ],
+  "无鞋：终局未持有任何鞋子": [
+    "未購買鞋子：結束時未持有任何鞋子",
+    "ブーツなし：試合終了時にブーツを所持していない",
+    "No boots held at the end of the game"
+  ],
+  "召唤师技能": [
+    "召喚師技能",
+    "サモナースペル",
+    "Summoner spells"
+  ],
+  "召唤师技能与鞋子，可左右滚动查看": [
+    "召喚師技能與鞋子，可左右捲動查看",
+    "サモナースペルとブーツ。横スクロールできます",
+    "Summoner spells and boots; scroll horizontally"
+  ],
+  "召唤师技能组合，可左右滚动查看全部": [
+    "召喚師技能組合，可左右捲動查看全部",
+    "サモナースペルの組み合わせ。横スクロールで全件表示",
+    "Summoner spell pairs; scroll to view all"
+  ],
+  "当前筛选范围召唤师技能组合": [
+    "目前篩選範圍的召喚師技能組合",
+    "選択範囲のサモナースペル組み合わせ",
+    "Summoner spell pairs for this selection"
+  ],
+  "当前范围暂无有效召唤师技能记录。": [
+    "目前範圍沒有有效的召喚師技能紀錄。",
+    "この範囲に有効なサモナースペル記録はありません。",
+    "No valid summoner spell records for this selection."
+  ],
+  "海克斯组合": [
+    "增幅裝置組合",
+    "オーグメントの組み合わせ",
+    "Augment pairs"
+  ],
+  "海克斯组合，可左右滚动查看全部": [
+    "增幅裝置組合，可左右捲動查看全部",
+    "オーグメントの組み合わせ。横スクロールで全件表示",
+    "Augment pairs; scroll to view all"
+  ],
+  "海克斯符文榜": [
+    "增幅裝置榜",
+    "オーグメントランキング",
+    "Augment rankings"
+  ],
+  "统计口径与数据范围": [
+    "統計口徑與資料範圍",
+    "集計方法とデータ範囲",
+    "Methodology and data scope"
+  ],
+  "样本、来源与统计说明": [
+    "樣本、來源與統計說明",
+    "サンプル・出典・集計方法",
+    "Sample, sources and methodology"
+  ],
+  "数据范围与胜率说明": [
+    "資料範圍與勝率說明",
+    "データ範囲と勝率について",
+    "Data scope and win rates"
+  ],
+  "统计数据": [
+    "統計資料",
+    "統計データ",
+    "Statistics"
+  ],
+  "近期改动": [
+    "近期改動",
+    "最近の変更",
+    "Recent changes"
+  ],
+  "符文说明": [
+    "增幅裝置說明",
+    "オーグメントの説明",
+    "Augment description"
+  ],
+  "说明": [
+    "說明",
+    "説明",
+    "Description"
+  ],
+  "Wiki翻译": [
+    "Wiki 簡中譯文",
+    "Wiki 中国語訳",
+    "Wiki Chinese translation"
+  ],
+  "wiki原文": [
+    "Wiki 英文原文",
+    "Wiki 英語原文",
+    "Wiki English source"
+  ],
+  "Wiki 英文原文（社区）": [
+    "Wiki 英文原文（社群）",
+    "Wiki 英語原文（コミュニティ）",
+    "Wiki English source (community)"
+  ],
+  "Wiki 简中译文（非官方）": [
+    "Wiki 簡中譯文（非官方）",
+    "Wiki 中国語訳（非公式）",
+    "Wiki Chinese translation (unofficial)"
+  ],
+  "该语言暂无经核验的 Mayhem 效果描述。": [
+    "此語言尚無經核實的混戰效果說明。",
+    "この言語の検証済み Mayhem 効果説明はまだありません。",
+    "No verified Mayhem effect description is available in this language."
+  ],
+  "装备描述：Riot Data Dragon": [
+    "道具說明：Riot Data Dragon",
+    "アイテム説明：Riot Data Dragon",
+    "Item description: Riot Data Dragon"
+  ],
+  "语言资源加载失败": [
+    "語言資源載入失敗",
+    "言語リソースを読み込めませんでした",
+    "Could not load language resources"
+  ],
+  "数据更新于": [
+    "資料更新於",
+    "データ更新日：",
+    "Updated:"
+  ],
+  "共": [
+    "共",
+    "合計",
+    "Total"
+  ],
+  "场": [
+    "場",
+    "試合",
+    "games"
+  ],
+  "场。": [
+    "場。",
+    "試合。",
+    "games."
+  ],
+  "场）": [
+    "場）",
+    "試合）",
+    "games)"
+  ],
+  "场)": [
+    "場)",
+    "試合)",
+    "games)"
+  ],
+  "次": [
+    "次",
+    "回",
+    "times"
+  ],
+  "人次）": [
+    "人次）",
+    "出場）",
+    "appearances)"
+  ],
+  "，共": [
+    "，共",
+    "、合計",
+    ", total"
+  ],
+  "（仍显示更新前的数据）": [
+    "（仍顯示更新前的資料）",
+    "（更新前のデータを表示中）",
+    "(showing previous data)"
+  ],
+  "；仍显示上次成功加载的统计。": [
+    "；仍顯示上次成功載入的統計。",
+    "。前回の統計を表示しています。",
+    "; showing the last successfully loaded statistics."
+  ],
+  "详细": [
+    "詳細",
+    "詳細",
+    "Details"
+  ],
+  "... 详细": [
+    "… 詳細",
+    "… 詳細",
+    "… Details"
+  ],
+  "金": [
+    "金錢",
+    "ゴールド",
+    "gold"
+  ],
+  "暂无上版本数据": [
+    "沒有上一版本資料",
+    "前パッチのデータなし",
+    "No previous patch data"
+  ],
+  "较上版本": [
+    "較上一版本",
+    "前パッチ比",
+    "Vs. prev. patch"
+  ],
+  "胜率暂无数据": [
+    "勝率暫無資料",
+    "勝率データなし",
+    "WR unavailable"
+  ],
+  "Δ胜率暂无数据": [
+    "Δ勝率暫無資料",
+    "Δ勝率データなし",
+    "WR delta unavailable"
+  ],
+  "全部": [
+    "全部",
+    "すべて",
+    "All"
+  ],
+  "组合": [
+    "組合",
+    "組み合わせ",
+    "Combo"
+  ],
+  "组合榜单类型": [
+    "組合榜單類型",
+    "組み合わせの種類",
+    "Combo ranking type"
+  ],
+  "英雄＋符文": [
+    "英雄＋增幅裝置",
+    "チャンピオン＋オーグメント",
+    "Champion + augment"
+  ],
+  "英雄＋符文＋符文": [
+    "英雄＋增幅裝置＋增幅裝置",
+    "チャンピオン＋2オーグメント",
+    "Champion + two augments"
+  ],
+  "单海克斯": [
+    "單增幅裝置",
+    "1オーグメント",
+    "One augment"
+  ],
+  "双海克斯": [
+    "雙增幅裝置",
+    "2オーグメント",
+    "Two augments"
+  ],
+  "上一页": [
+    "上一頁",
+    "前へ",
+    "Previous"
+  ],
+  "下一页": [
+    "下一頁",
+    "次へ",
+    "Next"
+  ],
+  "下划查看更多。": [
+    "向下捲動查看更多。",
+    "下にスクロールして続きを表示。",
+    "Scroll down to see more."
+  ],
+  "下方还有更多候选": [
+    "下方還有更多候選",
+    "下に候補が続きます",
+    "More results below"
+  ],
+  "没有符合条件的组合，试试其他关键词。": [
+    "沒有符合條件的組合，請試試其他關鍵字。",
+    "一致する組み合わせがありません。別の語句をお試しください。",
+    "No matching combos. Try another search."
+  ],
+  "当前版本暂无达到样本门槛的符文。": [
+    "此版本沒有符合樣本門檻的增幅裝置。",
+    "このパッチにサンプル条件を満たすオーグメントはありません。",
+    "No augments meet the sample threshold in this patch."
+  ],
+  "当前": [
+    "目前",
+    "現在",
+    "Current"
+  ],
+  "暂无可展示的英雄流派。": [
+    "沒有可顯示的英雄流派。",
+    "表示できるビルドがありません。",
+    "No builds available."
+  ],
+  "样本不足，暂不分档：": [
+    "樣本不足，暫不分級：",
+    "サンプル不足のため未分類：",
+    "Insufficient sample for ranking:"
+  ],
+  "来源：": [
+    "來源：",
+    "出典：",
+    "Source:"
+  ],
+  "UTC · 地区无法核验": [
+    "UTC · 地區無法核實",
+    "UTC · 地域は未確認",
+    "UTC · Region unverified"
+  ],
+  "地区无法核验": [
+    "地區無法核實",
+    "地域は未確認",
+    "Region unverified"
+  ],
+  "数据地区：{region} · 版本 {patch} · 队列 {queue}": [
+    "資料地區：{region} · 版本 {patch} · 佇列 {queue}",
+    "データ地域：{region} · パッチ {patch} · キュー {queue}",
+    "Data region: {region} · Patch {patch} · Queue {queue}"
+  ],
+  "英雄统计口径": [
+    "英雄統計口徑",
+    "チャンピオンの集計方法",
+    "Champion methodology"
+  ],
+  "联动统计口径": [
+    "連動統計口徑",
+    "相性の集計方法",
+    "Synergy methodology"
+  ],
+  "选次": [
+    "選次",
+    "選択順",
+    "Pick order"
+  ],
+  "选择次数": [
+    "選擇次數",
+    "選択回数",
+    "Selections"
+  ],
+  "选": [
+    "選",
+    "選択",
+    "pick"
+  ],
+  "第": [
+    "第",
+    "第",
+    "No."
+  ],
+  "至": [
+    "至",
+    "～",
+    "to"
+  ],
+  "· 版本": [
+    "· 版本",
+    "· パッチ",
+    "· Patch"
+  ],
+  "当前范围原始胜率": [
+    "目前範圍原始勝率",
+    "選択範囲の実勝率",
+    "Raw WR for this selection"
+  ],
+  "按胜率分档 · 棱彩 / 黄金 / 白银": [
+    "依勝率分級 · 稜彩／金色／銀色",
+    "勝率別 · プリズム／ゴールド／シルバー",
+    "By WR · Prismatic / Gold / Silver"
+  ],
+  "按胜率区间与六种职责排列的英雄流派": [
+    "依勝率區間與六種職責排列的英雄流派",
+    "勝率帯と6ロール別のビルド",
+    "Builds by win-rate band and six roles"
+  ],
+  "按胜率区间与棱彩、黄金、白银排列的海克斯符文": [
+    "依勝率區間與稜彩、金色、銀色排列的增幅裝置",
+    "勝率帯とレア度別のオーグメント",
+    "Augments by win-rate band and rarity"
+  ],
+  "重置": [
+    "重設",
+    "リセット",
+    "Reset"
+  ],
+  "放大": [
+    "放大",
+    "拡大",
+    "Zoom in"
+  ],
+  "缩小": [
+    "縮小",
+    "縮小",
+    "Zoom out"
+  ],
+  "图表暂时无法加载。": [
+    "圖表暫時無法載入。",
+    "グラフを読み込めません。",
+    "Chart unavailable."
+  ],
+  "图表加载失败。": [
+    "圖表載入失敗。",
+    "グラフの読み込みに失敗しました。",
+    "Chart failed to load."
+  ],
+  "图表最低选用场次": [
+    "圖表最低選用場次",
+    "グラフの最小試合数",
+    "Minimum chart sample"
+  ],
+  "图表统计口径与数据范围": [
+    "圖表統計口徑與資料範圍",
+    "グラフの集計方法と範囲",
+    "Chart methodology and scope"
+  ],
+  "在图表中选择英雄": [
+    "在圖表中選擇英雄",
+    "グラフでチャンピオンを選択",
+    "Select a champion in the chart"
+  ],
+  "各英雄同品质选用率与胜率": [
+    "各英雄同品質選用率與勝率",
+    "同レア度の選択率と勝率",
+    "Pick rate within rarity and WR by champion"
+  ],
+  "全英雄逐选胜率，与符文详情页统计一致": [
+    "全英雄逐選勝率，與增幅裝置詳情頁統計一致",
+    "全チャンピオンの選択順別勝率。詳細ページと同じ統計",
+    "WR by pick order across all champions; same scope as augment details"
+  ],
+  "滚动至此处后加载图表。": [
+    "捲動至此處後載入圖表。",
+    "ここまでスクロールするとグラフを読み込みます。",
+    "Chart loads when scrolled into view."
+  ],
+  "顺序已锁定": [
+    "順序已鎖定",
+    "順序を固定中",
+    "Order locked"
+  ],
+  "英雄胜率与差值": [
+    "英雄勝率與差值",
+    "チャンピオン勝率と差分",
+    "Champion win rates and deltas"
+  ],
+  "英雄统计，可左右滚动查看更多": [
+    "英雄統計，可左右捲動查看更多",
+    "チャンピオン統計。横スクロールで続きを表示",
+    "Champion statistics; scroll horizontally for more"
+  ],
+  "说明来源与显示偏好": [
+    "說明來源與顯示偏好",
+    "説明の出典と表示設定",
+    "Description sources and preferences"
+  ],
+  "说明选项会通过 Cookie 在此浏览器中记住 180 天，仅用于恢复显示偏好。": [
+    "說明選項會透過 Cookie 在此瀏覽器記住 180 天，僅用於恢復顯示偏好。",
+    "説明の表示設定のみを Cookie で180日間保存します。",
+    "Description preferences are saved in a cookie for 180 days solely to restore your display choice."
+  ],
+  "部分数值或效果以游戏内说明为准。": [
+    "部分數值或效果請以遊戲內說明為準。",
+    "一部の数値・効果はゲーム内の説明をご確認ください。",
+    "Refer to in-game descriptions for some values and effects."
+  ],
+  "官方公告 ↗": [
+    "官方公告 ↗",
+    "公式パッチノート ↗",
+    "Official patch notes ↗"
+  ],
+  "最近浏览": [
+    "最近瀏覽",
+    "最近見た項目",
+    "Recently viewed"
+  ],
+  "已收录": [
+    "已收錄",
+    "収録済み",
+    "Included"
+  ],
+  "已显示全部": [
+    "已顯示全部",
+    "すべて表示中",
+    "All shown"
+  ],
+  "暂无记录": [
+    "暫無紀錄",
+    "記録なし",
+    "No records"
+  ],
+  "使用次数": [
+    "使用次數",
+    "使用回数",
+    "Uses"
+  ],
+  "取消": [
+    "取消",
+    "解除",
+    "Clear"
+  ],
+  "筛选": [
+    "篩選",
+    "絞り込み",
+    "Filter"
+  ],
+  "升序": [
+    "遞增",
+    "昇順",
+    "Ascending"
+  ],
+  "降序": [
+    "遞減",
+    "降順",
+    "Descending"
+  ],
+  "收起": [
+    "收合",
+    "折りたたむ",
+    "Collapse"
+  ],
+  "展开": [
+    "展開",
+    "展開",
+    "Expand"
+  ],
+  "射手": [
+    "射手",
+    "マークスマン",
+    "Marksman"
+  ],
+  "法师": [
+    "法師",
+    "メイジ",
+    "Mage"
+  ],
+  "流派": [
+    "流派",
+    "ビルド",
+    "Build"
+  ],
+  "整体": [
+    "整體",
+    "全体",
+    "Overall"
+  ],
+  "统计分类": [
+    "統計分類",
+    "統計カテゴリ",
+    "Statistics categories"
+  ],
+  "按": [
+    "依",
+    "並べ替え：",
+    "By"
+  ],
+  "按胜率": [
+    "依勝率",
+    "勝率順",
+    "By WR"
+  ],
+  "按胜率从低到高排序": [
+    "依勝率由低至高排序",
+    "勝率の低い順",
+    "Sort by WR ascending"
+  ],
+  "按胜率从高到低排序": [
+    "依勝率由高至低排序",
+    "勝率の高い順",
+    "Sort by WR descending"
+  ],
+  "按Δ胜率从低到高排序": [
+    "依 Δ勝率由低至高排序",
+    "Δ勝率の低い順",
+    "Sort by WR delta ascending"
+  ],
+  "按Δ胜率从高到低排序": [
+    "依 Δ勝率由高至低排序",
+    "Δ勝率の高い順",
+    "Sort by WR delta descending"
+  ],
+  "从低到高排序": [
+    "由低至高排序",
+    "昇順",
+    "ascending"
+  ],
+  "从高到低排序": [
+    "由高至低排序",
+    "降順",
+    "descending"
+  ],
+  "按{p0}{p1}": [
+    "依{p0}{p1}",
+    "{p0}：{p1}",
+    "Sort by {p0} {p1}"
+  ],
+  "按{p0}从高到低排序": [
+    "依{p0}由高至低排序",
+    "{p0}の高い順",
+    "Sort by {p0} descending"
+  ],
+  "展开搜索": [
+    "展開搜尋",
+    "検索を開く",
+    "Open search"
+  ],
+  "收起搜索": [
+    "收合搜尋",
+    "検索を閉じる",
+    "Close search"
+  ],
+  "历史搜索": [
+    "最近搜尋",
+    "最近の検索",
+    "Recent searches"
+  ],
+  "无搜索记录": [
+    "沒有搜尋紀錄",
+    "検索履歴なし",
+    "No recent searches"
+  ],
+  "全部出场，选择英雄流派": [
+    "全部出場，選擇英雄流派",
+    "全出場。ビルドを選択",
+    "All appearances; choose a build"
+  ],
+  "选择英雄流派": [
+    "選擇英雄流派",
+    "ビルドを選択",
+    "Choose a build"
+  ],
+  "再次点击显示全部职责": [
+    "再按一次顯示全部職責",
+    "もう一度押すと全ロールを表示",
+    "Click again to show all roles"
+  ],
+  "再次点击显示全部品质": [
+    "再按一次顯示全部品質",
+    "もう一度押すと全レア度を表示",
+    "Click again to show all rarities"
+  ],
+  "再次点击，取消流派筛选": [
+    "再按一次取消流派篩選",
+    "もう一度押すとビルド条件を解除",
+    "Click again to clear the build filter"
+  ],
+  "筛选该流派": [
+    "篩選此流派",
+    "このビルドで絞り込む",
+    "Filter by this build"
+  ],
+  "筛选{p0}": [
+    "篩選{p0}",
+    "{p0}で絞り込む",
+    "Filter {p0}"
+  ],
+  "取消{p0}筛选：{p1}{p2}": [
+    "取消{p0}篩選：{p1}{p2}",
+    "{p0}の条件を解除：{p1}{p2}",
+    "Clear {p0} filter: {p1}{p2}"
+  ],
+  "当前范围无记录": [
+    "目前範圍沒有紀錄",
+    "この範囲に記録なし",
+    "No records in this selection"
+  ],
+  "暂无使用率达到 1% 的装备": [
+    "沒有使用率達 1% 的道具",
+    "使用率1%以上のアイテムがありません",
+    "No items with at least 1% usage"
+  ],
+  "暂无该品质的有效记录": [
+    "沒有此品質的有效紀錄",
+    "このレア度に有効な記録はありません",
+    "No valid records for this rarity"
+  ],
+  "暂无鞋子记录": [
+    "沒有鞋子紀錄",
+    "ブーツの記録なし",
+    "No boots records"
+  ],
+  "暂无超过 50 场的海克斯组合": [
+    "沒有超過 50 場的增幅裝置組合",
+    "50試合を超えるオーグメントの組み合わせはありません",
+    "No augment pairs with more than 50 games"
+  ],
+  "暂无选择该符文的英雄记录": [
+    "沒有選擇此增幅裝置的英雄紀錄",
+    "このオーグメントを選択したチャンピオンの記録なし",
+    "No champion records for this augment"
+  ],
+  "没有符合搜索条件的英雄": [
+    "沒有符合搜尋條件的英雄",
+    "一致するチャンピオンなし",
+    "No matching champions"
+  ],
+  "没有符合搜索条件的海克斯组合": [
+    "沒有符合搜尋條件的增幅裝置組合",
+    "一致するオーグメントの組み合わせなし",
+    "No matching augment pairs"
+  ],
+  "没有符合搜索条件的{p0}": [
+    "沒有符合搜尋條件的{p0}",
+    "一致する{p0}なし",
+    "No matching {p0}"
+  ],
+  "暂无共同选用{p0}的记录": [
+    "沒有共同選用{p0}的紀錄",
+    "{p0}を同時に使用した記録なし",
+    "No records of using {p0} together"
+  ],
+  "该版本暂无可用说明。": [
+    "此版本沒有可用說明。",
+    "このパッチの説明はありません。",
+    "No description available for this patch."
+  ],
+  "说明暂时无法读取，请稍后重新打开。": [
+    "暫時無法讀取說明，請稍後重新開啟。",
+    "説明を読み込めません。後でもう一度お試しください。",
+    "Could not load the description. Please reopen it later."
+  ],
+  "暂无可用的 WIKI 中文译文。": [
+    "沒有可用的 Wiki 簡中譯文。",
+    "Wiki の中国語訳はありません。",
+    "No Wiki Chinese translation available."
+  ],
+  "暂无与当前 Wiki 原文对应的中文译文。": [
+    "沒有與目前 Wiki 原文對應的簡中譯文。",
+    "現在の Wiki 原文に対応する中国語訳はありません。",
+    "No Chinese translation matches the current Wiki source."
+  ],
+  "Wiki 暂无可确认对应的英文说明。": [
+    "Wiki 沒有可確認對應的英文說明。",
+    "対応する Wiki 英語説明を確認できません。",
+    "No confirmed matching English Wiki description."
+  ],
+  "正在加载 Wiki 中文译文…": [
+    "正在載入 Wiki 簡中譯文…",
+    "Wiki 中国語訳を読み込み中…",
+    "Loading Wiki Chinese translation…"
+  ],
+  "正在加载中文说明…": [
+    "正在載入簡中說明…",
+    "中国語説明を読み込み中…",
+    "Loading Chinese description…"
+  ],
+  "正在加载英文说明…": [
+    "正在載入英文說明…",
+    "英語説明を読み込み中…",
+    "Loading English description…"
+  ],
+  "当前版本暂无中文说明。": [
+    "此版本沒有簡中說明。",
+    "このパッチの中国語説明はありません。",
+    "No Chinese description for this patch."
+  ],
+  "{p0} · {p1} · {p2} · {p3} 场": [
+    "{p0} · {p1} · {p2} · {p3} 場",
+    "{p0} · {p1} · {p2} · {p3} 試合",
+    "{p0} · {p1} · {p2} · {p3} games"
+  ],
+  "{p0} · 胜率 {p1} · 使用次数 {p2}次{p3} · 点击查看逐选走势": [
+    "{p0} · 勝率 {p1} · 使用 {p2} 次{p3} · 點選查看逐選走勢",
+    "{p0} · 勝率 {p1} · {p2} 回使用{p3} · 選択順の推移を表示",
+    "{p0} · WR {p1} · {p2} uses{p3} · View pick-order trends"
+  ],
+  "{p0} ÷ {p1} 场": [
+    "{p0} ÷ {p1} 場",
+    "{p0} ÷ {p1} 試合",
+    "{p0} ÷ {p1} games"
+  ],
+  "{p0} 场": [
+    "{p0} 場",
+    "{p0} 試合",
+    "{p0} games"
+  ],
+  "{p0} 场 / {p1} 场有海克斯记录的出场": [
+    "{p0} 場／{p1} 場有增幅裝置紀錄的出場",
+    "{p0} 試合／オーグメント記録がある {p1} 出場",
+    "{p0} games / {p1} appearances with augment records"
+  ],
+  "{p0} 胜 / {p1} 场": [
+    "{p0} 勝／{p1} 場",
+    "{p0} 勝／{p1} 試合",
+    "{p0} wins / {p1} games"
+  ],
+  "{p0} 个组合 · 显示前 {p1} 个 · {p2} · {p3}更新": [
+    "{p0} 個組合 · 顯示前 {p1} 個 · {p2} · {p3}更新",
+    "{p0} 組 · 上位 {p1} 組を表示 · {p2} · {p3}更新",
+    "{p0} combos · Top {p1} shown · {p2} · Updated {p3}"
+  ],
+  "{p0}，{p1}，{p2}平滑胜率 {p3}，{p4} 场，查看详情": [
+    "{p0}，{p1}，{p2}平滑勝率 {p3}，{p4} 場，查看詳情",
+    "{p0}、{p1}、{p2}補正勝率 {p3}、{p4} 試合、詳細を表示",
+    "{p0}, {p1}, {p2} smoothed WR {p3}, {p4} games, view details"
+  ],
+  "{p0}，使用率 {p1}，胜率 {p2}": [
+    "{p0}，使用率 {p1}，勝率 {p2}",
+    "{p0}、使用率 {p1}、勝率 {p2}",
+    "{p0}, usage {p1}, WR {p2}"
+  ],
+  "{p0}，胜率 {p1}，使用率 {p2}": [
+    "{p0}，勝率 {p1}，使用率 {p2}",
+    "{p0}、勝率 {p1}、使用率 {p2}",
+    "{p0}, WR {p1}, usage {p2}"
+  ],
+  "{p0}，胜率 {p1}{p2}": [
+    "{p0}，勝率 {p1}{p2}",
+    "{p0}、勝率 {p1}{p2}",
+    "{p0}, WR {p1}{p2}"
+  ],
+  "{p0}，英雄详情": [
+    "{p0}，英雄詳情",
+    "{p0}、チャンピオン詳細",
+    "{p0}, champion details"
+  ],
+  "{p0}，当前范围统计不可用": [
+    "{p0}，目前範圍統計不可用",
+    "{p0}、この範囲の統計なし",
+    "{p0}, statistics unavailable for this selection"
+  ],
+  "{p0}，查看符文详情": [
+    "{p0}，查看增幅裝置詳情",
+    "{p0}、オーグメント詳細を表示",
+    "{p0}, view augment details"
+  ],
+  "{p0}，查看装备或符文说明": [
+    "{p0}，查看道具或增幅裝置說明",
+    "{p0}、アイテム・オーグメント説明を表示",
+    "{p0}, view item or augment description"
+  ],
+  "{p0}，在海克斯榜查看详细": [
+    "{p0}，在增幅裝置榜查看詳情",
+    "{p0}、オーグメントランキングで詳細を表示",
+    "{p0}, view details in augment rankings"
+  ],
+  "{p0}，在新页面查看完整说明": [
+    "{p0}，在新頁面查看完整說明",
+    "{p0}、新しいページで説明全文を表示",
+    "{p0}, view full description in a new page"
+  ],
+  "{p0}，在新页面查看选择当前符文的英雄详情": [
+    "{p0}，在新頁面查看選擇此增幅裝置的英雄詳情",
+    "{p0}、このオーグメント使用時の詳細を新しいページで表示",
+    "{p0}, open champion details for this augment in a new page"
+  ],
+  "{p0}点击在新页面查看选择该符文的英雄统计。": [
+    "{p0}點選在新頁面查看選擇此增幅裝置的英雄統計。",
+    "{p0}クリックして、このオーグメント使用時の統計を新しいページで表示。",
+    "{p0}Click to open champion statistics for this augment in a new page."
+  ],
+  "{p0}符文详情": [
+    "{p0}增幅裝置詳情",
+    "{p0} オーグメント詳細",
+    "{p0} augment details"
+  ],
+  "{p0}，{p1} 个组合": [
+    "{p0}，{p1} 個組合",
+    "{p0}、{p1} 組",
+    "{p0}, {p1} combos"
+  ],
+  "{p0}，{p1} 个符文": [
+    "{p0}，{p1} 個增幅裝置",
+    "{p0}、{p1} オーグメント",
+    "{p0}, {p1} augments"
+  ],
+  "{p0}{p1}{p2}筛选": [
+    "{p0}{p1}{p2}篩選",
+    "{p0}{p1}{p2}フィルター",
+    "{p0}{p1}{p2} filter"
+  ],
+  "{p0}内容选择": [
+    "{p0}內容選擇",
+    "{p0} 内容選択",
+    "{p0} content selection"
+  ],
+  "{p0}排序": [
+    "{p0}排序",
+    "{p0}の並べ替え",
+    "Sort {p0}"
+  ],
+  "{p0}职责": [
+    "{p0}職責",
+    "{p0}ロール",
+    "{p0} role"
+  ],
+  "{p0}联动胜率与差值": [
+    "{p0}連動勝率與差值",
+    "{p0}の相性勝率と差分",
+    "{p0} synergy WR and delta"
+  ],
+  "{p0}联动，可左右滚动查看更多": [
+    "{p0}連動，可左右捲動查看更多",
+    "{p0}の相性。横スクロールできます",
+    "{p0} synergies; scroll horizontally for more"
+  ],
+  "{p0}榜": [
+    "{p0}榜",
+    "{p0}ランキング",
+    "{p0} rankings"
+  ],
+  "{p0}胜率榜": [
+    "{p0}勝率榜",
+    "{p0}勝率ランキング",
+    "{p0} win-rate rankings"
+  ],
+  "{p0}榜翻页": [
+    "{p0}榜換頁",
+    "{p0}ランキングのページ",
+    "{p0} rankings pagination"
+  ],
+  "{p0}榜底部翻页": [
+    "{p0}榜底部換頁",
+    "{p0}ランキング下部のページ",
+    "{p0} rankings bottom pagination"
+  ],
+  "{p0} 官方更新公告（新窗口）": [
+    "{p0} 官方更新公告（新視窗）",
+    "{p0} 公式パッチノート（新しいウィンドウ）",
+    "{p0} official patch notes (new window)"
+  ],
+  "{p0}% 至小于 {p1}%，{p2}": [
+    "{p0}% 至未滿 {p1}%，{p2}",
+    "{p0}% 以上 {p1}% 未満、{p2}",
+    "{p0}% to under {p1}%, {p2}"
+  ],
+  "{p0}% 至{p1}%，下界包含，{p2}": [
+    "{p0}% 至 {p1}%，包含下限，{p2}",
+    "{p0}% 以上 {p1}% まで、{p2}",
+    "{p0}% to {p1}%, lower bound included, {p2}"
+  ],
+  "含100%": [
+    "包含 100%",
+    "100%を含む",
+    "including 100%"
+  ],
+  "上界不含": [
+    "不含上限",
+    "上限を含まない",
+    "upper bound excluded"
+  ],
+  "上界包含": [
+    "包含上限",
+    "上限を含む",
+    "upper bound included"
+  ],
+  "人次": [
+    "人次",
+    "出場",
+    "appearances"
+  ],
+  "（样本较少）": [
+    "（樣本較少）",
+    "（少数サンプル）",
+    "(low sample)"
+  ],
+  "Δ胜率 {p0}，样本 {p1} 场": [
+    "Δ勝率 {p0}，樣本 {p1} 場",
+    "Δ勝率 {p0}、{p1} 試合",
+    "WR delta {p0}, {p1} games"
+  ],
+  "Δ胜率 {p0}，百分点": [
+    "Δ勝率 {p0}，百分點",
+    "Δ勝率 {p0}、パーセントポイント",
+    "WR delta {p0}, percentage points"
+  ],
+  "胜率 {p0}": [
+    "勝率 {p0}",
+    "勝率 {p0}",
+    "WR {p0}"
+  ],
+  "选用率 {p0}": [
+    "選用率 {p0}",
+    "選択率 {p0}",
+    "Pick rate {p0}"
+  ],
+  "使用率 {p0}，样本 {p1} {p2}": [
+    "使用率 {p0}，樣本 {p1} {p2}",
+    "使用率 {p0}、サンプル {p1} {p2}",
+    "Usage {p0}, sample {p1} {p2}"
+  ],
+  "使用次数 {p0}次": [
+    "使用 {p0} 次",
+    "使用 {p0} 回",
+    "{p0} uses"
+  ],
+  "场次 {p0} 场": [
+    "場次 {p0} 場",
+    "試合数 {p0}",
+    "{p0} games"
+  ],
+  "共同出场 {p0} 次": [
+    "共同出場 {p0} 次",
+    "同時出場 {p0} 回",
+    "{p0} joint appearances"
+  ],
+  "另有 {p0} 位英雄": [
+    "另有 {p0} 位英雄",
+    "他 {p0} チャンピオン",
+    "{p0} more champions"
+  ],
+  "英雄 {p0}": [
+    "英雄 {p0}",
+    "チャンピオン {p0}",
+    "Champion {p0}"
+  ],
+  "综合 Δ胜率 {p0}，共同出场 {p1} 次": [
+    "綜合 Δ勝率 {p0}，共同出場 {p1} 次",
+    "調整 Δ勝率 {p0}、同時出場 {p1} 回",
+    "Adjusted WR delta {p0}, {p1} joint appearances"
+  ],
+  "流派出场率：{p0} / {p1}{p2}": [
+    "流派出場率：{p0}／{p1}{p2}",
+    "ビルド使用率：{p0}／{p1}{p2}",
+    "Build usage: {p0} / {p1}{p2}"
+  ],
+  " 次至少2件成装的出场": [
+    " 次至少 2 件完整道具的出場",
+    " 回（完成アイテム2個以上）",
+    " appearances with at least two completed items"
+  ],
+  " 次英雄全部出场": [
+    " 次英雄全部出場",
+    " 回の全出場",
+    " total champion appearances"
+  ],
+  "，{p0}次": [
+    "，{p0} 次",
+    "、{p0} 回",
+    ", {p0} uses"
+  ],
+  "，胜率 {p0}": [
+    "，勝率 {p0}",
+    "、勝率 {p0}",
+    ", WR {p0}"
+  ],
+  "，使用率 {p0}，{p1} {p2}": [
+    "，使用率 {p0}，{p1} {p2}",
+    "、使用率 {p0}、{p1} {p2}",
+    ", usage {p0}, {p1} {p2}"
+  ],
+  "，取消": [
+    "，取消",
+    "、解除",
+    ", clear"
+  ],
+  "，按此": [
+    "，依此",
+    "、適用",
+    ", apply"
+  ],
+  "，可左右滚动查看全部": [
+    "，可左右捲動查看全部",
+    "、横スクロールで全件表示",
+    ", scroll horizontally to view all"
+  ],
+  "，已展开全部": [
+    "，已展開全部",
+    "、すべて展開中",
+    ", all expanded"
+  ],
+  "点击头像查看英雄全部出场详情": [
+    "點選頭像查看英雄全部出場詳情",
+    "アイコンで全出場の詳細を表示",
+    "Select a portrait for all champion appearances"
+  ],
+  "点击头像查看该流派详情": [
+    "點選頭像查看此流派詳情",
+    "アイコンでビルド詳細を表示",
+    "Select a portrait for build details"
+  ],
+  "搜索英雄 / 符文": [
+    "搜尋英雄／增幅裝置",
+    "チャンピオン・オーグメントを検索",
+    "Search champions / augments"
+  ],
+  "搜索英雄与双符文组合": [
+    "搜尋英雄與雙增幅裝置組合",
+    "チャンピオンと2オーグメントの組み合わせを検索",
+    "Search champions and two-augment combos"
+  ],
+  "搜索英雄或符文组合": [
+    "搜尋英雄或增幅裝置組合",
+    "チャンピオンとオーグメントの組み合わせを検索",
+    "Search champion or augment combos"
+  ],
+  "英雄 / 符文＋符文": [
+    "英雄／增幅裝置＋增幅裝置",
+    "チャンピオン／2オーグメント",
+    "Champion / augment + augment"
+  ],
+  "符文名": [
+    "增幅裝置名稱",
+    "オーグメント名",
+    "Augment name"
+  ],
+  "技能名": [
+    "技能名稱",
+    "スキル名",
+    "Ability name"
+  ],
+  "近期改动：无": [
+    "近期改動：無",
+    "最近の変更：なし",
+    "Recent changes: none"
+  ],
+  "尚未收录该版本及此前的改动。": [
+    "尚未收錄此版本及之前的改動。",
+    "このパッチ以前の変更はまだ収録されていません。",
+    "No changes recorded for this patch or earlier."
+  ],
+  "已收录的 {p0} 版本中，该{p1}暂无改动。": [
+    "已收錄的 {p0} 版本中，此{p1}沒有改動。",
+    "収録済みの {p0} パッチでは、この{p1}に変更はありません。",
+    "No changes to this {p1} in the recorded {p0} patches."
+  ],
+  "第 {p0} 名": [
+    "第 {p0} 名",
+    "{p0} 位",
+    "Rank {p0}"
+  ],
+  "相较 {p0}，胜率差值以百分点计；前后版本采用相同统计口径": [
+    "相較 {p0}，勝率差值以百分點計；兩版本使用相同統計口徑",
+    "{p0} 比。勝率差はパーセントポイント。両パッチの集計方法は同一",
+    "Compared with {p0}; win-rate delta in percentage points, using the same methodology"
+  ],
+  "例：": [
+    "例如：",
+    "例：",
+    "Example: "
+  ],
+  "地区无法核验（原始样本混合存储）": [
+    "地區無法核實（原始樣本混合儲存）",
+    "地域未確認（元サンプルが混在）",
+    "Region unverified (mixed source samples)"
+  ],
+  "海克斯\n组合": [
+    "增幅裝置\n組合",
+    "オーグメント\nペア",
+    "Augment\npairs"
+  ],
+  "召唤师 技能": [
+    "召喚師技能",
+    "サモナースペル",
+    "Summoner spells"
+  ],
+  "海克斯 组合": [
+    "增幅裝置組合",
+    "オーグメントペア",
+    "Augment pairs"
+  ],
+  "16.18：装备投票；16.18旧：原 KMeans 分类。两者同批对局，均要求至少2件成装。": [
+    "16.18：道具投票；16.18 舊：原 KMeans 分類。兩者使用同批對局，均要求至少 2 件完整道具。",
+    "16.18：アイテム投票分類。旧16.18：KMeans分類。同じ対戦データを使用し、完成アイテム2個以上が条件です。",
+    "16.18 uses item voting; old 16.18 uses KMeans. Both use the same matches and require at least two completed items."
+  ],
+  "UTC，与榜单使用同一代快照及对局范围。流派按钮的出场率 = 该流派场次 ÷ 同版本该英雄全部有效出场次数（含未分类出场），各流派出场率之和可能小于 100%；流派胜率仍只统计该流派。": [
+    "UTC，與榜單使用同一代快照及對局範圍。流派出場率 = 該流派場次 ÷ 同版本該英雄全部有效出場（含未分類），各流派合計可能低於 100%；流派勝率僅計算該流派。",
+    "UTC。ランキングと同じスナップショット・試合範囲です。ビルド使用率は、そのビルドの試合数を同パッチの全有効出場数（未分類を含む）で割った値です。合計は100%未満の場合があります。勝率は各ビルド内で計算します。",
+    "UTC; same snapshot generation and match scope as the board. Build usage is build appearances divided by all valid appearances for that champion and patch, including unclassified appearances. Shares may sum to less than 100%; each build's win rate uses only that build."
+  ],
+  "Wiki翻译为基于上述英文摘录的 AI 辅助中文译文，非官方翻译；含义如有出入请对照英文原文。": [
+    "Wiki 譯文為上述英文摘錄的 AI 輔助簡中翻譯，並非官方翻譯；如有歧義請對照英文原文。",
+    "Wiki 訳文は上記英語抜粋のAI支援による中国語訳で、公式翻訳ではありません。不明点は英語原文をご確認ください。",
+    "The Wiki translation is an AI-assisted Chinese translation of the English excerpt, not an official translation. Consult the English source if meanings differ."
+  ],
+  "{p0}各选次的选择次数与胜率。绿色虚线读左轴，黄色实线读右轴{p1}至{p2}。灰色参考线为总体胜率。低占比胜率留空，超范围以箭头标记；悬停、点按或用左右方向键查看数据，完整数据见统计口径与数据范围。": [
+    "{p0}各選次的次數與勝率。綠色虛線讀左軸，黃色實線讀右軸 {p1} 至 {p2}。灰線為整體勝率。低占比勝率留空，超出範圍以箭頭標示；可懸停、點選或使用左右鍵查看，完整資料見統計口徑。",
+    "{p0}の選択順別回数と勝率。緑の破線は左軸、黄色の実線は右軸 {p1}～{p2}。灰色線は全体勝率。低割合の勝率は空白、範囲外は矢印で表示。ホバー・タップ・左右キーで確認できます。全データは集計方法欄を参照。",
+    "{p0}: selections and win rate by pick order. Green dashed line uses the left axis; yellow solid line uses the right axis from {p1} to {p2}. Gray is overall win rate. Low-share rates are blank; arrows mark out-of-range values. Hover, tap or use arrow keys. Full data is in methodology and scope."
+  ],
+  "· 可分类流派样本，与当前榜单同一快照。胜率为（胜场 + 1）÷（次数 + 2）；少于 20 次用空心点标记，零次不绘制胜率。非条件胜率使用该符文全部出场记录，与卡片胜率一致，不受第 1–4 选展示或 1% 绘图门槛影响。重复符文记录不参与选次统计。两轴分别缩放，曲线交点没有统计含义；胜率是历史关联，非选次的因果收益。": [
+    "· 可分類流派樣本，與榜單同一快照。勝率 =（勝場 + 1）÷（次數 + 2）；少於 20 次用空心點，零次不畫勝率。非條件勝率使用此增幅裝置全部出場，與卡片一致，不受第 1–4 選或 1% 繪圖門檻影響。重複紀錄不計入選次。兩軸獨立縮放，曲線交點沒有統計意義；勝率是歷史關聯，並非選次的因果收益。",
+    "· 分類可能なビルドのサンプルで、ランキングと同じスナップショットです。勝率 =（勝利数 + 1）÷（回数 + 2）。20回未満は中空点、0回は非表示。無条件勝率は全出場を使用しカードと一致します。第1～4選択や1%の表示条件には影響されません。重複記録は選択順集計から除外します。軸は独立しており、交点に統計的意味はありません。歴史的な関連であり因果効果ではありません。",
+    "· Classifiable build samples from the board's snapshot. Win rate = (wins + 1) / (uses + 2). Hollow points mark fewer than 20 uses; zero-use rates are omitted. Unconditional win rate uses all appearances of the augment, matching its card regardless of the first-four-pick display or 1% plotting threshold. Duplicate records are excluded from pick-order counts. Axes scale independently; intersections have no statistical meaning. These are historical associations, not causal effects of pick order."
+  ],
+  "· 装备展示使用率 ≥1% 的条目 · 鞋子与各品质海克斯展示全部有记录条目。默认按使用率降序，可点击每行左侧切换排序；再次点击胜率切换升序／降序。符文按胜率排序时，50 场及以下的条目放在末尾。": [
+    "· 道具顯示使用率 ≥1% 的項目；鞋子與各品質增幅裝置顯示全部有紀錄項目。預設依使用率遞減，可從每列左側切換排序，再按勝率切換遞增／遞減。增幅装置依勝率排序時，50 場以下（含）的項目置於末尾。",
+    "· アイテムは使用率1%以上、ブーツと各レア度のオーグメントは記録のある全項目を表示します。使用率の高い順が初期設定です。各行左の操作で並べ替え、勝率を再度押すと昇順・降順を切り替えます。オーグメントの勝率順では50試合以下を末尾に置きます。",
+    "· Items require at least 1% usage; boots and all augment rarities show every recorded entry. Default order is usage descending. Change sorting at the left of each row; click win rate again to reverse direction. Augments with 50 or fewer games appear last when sorted by win rate."
+  ],
+  "Δ胜率 = 组合胜率 − 同版本该英雄整体胜率（百分点）。胜率沿用原站的贝叶斯估计，描述历史关联。": [
+    "Δ勝率 = 組合勝率 − 同版本該英雄整體勝率（百分點）。沿用原站貝氏估計，僅描述歷史關聯。",
+    "Δ勝率 = 組み合わせ勝率 − 同パッチのチャンピオン全体勝率（パーセントポイント）。既存のベイズ推定を使用し、歴史的な関連を表します。",
+    "Win rate Δ = combo win rate minus the champion's overall win rate in the same patch, in percentage points. Rates use the existing Bayesian estimate and describe historical associations."
+  ],
+  "○ 起点：英雄总体胜率 → 头像：选用当前符文后的胜率。箭头颜色沿用上方 Δ胜率；表示历史关联。": [
+    "○ 起點：英雄整體勝率 → 頭像：選用此增幅裝置後的勝率。箭頭顏色沿用上方 Δ勝率；表示歷史關聯。",
+    "○ 始点：チャンピオン全体勝率 → アイコン：このオーグメント使用時の勝率。色は上のΔ勝率と同じです。歴史的な関連を表します。",
+    "○ Start: overall champion WR → portrait: WR with this augment. Arrow colors match the delta above and represent historical associations."
+  ],
+  "。与当前榜单使用同一统计快照，样本范围与顶部可分类流派统计不同。": [
+    "。與目前榜單使用同一快照，樣本範圍與頂部可分類流派統計不同。",
+    "。ランキングと同じスナップショットですが、上部の分類可能ビルドとはサンプル範囲が異なります。",
+    ". Same snapshot as the board, but a different sample scope from the classifiable-build statistics at the top."
+  ],
+  "。与当前符文榜单使用同一统计快照。": [
+    "。與目前增幅裝置榜使用同一統計快照。",
+    "。オーグメントランキングと同じ統計スナップショットです。",
+    ". Same statistical snapshot as the augment board."
+  ],
+  "。无法归类的出场（含旧口径特征不足）": [
+    "。無法分類的出場（含舊口徑特徵不足）",
+    "。未分類出場数（旧手法の特徴不足を含む）：",
+    ". Unclassified appearances, including insufficient features under the old method:"
+  ],
+  "。时间范围：": [
+    "。時間範圍：",
+    "。対象期間：",
+    ". Time range:"
+  ],
+  "两种口径均按使用率从高到低保留流派，直到未展示流派合计不超过流派统计分母的 5%；未分类单独统计。流派统计要求终局至少2件成装；流派出场率 = 该流派场次 ÷ 同版本该英雄至少2件成装的出场次数，各流派比例之和可能小于 100%。隐藏流派保留原始统计，不重新分配比例，也不计入未分类。不足2件成装的": [
+    "兩種口徑均依使用率保留流派，直到未顯示流派合計不超過分母的 5%；未分類另計。流派需終局至少 2 件完整道具；使用率 = 流派場次 ÷ 同英雄同版本達此門檻的出場數，合計可能低於 100%。隱藏流派保留原始統計，不重新分配，也不計入未分類。不足 2 件完整道具的",
+    "両方式とも使用率順にビルドを表示し、非表示分の合計を分母の5%以下にします。未分類は別集計です。終了時に完成アイテム2個以上が必要です。使用率は同パッチ・同チャンピオンの条件を満たす出場が分母で、合計は100%未満の場合があります。非表示ビルドの統計は保持し、再配分や未分類への算入はしません。完成アイテム2個未満：",
+    "Both methods retain builds by usage until hidden builds total at most 5% of the denominator; unclassified appearances are separate. Builds require at least two completed items at game end. Usage divides build appearances by same-champion, same-patch appearances meeting this threshold; shares may total less than 100%. Hidden builds retain their counters, without redistribution or inclusion in unclassified appearances. Fewer than two completed items:"
+  ],
+  "个出场人次，不代表全部对局。缺失装备、不足两件 TOP10 成装、无法识别流派或没有已知符文的出场不进入分母。": [
+    "個出場人次，不代表全部對局。缺失道具、不足兩件 TOP10 完整道具、無法辨識流派或沒有已知增幅裝置的出場不計入分母。",
+    "出場であり、全試合ではありません。アイテム不明、TOP10完成アイテム2個未満、分類不能、既知オーグメントなしの出場は分母から除外します。",
+    "appearances, not all matches. Missing inventories, fewer than two TOP10 completed items, unrecognized builds or no known augments are excluded from the denominator."
+  ],
+  "个可分类英雄样本；": [
+    "個可分類英雄樣本；",
+    "分類可能なチャンピオンサンプル；",
+    "classifiable champion samples;"
+  ],
+  "个有效出场人次 ·": [
+    "個有效出場人次 ·",
+    "有効出場 ·",
+    "valid appearances ·"
+  ],
+  "个符文样本不足，暂不分档": [
+    "個增幅裝置樣本不足，暫不分級",
+    "オーグメントはサンプル不足で未分類",
+    "augments have insufficient samples for ranking"
+  ],
+  "个组合。": [
+    "個組合。",
+    "組。",
+    "combos."
+  ],
+  "人次也不进入流派分母。英雄整体统计仍保留全部有效出场。": [
+    "人次亦不計入流派分母。英雄整體統計仍保留全部有效出場。",
+    "出場もビルドの分母から除外します。チャンピオン全体統計には全有効出場を含めます。",
+    "appearances are also excluded from the build denominator. Overall champion statistics retain all valid appearances."
+  ],
+  "人次单列为出装未成型；缺失装备的": [
+    "人次另列為出裝未成型；缺失道具的",
+    "出場は未完成ビルドとして別表示。アイテム情報不明：",
+    "appearances are listed separately as unfinished builds; missing inventory:"
+  ],
+  "人次才入榜。同格按未取整平滑胜率和样本数降序。胜率是历史关联，受英雄和流派构成影响，不表示因果收益。": [
+    "人次才入榜。同格依未取整的平滑勝率及樣本數遞減。勝率受英雄及流派構成影響，僅為歷史關聯，非因果收益。",
+    "出場以上が掲載条件です。同じセル内は未丸めの補正勝率とサンプル数の降順。チャンピオン・ビルド構成の影響を受ける歴史的関連であり、因果効果ではありません。",
+    "appearances to rank. Within a cell, sort by unrounded smoothed win rate then sample size descending. Rates reflect champion and build composition and historical associations, not causal gains."
+  ],
+  "人次，不归入具体流派，达到2件成装门槛的未分类出场仍计入流派使用率的分母。": [
+    "人次，不歸入具體流派；達 2 件完整道具的未分類出場仍計入使用率分母。",
+    "出場は個別ビルドに分類しません。完成アイテム2個以上の未分類出場は使用率の分母に含めます。",
+    "appearances are not assigned to a build; unclassified appearances with two completed items remain in the usage denominator."
+  ],
+  "人次，未知英雄": [
+    "人次，未知英雄",
+    "出場、不明チャンピオン：",
+    "appearances; unknown champion:"
+  ],
+  "位英雄": [
+    "位英雄",
+    "チャンピオン",
+    "champions"
+  ],
+  "位：": [
+    "位：",
+    "件：",
+    ":"
+  ],
+  "共同出场最多的英雄，最多显示六位": [
+    "共同出場最多的英雄，最多六位",
+    "同時出場数の多いチャンピオン（最大6体）",
+    "Champions with the most joint appearances, up to six"
+  ],
+  "包含未分类流派的有效出场，与本页顶部及图表的可分类样本范围不同。默认按胜率降序；可点击 Δ胜率、选用率、场次排序。卡片选用率 = 该英雄选择当前符文的场次 ÷ 同版本该英雄全部出场；场次为选择当前符文的英雄出场数。选用率与场次按数值降序排列；小于等于": [
+    "包含未分類的有效出場，與頂部及圖表的可分類樣本不同。預設依勝率遞減，可依 Δ勝率、選用率或場次排序。選用率 = 該英雄選此增幅裝置場次 ÷ 同版本該英雄全部出場；場次為該英雄選此裝置的出場數。選用率及場次依數值遞減；小於等於",
+    "未分類を含む有効出場を使用し、上部やグラフの分類可能サンプルとは異なります。初期順は勝率降順。Δ勝率・選択率・試合数でも並べ替えられます。選択率は、このオーグメントを使った出場数を同パッチの全出場数で割った値です。選択率・試合数は降順。以下の試合数を含む下限：",
+    "Includes valid unclassified appearances, unlike the classifiable samples at the top and in the chart. Default sort is win rate descending; delta, pick rate and games are also sortable. Pick rate divides this champion's appearances with the augment by all same-patch appearances; games counts appearances with the augment. Pick rate and games sort descending. At or below"
+  ],
+  "双符文必须出现在同一英雄的同一次出场中，允许同时持有其他符文。A＋B 与 B＋A 合并为一条；Δ胜率比较的是该英雄整体胜率，不代表第二个符文带来的额外收益。": [
+    "雙增幅裝置必須出現在同英雄同一次出場，允許同時持有其他裝置。A+B 與 B+A 合併；Δ勝率比較英雄整體勝率，不代表第二個裝置的額外收益。",
+    "2つのオーグメントは同じチャンピオンの同じ出場に必要です。他のオーグメント併用も含みます。A+BとB+Aは統合。Δ勝率はチャンピオン全体との比較で、2個目の追加効果ではありません。",
+    "Both augments must occur in the same champion appearance; other augments may also be present. A+B and B+A are merged. Delta compares with the champion's overall rate, not the incremental benefit of the second augment."
+  ],
+  "召唤师\n技能": [
+    "召喚師技能",
+    "サモナースペル",
+    "Summoner spells"
+  ],
+  "召唤师技能组合使用率：组合次数 ÷ 技能记录完整的": [
+    "召喚師技能組合使用率：組合次數 ÷ 技能紀錄完整的",
+    "スペルの組み合わせ使用率：組み合わせ回数 ÷ スペル記録が完全な出場数：",
+    "Summoner spell pair usage: pair uses divided by appearances with complete spell records:"
+  ],
+  "各英雄的两个胜率均沿用英雄统计的固定基准和 50 场先验平滑。": [
+    "各英雄的兩個勝率均沿用固定基準及 50 場先驗平滑。",
+    "各チャンピオンの両勝率に、固定基準と50試合の事前平滑化を適用します。",
+    "Both rates for each champion use its fixed baseline and a 50-game smoothing prior."
+  ],
+  "回溯。主效果摘录，已整理排版并将部分图标转为文字；补充注释及任务阶段表见原文。摘录及译文沿用 CC BY-SA 3.0。": [
+    "回溯。主效果摘錄已整理排版，部分圖示改為文字；補充註解及任務階段表見原文。摘錄及譯文採 CC BY-SA 3.0。",
+    "への履歴復元は行っていません。主要効果の抜粋を整形し、一部アイコンを文字に置換しています。注釈・クエスト段階表は原文を参照。抜粋と訳文はCC BY-SA 3.0です。",
+    "historical version. Main-effect excerpts are reformatted and some icons replaced with text; see the source for notes and quest-stage tables. Excerpts and translations use CC BY-SA 3.0."
+  ],
+  "场。基准胜率": [
+    "場。基準勝率",
+    "試合。基準勝率：",
+    "games. Baseline WR:"
+  ],
+  "场以 * 标记。": [
+    "場以 * 標示。",
+    "試合は * で表示。",
+    "games are marked *."
+  ],
+  "场对局、": [
+    "場對局、",
+    "試合、",
+    "matches,"
+  ],
+  "场对局。": [
+    "場對局。",
+    "試合。",
+    "matches."
+  ],
+  "场对局。按完整有效英雄出场统计，同一出场的同符文去重，不要求流派可分类；仅列出至少": [
+    "場對局。使用完整有效英雄出場，同一次出場同裝置去重，不要求可分類流派；僅列出至少",
+    "試合。全有効出場を使用し、同じ出場の同じオーグメントは重複排除。ビルド分類は不要。表示の最低試合数：",
+    "matches. Uses complete valid champion appearances, deduplicating the same augment within each appearance without requiring a classifiable build. Minimum sample:"
+  ],
+  "场才进入分档。": [
+    "場才分級。",
+    "試合以上でランク付け。",
+    "games required for ranking."
+  ],
+  "场才进入胜率分档；分档使用未四舍五入的值，下界包含、上界不包含。同格按平滑胜率降序，持平时参考样本数。": [
+    "場才分級；使用未四捨五入值，含下限、不含上限。同格依平滑勝率遞減，平手參考樣本數。",
+    "試合以上で分類します。未丸め値を使用し下限を含み上限を除きます。同セルでは補正勝率降順、同率時はサンプル数を参照。",
+    "games required to rank. Bands use unrounded values, include the lower bound and exclude the upper. Within each cell sort by smoothed WR, then sample size."
+  ],
+  "场标记 *，在胜率及 Δ 排序时置于末尾；零记录不显示。英雄构成校正不能消除玩家水平、其它符文、选次、对局时长及装备成型等偏差，联动只描述历史关联，不代表因果收益。": [
+    "場以 * 標示，勝率及 Δ 排序置於末尾；零紀錄不顯示。英雄構成校正無法消除玩家水平、其他裝置、選次、時長及出裝成型偏差；連動僅為歷史關聯，非因果收益。",
+    "試合未満は * を付け、勝率・Δ順の末尾に置きます。0件は非表示。構成調整では技量、他のオーグメント、選択順、試合時間、完成装備の偏りを除去できません。相性は歴史的関連であり因果効果ではありません。",
+    "games are marked * and placed last in win-rate and delta sorts; zero records are omitted. Champion adjustment cannot remove biases from skill, other augments, pick order, game length or completed builds. Synergy is historical association, not causal benefit."
+  ],
+  "场标记 *，在胜率及 Δ胜率排序时排在末尾。悬浮英雄头像可查看样本数、基准胜率。零记录英雄不显示。": [
+    "場以 * 標示，勝率及 Δ 排序置於末尾。懸停頭像可看樣本及基準，零紀錄不顯示。",
+    "試合以下は * を付け、勝率・Δ順の末尾に置きます。アイコンにホバーしてサンプル数・基準を確認できます。0件は非表示。",
+    "games are marked * and placed last in win-rate and delta sorts. Hover a portrait for samples and baseline; zero-record champions are omitted."
+  ],
+  "场的组合。": [
+    "場的組合。",
+    "試合以上の組み合わせ。",
+    "games per combo."
+  ],
+  "场的英雄记录。": [
+    "場的英雄紀錄。",
+    "試合のチャンピオン記録。",
+    "games per champion."
+  ],
+  "复用英雄榜每 2 个百分点的分档，至少": [
+    "沿用英雄榜每 2 個百分點的分級，至少",
+    "チャンピオンランキングと同じ2パーセントポイント幅を使用。最低：",
+    "Uses the champion board's two-percentage-point bands; minimum"
+  ],
+  "头像箭头图默认仅显示选用当前符文至少 50 场的英雄，可调整展示门槛。横轴 = 该英雄选用当前符文的次数 ÷ 该英雄全部同品质符文总选用次数，包含当前符文；同局同符文去重，不同符文分别计次，分母不受图表门槛影响。箭头起点为英雄总体胜率（包含当前符文对局），头像中心为选用当前符文后的胜率，两端均与上方卡片采用相同平滑算法。头像保持真实坐标；重叠时可缩放或点按选择附近英雄。纵轴自动覆盖全部起终点，筛选后范围可能变化。": [
+    "頭像箭頭圖預設顯示選用此增幅裝置至少 50 場的英雄，門檻可調。橫軸 = 該英雄選用此裝置次數 ÷ 同品質所有裝置的選用次數（含此裝置）；同局同裝置去重，不同装置另計，分母不受繪圖門檻影響。箭頭起點為英雄整體勝率（含此裝置），頭像中心為選用後勝率，兩端與卡片使用相同平滑。頭像保持真實座標，重疊可縮放或選附近英雄。縱軸涵蓋全部起終點，篩選後範圍可變。",
+    "初期表示はこのオーグメント50試合以上のチャンピオンで、閾値は変更できます。横軸は対象オーグメントの回数を同レア度の全選択回数（対象を含む）で割った値。同一試合・同一オーグメントは重複排除し、異なるものは別計数。分母は表示閾値に依存しません。始点は全体勝率（対象の試合を含む）、アイコン中心は対象使用時の勝率で、カードと同じ平滑化です。座標は実値です。重なりはズームや近傍選択で確認できます。縦軸は全始点・終点を含み、絞り込み後に変化します。",
+    "The arrow chart defaults to champions with at least 50 games using the augment; the threshold is adjustable. X is uses of this augment divided by all same-rarity augment selections for that champion, including this augment. Identical match/augment records are deduplicated; different augments count separately. The denominator is unaffected by the chart threshold. Arrows start at overall champion win rate, including these matches, and end at the portrait's augmented win rate; both use the card's smoothing. Portraits retain true coordinates. Zoom or select nearby champions for overlaps. Y covers all endpoints and may change after filtering."
+  ],
+  "对照简中资料。": [
+    "對照簡中資料。",
+    "簡体字中国語の資料と照合。",
+    "cross-referenced with Simplified Chinese resources."
+  ],
+  "当前快照尚无同品质符文选用次数，请更新统计快照后查看图表。": [
+    "目前快照沒有同品質增幅裝置選用次數，請更新統計快照後查看。",
+    "同レア度の選択回数がありません。統計スナップショット更新後にご確認ください。",
+    "This snapshot lacks same-rarity selection counts. Update the statistics snapshot to view the chart."
+  ],
+  "当前快照尚无逐选记录，请更新统计快照后重试。": [
+    "目前快照没有逐選紀錄，請更新後重試。",
+    "選択順の記録がありません。スナップショット更新後に再試行してください。",
+    "This snapshot lacks pick-order records. Update the snapshot and retry."
+  ],
+  "当前符文记为 A，搭配符文或装备记为 B。对每位英雄分别计算 A+B 的组合胜率和选择 A 的基准胜率，再按该英雄在 A+B 共同出场中的占比加权。综合 Δ胜率 = 两个加权胜率之差，以百分点计；基准包含组合本身，不是未选 B 的对照组，也不是直接减去本页顶部的符文总体胜率。": [
+    "目前裝置為 A，搭配裝置或道具為 B。各英雄分別計算 A+B 勝率及選 A 的基準，再按英雄在共同出場的占比加權。綜合 Δ為兩加權勝率之差（百分點）；基準含組合本身，並非未選 B 的對照組，也不是直接減去頁首的整體勝率。",
+    "対象をA、組み合わせるオーグメント・アイテムをBとします。チャンピオンごとにA+Bの勝率とA使用時の基準を計算し、A+B出場内の構成比で加重します。調整Δは両加重勝率の差（パーセントポイント）。基準は組み合わせ自体を含み、Bを使わない対照群ではなく、ページ上部の全体勝率を引いたものでもありません。",
+    "Let A be this augment and B the paired augment or item. Calculate A+B win rate and A's baseline separately for each champion, then weight by champion share among joint appearances. Adjusted delta is the difference of these weighted rates in percentage points. The baseline includes the combo itself; it is neither a no-B control nor the overall augment rate at the top of this page."
+  ],
+  "当前队伍只用于显示客户端阵容；队伍头像与榜单头像使用相同版本、相同流派的历史统计。": [
+    "目前隊伍僅顯示用戶端陣容；隊伍及榜單頭像使用相同版本、流派的歷史統計。",
+    "現在のチームはクライアントの構成表示用です。チームとランキングは同パッチ・同ビルドの歴史統計を使用します。",
+    "The current team only displays the client composition; team and board portraits use historical statistics for the same patch and build."
+  ],
+  "暂无达到": [
+    "沒有達到",
+    "次の条件を満たす記録はありません：",
+    "No records meeting"
+  ],
+  "来源：Riot 官方更新公告 · 繁中转简体，": [
+    "來源：Riot 官方更新公告 · 繁中轉簡體，",
+    "出典：Riot公式パッチノート。繁体字から簡体字に変換、",
+    "Source: official Riot patch notes, converted from Traditional to Simplified Chinese,"
+  ],
+  "来源：Riot 官方更新公告 · 繁中转简体，符文名对照简中资料。": [
+    "來源：Riot 官方更新公告 · 繁中轉簡體，增幅裝置名稱對照簡中資料。",
+    "出典：Riot公式パッチノート。繁体字から簡体字に変換し、オーグメント名を簡体字資料と照合。",
+    "Source: official Riot patch notes, converted from Traditional to Simplified Chinese with augment names cross-referenced against Simplified Chinese resources."
+  ],
+  "次不计入此分母。“无鞋”仅统计终局未持有任何鞋子。海克斯使用率：选择该项的出场次数 ÷ 有已知海克斯记录的": [
+    "次不計入分母。「未購買鞋子」僅計算終局未持有任何鞋子。增幅裝置使用率：選此裝置的出場次數 ÷ 有已知增幅裝置紀錄的",
+    "回は分母に含みません。「ブーツなし」は終了時にブーツを所持していない出場のみ。オーグメント使用率は、その選択回数を既知のオーグメント記録のある出場数で割ります：",
+    "appearances are excluded from this denominator. “No boots” means no boots held at game end. Augment usage divides appearances with the augment by appearances with known augment records:"
+  ],
+  "次不计入此分母。同局同装备、同海克斯去重，各项使用率不要求合计 100%，不是出现后选择概率。": [
+    "次不計入分母。同次出場同道具、同增幅裝置去重；使用率合計不必為 100%，不是出現後選擇的機率。",
+    "回は分母に含みません。同じ出場の同アイテム・オーグメントは重複排除します。使用率合計は100%である必要はなく、提示後の選択確率ではありません。",
+    "appearances are excluded from this denominator. Duplicate items and augments within an appearance count once. Usage rates need not sum to 100% and are not probabilities of choosing an offered option."
+  ],
+  "次出场；缺失或无效": [
+    "次出場；缺失或無效",
+    "出場。不明・無効：",
+    "appearances; missing or invalid:"
+  ],
+  "次出场；缺失或无效装备记录": [
+    "次出場；缺失或無效道具紀錄",
+    "出場。不明・無効なアイテム記録：",
+    "appearances; missing or invalid inventories:"
+  ],
+  "次出场；缺失或没有已知符文的": [
+    "次出場；缺失或沒有已知增幅裝置的",
+    "出場。不明、または既知のオーグメントなし：",
+    "appearances; missing or no known augment:"
+  ],
+  "次记录。某选次数占比不足 1% 时，不绘制该选的胜率点及连接线；次数仍保留。胜率轴跨度固定为 20 个百分点，中点为非条件胜率最接近的 5% 刻度（恰在两刻度中间时向上取整），上下各 10 个百分点。超出范围用箭头标记，实际值可点选查看。选次按 LCU 非空槽位顺序近似；无记录不代表该轮不可获得。次数不是出现概率。": [
+    "次紀錄。某選次占比不足 1% 時不畫勝率點及連線，但保留次數。勝率軸固定 20 個百分點，中心為非條件勝率最接近的 5% 刻度（平手向上），上下各 10 點。超界用箭頭，點選可看實值。選次以 LCU 非空槽位順序近似；無紀錄不代表該輪無法取得，次數不是出現機率。",
+    "記録。選択順の割合が1%未満なら勝率点と接続線を省略しますが、回数は保持します。勝率軸は20ポイント幅で、無条件勝率に最も近い5%刻みを中心に上下10ポイント（中間なら切り上げ）。範囲外は矢印で実値を確認できます。選択順はLCUの非空スロット順による近似です。記録なしは入手不能を意味せず、回数は出現確率ではありません。",
+    "records. If a pick order accounts for less than 1%, its win-rate point and connecting line are omitted while counts remain. The rate axis spans 20 percentage points, centered on the nearest 5% tick to the unconditional rate, rounding midpoint ties up, with 10 points on each side. Arrows mark out-of-range values; select to view actual values. Pick order approximates nonempty LCU slot order. No record does not mean unavailable at that pick; counts are not appearance probabilities."
+  ],
+  "次达标出场；出装未成型单独显示，其比例以全部出场为分母。英雄整体胜率保留全部出场。": [
+    "次達標出場；出裝未成型另列，比例以全部出場為分母。英雄整體勝率保留全部出場。",
+    "条件を満たす出場。未完成ビルドは別表示し、その割合は全出場が分母です。チャンピオン全体勝率は全出場を保持します。",
+    "eligible appearances. Unfinished builds are shown separately with all appearances as their denominator. Overall champion WR retains all appearances."
+  ],
+  "次，D/F 顺序合并。优先显示未取整使用率严格大于 0.5% 的组合，不足 3 组按使用率补足；有效组合不足 3 组则全部展示，不设上限。胜率为组合获胜次数 ÷ 组合出场次数，未平滑；悬停胜率可查看胜场和样本数。": [
+    "次，D/F 順序合併。優先顯示未取整使用率嚴格大於 0.5% 的組合，少於 3 組則依使用率補足；有效組合不足 3 組則全部顯示，不設上限。勝率 = 組合勝場 ÷ 組合出場次數，未平滑；懸停可看勝場及樣本。",
+    "回。D/F順は統合します。未丸め使用率が0.5%を超える組を優先し、3組未満なら使用率順に補います。有効組が3未満なら全件表示、上限なし。勝率は勝利数÷出場数で平滑化しません。ホバーで勝利数・サンプル数を確認できます。",
+    "appearances, merging D/F order. Show pairs with unrounded usage strictly above 0.5%, filling to three by usage when needed. If fewer than three valid pairs exist, show all; there is no upper limit. Win rate is pair wins divided by pair appearances, without smoothing. Hover for wins and sample size."
+  ],
+  "每个英雄只显示一次，按全部有效出场的整体胜率分档，包含未能分类的出场。职责列按该英雄出场最多的职责决定（同列流派合并场次），仅决定展示位置，不筛选统计样本。胜率与英雄详情的“全部出场”一致，沿用固定英雄基准的 Beta(50) 平滑。至少": [
+    "每英雄僅顯示一次，依全部有效出場的整體勝率分級，包含未分類。職責列取該英雄出場最多的職責（同列合併場次），僅影響位置，不篩選樣本。勝率與詳情「全部出場」一致，沿用固定英雄基準的 Beta(50) 平滑。至少",
+    "各チャンピオンは1回だけ表示し、未分類を含む全有効出場の勝率で区分します。ロール列は最も出場の多いロール（同列ビルドを合算）で決まり、表示位置のみでサンプルは変えません。詳細の「全出場」と同じ固定基準のBeta(50)平滑化を使います。最低：",
+    "Each champion appears once, ranked by overall win rate across all valid appearances, including unclassified ones. Its column is the most-played role, pooling builds in that column; this affects placement only, not sample selection. Rates match “All appearances” in details and use the fixed champion baseline with Beta(50) smoothing. Minimum:"
+  ],
+  "每张头像代表一个英雄的具体流派。职责列仅合并展示位置，保留原有流派的胜场和样本；例如近战暴击属于 AD 输出。流派按终局装备与既有分类划分，描述历史关联，不能解释为选择该出装带来的因果收益。": [
+    "每頭像代表英雄的一個流派。職責列僅合併位置，保留流派勝場及樣本；例如近戰暴擊屬物理輸出。流派依終局道具及既有分類劃分，僅描述歷史關聯，不可解讀為選此出裝的因果收益。",
+    "各アイコンはチャンピオンの1ビルドです。ロール列は配置のみをまとめ、各ビルドの勝利数・サンプルは保持します。例えば近接クリティカルは物理ダメージ列です。終了時アイテムと既存分類に基づく歴史的関連であり、そのビルド選択の因果効果ではありません。",
+    "Each portrait represents one champion build. Role columns group placement only, preserving each build's wins and samples; for example, melee critical-strike builds belong to physical damage. Builds use end-game items and the existing classification. They describe historical associations, not causal benefits of choosing a build."
+  ],
+  "流派、符文和装备筛选互斥，不叠加。全部出场、符文和装备条件统计包含未能归类流派的有效出场。符文条件要求此英雄选过该符文；装备条件要求终局持有该装备，均不限制流派。流派由终局装备划分，所有统计只描述历史关联，不代表因果收益。": [
+    "流派、增幅裝置與道具篩選互斥，不疊加。全部出場與裝置／道具條件包含未分類有效出場。裝置條件要求選過該裝置，道具條件要求終局持有，皆不限制流派。流派依終局道具分類；所有統計僅為歷史關聯，非因果收益。",
+    "ビルド・オーグメント・アイテムの条件は排他的で重ねません。全出場とオーグメント・アイテム条件には未分類の有効出場を含みます。対象オーグメントを選択、または終了時に対象アイテムを所持した出場が対象で、ビルドは限定しません。終了時アイテムによる分類であり、すべて歴史的関連で因果効果ではありません。",
+    "Build, augment and item filters are mutually exclusive. All-appearance and augment/item views include valid unclassified appearances. Augment filters require selecting that augment; item filters require holding that item at game end, regardless of build. Builds are classified from end-game items. All statistics describe historical associations, not causal gains."
+  ],
+  "流派按七类装备投票划分，最高票并列时均分归属，因此流派场次和胜场可能为小数。不同流派可能共享同一份出场。按使用率从高到低保留流派，直到未展示流派合计不超过统计分母的5%；隐藏部分不计入未分类。": [
+    "流派依七類道具投票，最高票平手時均分歸屬，因此場次及勝場可能為小數，不同流派可能共享出場。依使用率保留流派，直到未顯示部分不超過分母 5%；隱藏部分不計入未分類。",
+    "7種類のアイテム投票で分類し、最多得票が同数なら帰属を等分します。試合数・勝利数は小数になり、複数ビルドが同じ出場を共有する場合があります。使用率順に保持し、非表示分を分母の5%以下にします。非表示分は未分類に含みません。",
+    "Seven item categories vote on build assignment. Top-vote ties split membership equally, so games and wins may be fractional and builds may share appearances. Retain builds by usage until hidden shares are at most 5% of the denominator; hidden shares do not become unclassified."
+  ],
+  "流派统计只包含终局至少持有2件成装的出场；鞋子、出门装、重伤散件不计为成装。使用率分母为该英雄的": [
+    "流派僅含終局至少 2 件完整道具的出場；鞋子、起手裝及重創小道具不算完整道具。使用率分母為此英雄的",
+    "ビルド統計は終了時に完成アイテム2個以上の出場のみ。ブーツ・初期装備・重傷の小アイテムは数えません。分母は対象チャンピオンの次の出場数：",
+    "Build statistics require at least two completed items at game end. Boots, starters and anti-heal components are not completed items. Usage denominator for this champion:"
+  ],
+  "流派胜率采用中性 Beta(1,1) 平滑，并列归类按归属权重计算有效样本量。至少": [
+    "流派勝率使用中性 Beta(1,1) 平滑，並列分類依權重計算有效樣本量。至少",
+    "ビルド勝率は中立のBeta(1,1)平滑化です。同率分類は帰属重みで有効サンプル数を計算します。最低：",
+    "Build WR uses a neutral Beta(1,1) prior. Tied assignments use membership weights for effective sample size. Minimum:"
+  ],
+  "海克斯组合：该英雄全部出场 · 不随筛选变化 · 仅展示超过 50 场的组合。Δ胜率对比全部出场；使用率以有海克斯记录的出场为分母。": [
+    "增幅裝置組合：英雄全部出場，不隨篩選變動，只顯示超過 50 場的組合。Δ勝率比較全部出場；使用率分母為有裝置紀錄的出場。",
+    "オーグメントペアは全出場を対象とし、条件変更に依存しません。50試合を超えるペアのみ表示。Δ勝率は全出場との比較、使用率の分母はオーグメント記録のある出場です。",
+    "Augment pairs always use all champion appearances, independent of filters, and require more than 50 games. Delta compares with all appearances; usage divides by appearances with augment records."
+  ],
+  "点按头像或选择": [
+    "點選頭像或選擇",
+    "アイコンをタップするか選択：",
+    "Tap a portrait or choose"
+  ],
+  "点按头像查看数据；重叠时选择下方候选英雄。拖动底部和右侧滑块可调整查看范围。": [
+    "點選頭像查看資料，重疊時選下方候選。拖曳底部與右側滑桿可調整範圍。",
+    "アイコンをタップして確認し、重なる場合は下の候補を選択。下・右のスライダーで表示範囲を調整できます。",
+    "Tap a portrait for data; use the candidates below for overlaps. Drag bottom and right sliders to adjust the view."
+  ],
+  "版本，若要了解旧版符文信息，查看下方的近期改动。": [
+    "版本，舊版資料請查看下方近期改動。",
+    "パッチです。以前の情報は下の最近の変更を参照してください。",
+    "patch. For older information, see recent changes below."
+  ],
+  "的": [
+    "的",
+    "の",
+    "of"
+  ],
+  "符文联动包含所有有效英雄出场及未分类流派；装备联动的组合与基准均仅使用装备记录完整的出场，按终局持有装备统计，不区分购买顺序。同一英雄出场内相同符文、装备去重，A 不与自身组合。场次为共同出场的人次，不是去重对局数；共同选用率 = 共同出场次数 ÷ 选择 A 的有效出场次数（装备联动仅含装备记录完整者）。": [
+    "增幅裝置連動含全部有效出場及未分類；道具連動的組合與基準皆限道具紀錄完整者，依終局持有計算，不分購買順序。同次出場同裝置、道具去重，A 不與自身配對。場次為共同出場人次，非去重對局數；共同使用率 = 共同出場 ÷ 選 A 的有效出場（道具連動僅含道具紀錄完整者）。",
+    "オーグメントの相性は未分類を含む全有効出場が対象。アイテムの組と基準はアイテム記録が完全な出場のみで、終了時所持を使用し購入順は区別しません。同出場内の重複を除き、A自身とは組みません。試合数は共同出場数で対戦の重複排除数ではありません。共同使用率 = 共同出場数 ÷ Aを選んだ有効出場数（アイテムは記録完全なもののみ）。",
+    "Augment synergy includes all valid appearances, including unclassified builds. Item combos and baselines use only complete inventories, based on end-game holdings regardless of purchase order. Deduplicate repeated augments/items per appearance; A cannot pair with itself. Games count joint champion appearances, not unique matches. Joint usage divides joint appearances by valid appearances selecting A, restricted to complete inventories for items."
+  ],
+  "符文说明是最新的": [
+    "增幅裝置說明為最新的",
+    "オーグメント説明の対象は最新の",
+    "Augment descriptions refer to the latest"
+  ],
+  "第 1–4 选共": [
+    "第 1–4 選合計",
+    "第1～4選択の合計：",
+    "Total for picks 1–4:"
+  ],
+  "胜 /": [
+    "勝／",
+    "勝／",
+    "wins /"
+  ],
+  "胜率为该英雄选择当前符文的胜率；Δ胜率 = 该胜率 − 同版本该英雄全部流派的平均胜率。两者统一使用该英雄当前版本全部出场的固定基准 b =（总胜场 + 1）÷（总场数 + 2），胜率 =（胜场 + 50 × b）÷（场数 + 50），与英雄详情的符文卡片及筛选按钮一致。差值以未四舍五入的数值计算。例如 60% − 50% 显示 +10.0%，表示高出 10 个百分点，并不代表符文带来的因果收益。": [
+    "勝率為此英雄選用此裝置的勝率；Δ = 此勝率 − 同版本英雄全部流派平均。兩者皆使用固定基準 b =（總勝場 + 1）÷（總場數 + 2），勝率 =（勝場 + 50 × b）÷（場數 + 50），與英雄詳情卡片及篩選按鈕一致。差值以未取整數值計算；60% − 50% 顯示 +10.0%，代表高 10 個百分點，非裝置的因果收益。",
+    "勝率はこのチャンピオンが対象オーグメントを選択したときの値。Δは同パッチの全ビルド平均との差です。固定基準 b =（総勝利数 + 1）÷（総試合数 + 2）、勝率 =（勝利数 + 50 × b）÷（試合数 + 50）を共用し、詳細カード・条件ボタンと一致します。差は未丸め値で計算。60% − 50% = +10.0%は10パーセントポイント高いという意味で、因果効果ではありません。",
+    "Win rate is this champion's rate with the augment. Delta subtracts the same-patch average across all builds. Both use fixed baseline b = (total wins + 1) / (total games + 2) and rate = (wins + 50 × b) / (games + 50), matching champion cards and filter buttons. Deltas use unrounded values: 60% minus 50% displays +10.0%, meaning ten percentage points higher, not a causal augment benefit."
+  ],
+  "胜率使用与英雄／符文详情页相同的后验估计；悬停或聚焦胜率／Δ胜率可查看样本数与英雄平均胜率。Δ胜率不是因果收益，小样本组合仍可能存在较大波动。": [
+    "勝率使用與英雄／增幅裝置詳情相同的後驗估計；懸停或聚焦勝率及 Δ 可看樣本與英雄平均。Δ 非因果收益，小樣本組合仍可能大幅波動。",
+    "詳細ページと同じ事後推定を使用します。勝率・Δへのホバーやフォーカスでサンプル数と平均を確認できます。Δは因果効果ではなく、少数サンプルでは大きく変動します。",
+    "Rates use the same posterior estimate as champion/augment details. Hover or focus rates and deltas for samples and champion averages. Delta is not causal benefit; small-sample combos can fluctuate substantially."
+  ],
+  "胜率按原始胜场、使用人次合并后计算（胜场 + 1）÷（使用人次 + 2），不平均各英雄或流派的胜率。使用率 = 携带该符文的人次 ÷ 上述有效出场人次，不是出现后的选择率；每人可携带多个符文，总和可超过 100%。": [
+    "先合併原始勝場及使用人次，再算（勝場 + 1）÷（人次 + 2），不平均英雄或流派勝率。使用率 = 攜帶此裝置人次 ÷ 有效出場人次，不是出現後選擇率；每人可有多個裝置，合計可超過 100%。",
+    "元の勝利数・使用出場数を合算して（勝利数 + 1）÷（出場数 + 2）を計算します。英雄・ビルド勝率の平均ではありません。使用率は対象を持つ出場数÷有効出場数で、提示後の選択率ではありません。複数所持により合計は100%を超えます。",
+    "Pool raw wins and appearances before calculating (wins + 1) / (appearances + 2), rather than averaging champion/build rates. Usage is appearances with this augment divided by valid appearances, not selection conditional on an offer. Players may carry multiple augments, so rates can total over 100%."
+  ],
+  "英雄头像箭头散点图。横轴是同品质符文选用率，纵轴是胜率。可通过上方英雄选择框查看精确数据，使用缩放按钮及轴旁滑块分开重叠头像。": [
+    "英雄頭像箭頭散佈圖：橫軸為同品質選用率，縱軸為勝率。上方選擇框可看實值，以縮放及軸旁滑桿分開重疊頭像。",
+    "チャンピオンの矢印散布図。横軸は同レア度の選択率、縦軸は勝率。上の選択欄で正確な値を確認し、ズームやスライダーで重なりを分離できます。",
+    "Champion arrow scatterplot: same-rarity pick rate on X, win rate on Y. Use the champion selector for exact values and zoom/axis sliders to separate overlapping portraits."
+  ],
+  "装备、海克斯及符文／装备筛选摘要统一使用当前版本该英雄全部出场的固定基准 b =（总胜场 + 1）÷（总场数 + 2），显示胜率 =（当前胜场 + 50 × b）÷（当前场数 + 50）。切换筛选只改变样本范围，不改变平滑基准。流派按钮仍采用榜单的 Beta(1,1) 口径。颜色和括号差值仍与当前筛选范围的胜率比较。相差不超过 1 个百分点为中性色，超过则逐渐变绿或变红，差异达到 6 个百分点时颜色最深；全站复用相同色阶。少于": [
+    "道具、增幅裝置及篩選摘要使用同英雄同版本全部出場的固定基準 b =（總勝場 + 1）÷（總場數 + 2）；顯示勝率 =（目前勝場 + 50 × b）÷（目前場數 + 50）。篩選只改樣本，不改基準。流派按鈕仍用 Beta(1,1)。顏色與括號差值比較目前範圍勝率；差距 ≤1 個百分點為中性，之後漸變，達 6 點最深；全站共用色階。少於",
+    "アイテム・オーグメント・条件要約は同パッチ全出場の固定基準 b =（総勝利数 + 1）÷（総試合数 + 2）を使用。表示勝率 =（現在の勝利数 + 50 × b）÷（現在の試合数 + 50）。条件はサンプルだけを変え、基準は不変です。ビルドボタンはBeta(1,1)。色と括弧内差分は現在範囲の勝率と比較します。差1ポイント以内は中立色、それ以上で段階的に変わり6ポイントで最濃。全サイトで共用します。次の試合数未満：",
+    "Items, augments and filter summaries share fixed same-patch champion baseline b = (total wins + 1) / (total games + 2). Displayed rate = (current wins + 50 × b) / (current games + 50). Filters change samples, not the baseline. Build buttons retain Beta(1,1). Colors and parenthesized deltas compare with the current selection's rate: neutral within one percentage point, increasingly green/red beyond that, reaching maximum intensity at six points. The scale is shared site-wide. Fewer than"
+  ],
+  "装备与鞋子使用率：终局持有该项的出场次数 ÷ 装备记录完整的": [
+    "道具與鞋子使用率：終局持有該項次數 ÷ 道具紀錄完整的",
+    "アイテム・ブーツ使用率：終了時所持の出場数 ÷ アイテム記録が完全な出場数：",
+    "Item and boots usage: end-game holdings divided by appearances with complete inventories:"
+  ],
+  "读取的 Wiki 说明；未按": [
+    "讀取的 Wiki 說明；未依",
+    "に取得した Wiki 説明です。次のパッチへの復元なし：",
+    "Wiki description captured then; not reconstructed for patch"
+  ],
+  "贡献者": [
+    "貢獻者",
+    "投稿者",
+    "contributors"
+  ],
+  "选择英雄后显示选用次数、同品质总选用次数、两端胜率和差值。": [
+    "選擇英雄後顯示選用次數、同品質總次數、兩端勝率及差值。",
+    "選択後に使用回数、同レア度総回数、両端勝率と差を表示します。",
+    "Select a champion for uses, total same-rarity selections, endpoint rates and delta."
+  ],
+  "选用场次 ≥": [
+    "選用場次 ≥",
+    "使用試合数 ≥",
+    "Games selected ≥"
+  ],
+  "逐选双轴折线图，可用左右方向键查看选次数据": [
+    "逐選雙軸折線圖，可用左右鍵查看資料",
+    "選択順別の2軸折れ線グラフ。左右キーでデータを確認できます",
+    "Dual-axis pick-order chart; use arrow keys to inspect data"
+  ],
+  "采用平滑估计。": [
+    "採用平滑估計。",
+    "平滑化推定を使用します。",
+    "Uses a smoothed estimate."
+  ],
+  "重叠位置附近的英雄": [
+    "重疊位置附近的英雄",
+    "重なる位置付近のチャンピオン",
+    "Champions near the overlap"
+  ],
+  "附近": [
+    "附近",
+    "付近",
+    "nearby"
+  ],
+  "除海克斯组合固定统计该英雄全部出场外，其余各行仅统计": [
+    "除增幅裝置組合固定使用全部出場外，其他各列僅統計",
+    "オーグメントペアは常に全出場。他の行の対象：",
+    "Except augment pairs, which always use all appearances, other rows use only"
+  ],
+  "首版复用英雄流派快照，仅涵盖可分类且具有已知符文记录的": [
+    "首版沿用流派快照，僅涵蓋可分類且有已知增幅裝置的",
+    "初期版はビルドスナップショットを使用。分類可能で既知のオーグメントがある出場のみ：",
+    "The first version reuses build snapshots, covering only classifiable appearances with known augments:"
+  ],
+  "默认按组合胜率降序，可点击胜率、综合 Δ 和场次排序。少于": [
+    "預設依組合勝率遞減，可依勝率、綜合 Δ 及場次排序。少於",
+    "初期順は組み合わせ勝率降順。勝率・調整Δ・試合数で並べ替え可。次の試合数未満：",
+    "Default sort is combo WR descending; rate, adjusted delta and games are sortable. Fewer than"
+  ],
+  "（UTC），来源共": [
+    "（UTC），來源共",
+    "（UTC）、ソース全体：",
+    "(UTC); source total:"
+  ],
+  "第{p0}选": [
+    "第{p0}選",
+    "選択{p0}",
+    "Pick {p0}"
+  ],
+  "第{p0}选：{p1}次，胜率 {p2}": [
+    "第{p0}選：{p1}次，勝率 {p2}",
+    "選択{p0}：{p1}回、勝率 {p2}",
+    "Pick {p0}: {p1} uses, WR {p2}"
+  ],
+  "，样本较少": [
+    "，樣本較少",
+    "、少ないサンプル",
+    ", small sample"
+  ],
+  "，选次占比不足 1%，胜率未绘制": [
+    "，選次占比不足 1%，未繪製勝率",
+    "、選択割合が1%未満のため勝率を非表示",
+    ", below 1% of selections; WR omitted"
+  ],
+  "超出胜率范围": [
+    "超出勝率範圍",
+    "勝率の表示範囲外",
+    "Outside win-rate range"
+  ],
+  "Ctrl+F 切换搜索框": [
+    "Ctrl+F 切換搜尋框",
+    "Ctrl+F 検索欄を切替",
+    "Ctrl+F switch search"
+  ],
+  "Ctrl+F 搜索": [
+    "Ctrl+F 搜尋",
+    "Ctrl+F 検索",
+    "Ctrl+F search"
+  ],
+  "终局持有「{p0}」的出场": [
+    "結束時持有「{p0}」的出場",
+    "終了時に「{p0}」を所持した出場",
+    "appearances ending with {p0}"
+  ],
+  "选择「{p0}」的出场": [
+    "選擇「{p0}」的出場",
+    "「{p0}」を選択した出場",
+    "appearances with {p0}"
+  ],
+  "「{p0}」流派": [
+    "「{p0}」流派",
+    "「{p0}」ビルド",
+    "{p0} build"
+  ],
+  "未归类为任一流派的出场": [
+    "未歸類為任何流派的出場",
+    "未分類の出場",
+    "unclassified appearances"
+  ],
+  "光脚的 不怕穿 鞋的。": [
+    "赤腳也 能勇敢 迎戰。",
+    "裸足でも 怖く ない。",
+    "No boots. No fear."
+  ],
+  "Wiki 社区说明不保证与所选统计版本一致；简中译文不是官方文本。": [
+    "Wiki 社群說明不保證與所選統計版本一致；簡中譯文並非官方文字。",
+    "Wikiのコミュニティ説明は選択中の統計パッチと一致するとは限りません。簡体字訳は非公式です。",
+    "Community Wiki descriptions may differ from the selected statistics patch. Simplified Chinese translations are unofficial."
+  ],
+  "较上版本上升{p0}个百分点": [
+    "較上版本上升{p0}個百分點",
+    "前パッチ比 +{p0}ポイント",
+    "Up {p0} percentage points vs. previous patch"
+  ],
+  "较上版本下降{p0}个百分点": [
+    "較上版本下降{p0}個百分點",
+    "前パッチ比 −{p0}ポイント",
+    "Down {p0} percentage points vs. previous patch"
+  ],
+  "同品质符文选用率": [
+    "同品質增幅裝置選用率",
+    "同レアリティでの選択率",
+    "Pick rate within rarity"
+  ],
+  "{p0}：同品质选用率 {p1}（{p2} / {p3} 次）。总体胜率 {p4} → 选用后 {p5}；Δ胜率 {p6} 个百分点。": [
+    "{p0}：同品質選用率 {p1}（{p2} / {p3} 次）。整體勝率 {p4} → 選用後 {p5}；Δ勝率 {p6} 個百分點。",
+    "{p0}：同レアリティ選択率 {p1}（{p2} / {p3} 回）。全体勝率 {p4} → 選択時 {p5}；勝率差 {p6} ポイント。",
+    "{p0}: pick rate within rarity {p1} ({p2} / {p3} selections). Overall WR {p4} → with augment {p5}; win-rate delta {p6} percentage points."
+  ],
+  "该版本暂无统计": [
+    "此版本暫無統計",
+    "このパッチの統計はありません",
+    "No statistics for this patch"
+  ],
+  "符文统计暂时无法读取": [
+    "暫時無法載入增幅裝置統計",
+    "オーグメント統計を読み込めません",
+    "Unable to load augment statistics"
+  ],
+  "符文统计版本不一致": [
+    "增幅裝置統計版本不一致",
+    "オーグメント統計のパッチが一致しません",
+    "Augment statistics patch mismatch"
+  ],
+  "拼音与首字母搜索暂时不可用，仍可使用中文搜索。": [
+    "拼音與首字母搜尋暫時無法使用，仍可使用名稱搜尋。",
+    "ピンイン・頭文字検索は一時的に利用できません。名前で検索できます。",
+    "Pinyin and initials search is unavailable. You can still search by name."
+  ],
+  "该符文在当前版本暂无统计。": [
+    "此增幅裝置在目前版本暫無統計。",
+    "このパッチにはこのオーグメントの統計がありません。",
+    "No statistics for this augment in the current patch."
+  ],
+  "符文统计暂时无法读取，请重试。": [
+    "暫時無法載入增幅裝置統計，請重試。",
+    "オーグメント統計を読み込めません。再試行してください。",
+    "Unable to load augment statistics. Please retry."
+  ],
+  "榜单统计暂时无法读取，请重试。": [
+    "暫時無法載入排行榜統計，請重試。",
+    "ランキング統計を読み込めません。再試行してください。",
+    "Unable to load ranking statistics. Please retry."
+  ],
+  "榜单版本不一致": [
+    "排行榜版本不一致",
+    "ランキングのパッチが一致しません",
+    "Ranking patch mismatch"
+  ],
+  "英雄整体统计暂未加载，请点击重新加载。": [
+    "英雄整體統計尚未載入，請點選重新載入。",
+    "チャンピオン全体の統計が未読み込みです。再読み込みしてください。",
+    "Overall champion statistics have not loaded. Please reload."
+  ],
+  "该符文在当前版本暂无统计，已显示英雄详情。": [
+    "此增幅裝置在目前版本暫無統計，已顯示英雄詳情。",
+    "このパッチにはこのオーグメントの統計がないため、チャンピオン詳細を表示しています。",
+    "This augment has no statistics for this patch. Showing champion details."
+  ],
+  "该英雄在当前版本暂无可用流派统计。": [
+    "此英雄在目前版本暫無可用流派統計。",
+    "このパッチにはこのチャンピオンのビルド統計がありません。",
+    "No build statistics for this champion in the current patch."
+  ],
+  "英雄详情暂时无法读取": [
+    "暫時無法載入英雄詳情",
+    "チャンピオン詳細を読み込めません",
+    "Unable to load champion details"
+  ],
+  "流派详情暂时无法读取": [
+    "暫時無法載入流派詳情",
+    "ビルド詳細を読み込めません",
+    "Unable to load build details"
+  ],
+  "详情版本与榜单不一致": [
+    "詳情版本與排行榜不一致",
+    "詳細とランキングのパッチが一致しません",
+    "Details and ranking patches do not match"
+  ],
+  "该版本暂无组合统计": [
+    "此版本暫無組合統計",
+    "このパッチの組み合わせ統計はありません",
+    "No combo statistics for this patch"
+  ],
+  "组合统计暂时无法读取": [
+    "暫時無法載入組合統計",
+    "組み合わせ統計を読み込めません",
+    "Unable to load combo statistics"
+  ],
+  "组合统计版本不一致": [
+    "組合統計版本不一致",
+    "組み合わせ統計のパッチが一致しません",
+    "Combo statistics patch mismatch"
+  ],
+  "双符文组合统计不完整": [
+    "雙增幅裝置組合統計不完整",
+    "2オーグメントの組み合わせ統計が不完全です",
+    "Two-augment combo statistics are incomplete"
+  ],
+  "组合统计暂时无法读取，请重试。": [
+    "暫時無法載入組合統計，請重試。",
+    "組み合わせ統計を読み込めません。再試行してください。",
+    "Unable to load combo statistics. Please retry."
+  ],
+  "版本目录暂时无法读取，请重试。": [
+    "暫時無法載入版本目錄，請重試。",
+    "パッチ一覧を読み込めません。再試行してください。",
+    "Unable to load the patch list. Please retry."
+  ],
+  "暂时无法读取近期改动": [
+    "暫時無法載入近期改動",
+    "最近の変更を読み込めません",
+    "Unable to load recent changes"
+  ],
+  "搜索词暂时无法读取": [
+    "暫時無法載入搜尋詞庫",
+    "検索辞書を読み込めません",
+    "Unable to load the search index"
+  ],
+  "搜索词版本与详情不一致": [
+    "搜尋詞庫版本與詳情不一致",
+    "検索辞書と詳細のパッチが一致しません",
+    "Search index and details patches do not match"
+  ],
+  "当前范围未提供该装备统计（使用率低于 1% 或无记录），胜率不可用。": [
+    "目前範圍未提供此道具統計（使用率低於 1% 或無紀錄），無法顯示勝率。",
+    "現在の条件ではこのアイテムの統計がありません（使用率1%未満、または記録なし）。勝率は表示できません。",
+    "No item statistics in this scope (usage below 1% or no records). WR is unavailable."
+  ],
+  "当前范围没有该项记录，胜率不可用。": [
+    "目前範圍沒有此項紀錄，無法顯示勝率。",
+    "現在の条件では記録がないため、勝率は表示できません。",
+    "No records for this entry in the current scope. WR is unavailable."
+  ],
+  "与当前范围基准持平": [
+    "與目前範圍基準持平",
+    "現在の条件の基準と同じ",
+    "Equal to the current scope baseline"
+  ],
+  "语言资源版本不匹配": [
+    "語言資源版本不符",
+    "言語リソースのパッチが一致しません",
+    "Language resource patch mismatch"
+  ],
+  "详情样本与当前流派不一致": [
+    "詳情樣本與目前流派不一致",
+    "詳細のサンプルが現在のビルドと一致しません",
+    "Detail samples do not match the current build"
+  ],
+  "当前快照尚未提供筛选统计，请更新数据后重试": [
+    "目前快照尚未提供篩選統計，請更新資料後重試",
+    "現在のスナップショットには条件別統計がありません。データ更新後に再試行してください",
+    "Filtered statistics are missing from this snapshot. Update the data and retry"
+  ],
+  "无效的装备编号": [
+    "無效的道具編號",
+    "無効なアイテムID",
+    "Invalid item ID"
+  ],
+  "不能同时筛选符文和装备": [
+    "無法同時篩選增幅裝置與道具",
+    "オーグメントとアイテムは同時に絞り込めません",
+    "Augment and item filters cannot be combined"
+  ],
+  "无效的符文编号": [
+    "無效的增幅裝置編號",
+    "無効なオーグメントID",
+    "Invalid augment ID"
+  ],
+  "当前版本暂无这个筛选条件的数据": [
+    "目前版本暫無此篩選條件的資料",
+    "このパッチには選択した条件のデータがありません",
+    "No data for this filter in the current patch"
+  ],
+  "筛选统计暂时无法读取": [
+    "暫時無法載入篩選統計",
+    "条件別統計を読み込めません",
+    "Unable to load filtered statistics"
+  ],
+  "筛选统计与当前英雄或版本不一致": [
+    "篩選統計與目前英雄或版本不一致",
+    "条件別統計のチャンピオンまたはパッチが一致しません",
+    "Filtered statistics champion or patch mismatch"
+  ],
+  "筛选统计样本不完整": [
+    "篩選統計樣本不完整",
+    "条件別統計のサンプルが不完全です",
+    "Filtered statistics samples are incomplete"
+  ],
+  "未分类统计范围不一致": [
+    "未分類統計範圍不一致",
+    "未分類統計の対象範囲が一致しません",
+    "Unclassified statistics scope mismatch"
+  ],
+  "海克斯组合暂时无法读取": [
+    "暫時無法載入增幅裝置組合",
+    "オーグメントの組み合わせを読み込めません",
+    "Unable to load augment pairs"
+  ],
+  "海克斯组合统计范围不一致": [
+    "增幅裝置組合統計範圍不一致",
+    "オーグメント組み合わせ統計の対象範囲が一致しません",
+    "Augment pair statistics scope mismatch"
+  ],
+  "当前版本尚无海克斯组合快照": [
+    "目前版本尚無增幅裝置組合快照",
+    "このパッチのオーグメント組み合わせスナップショットはありません",
+    "No augment pair snapshot for this patch"
+  ],
+  "近期改动数据格式不正确": [
+    "近期改動資料格式不正確",
+    "最近の変更データの形式が正しくありません",
+    "Invalid recent changes data format"
+  ],
+  "符文和装备拼音搜索暂时不可用，仍可按中文名称搜索。": [
+    "增幅裝置與道具的拼音搜尋暫時無法使用，仍可依名稱搜尋。",
+    "オーグメントとアイテムのピンイン検索は利用できません。名前で検索できます。",
+    "Pinyin search for augments and items is unavailable. You can still search by name."
+  ],
+  "Wiki 中文译文暂时无法读取。": [
+    "暫時無法載入 Wiki 簡中譯文。",
+    "Wikiの簡体字訳を読み込めません。",
+    "Unable to load the Simplified Chinese Wiki translation."
+  ],
+  "中文说明暂时无法读取。": [
+    "暫時無法載入簡中說明。",
+    "簡体字の説明を読み込めません。",
+    "Unable to load the Simplified Chinese description."
+  ],
+  "英文说明暂时无法读取。": [
+    "暫時無法載入英文說明。",
+    "英語の説明を読み込めません。",
+    "Unable to load the English description."
+  ],
+  "当前快照尚未提供英雄统计，请更新数据后重试": [
+    "目前快照尚未提供英雄統計，請更新資料後重試",
+    "現在のスナップショットにはチャンピオン統計がありません。データ更新後に再試行してください",
+    "Champion statistics are missing from this snapshot. Update the data and retry"
+  ],
+  "无效的统计范围": [
+    "無效的統計範圍",
+    "無効な統計対象範囲",
+    "Invalid statistics scope"
+  ],
+  "当前快照尚无该符文的英雄统计": [
+    "目前快照尚無此增幅裝置的英雄統計",
+    "現在のスナップショットにはこのオーグメントのチャンピオン統計がありません",
+    "No champion statistics for this augment in the current snapshot"
+  ],
+  "英雄统计暂时无法读取": [
+    "暫時無法載入英雄統計",
+    "チャンピオン統計を読み込めません",
+    "Unable to load champion statistics"
+  ],
+  "英雄统计与当前符文或版本不一致": [
+    "英雄統計與目前增幅裝置或版本不一致",
+    "チャンピオン統計のオーグメントまたはパッチが一致しません",
+    "Champion statistics augment or patch mismatch"
+  ],
+  "英雄统计不完整": [
+    "英雄統計不完整",
+    "チャンピオン統計が不完全です",
+    "Champion statistics are incomplete"
+  ],
+  "同品质符文选用次数不完整": [
+    "同品質增幅裝置選用次數不完整",
+    "同レアリティのオーグメント選択回数が不完全です",
+    "Selection counts within augment rarity are incomplete"
+  ],
+  "当前快照尚未提供联动统计，请更新数据后重试": [
+    "目前快照尚未提供搭配統計，請更新資料後重試",
+    "現在のスナップショットには相性統計がありません。データ更新後に再試行してください",
+    "Synergy statistics are missing from this snapshot. Update the data and retry"
+  ],
+  "当前快照尚无该符文的联动统计": [
+    "目前快照尚無此增幅裝置的搭配統計",
+    "現在のスナップショットにはこのオーグメントの相性統計がありません",
+    "No synergy statistics for this augment in the current snapshot"
+  ],
+  "联动统计暂时无法读取": [
+    "暫時無法載入搭配統計",
+    "相性統計を読み込めません",
+    "Unable to load synergy statistics"
+  ],
+  "联动统计与当前符文或版本不一致": [
+    "搭配統計與目前增幅裝置或版本不一致",
+    "相性統計のオーグメントまたはパッチが一致しません",
+    "Synergy statistics augment or patch mismatch"
+  ],
+  "联动统计不完整": [
+    "搭配統計不完整",
+    "相性統計が不完全です",
+    "Synergy statistics are incomplete"
+  ],
+  "按组合中的英雄占比校正；历史关联，不代表因果收益": [
+    "依組合中的英雄占比校正；為歷史關聯，不代表因果效益",
+    "組み合わせ内のチャンピオン比率で補正。過去の相関であり、因果的な効果ではありません",
+    "Adjusted for champion composition; historical association, not causal benefit"
+  ],
+  "不足 50 场，样本较少。": [
+    "不足 50 場，樣本較少。",
+    "50試合未満の少ないサンプルです。",
+    "Fewer than 50 games; small sample."
+  ],
+  "召唤师技能统计暂不可用": [
+    "召喚師技能統計暫時無法使用",
+    "サモナースペル統計を利用できません",
+    "Summoner spell statistics are unavailable"
+  ],
+  "召唤师技能版本与流派不符": [
+    "召喚師技能版本與流派不符",
+    "サモナースペルとビルドのパッチが一致しません",
+    "Summoner spell and build patches do not match"
+  ],
+  "说明暂不可用": [
+    "說明暫時無法使用",
+    "説明を利用できません",
+    "Description unavailable"
+  ],
+  "说明版本不匹配": [
+    "說明版本不符",
+    "説明のパッチが一致しません",
+    "Description patch mismatch"
+  ],
+  "版本目录暂时无法读取": [
+    "暫時無法載入版本目錄",
+    "パッチ一覧を読み込めません",
+    "Unable to load the patch list"
+  ],
+  "版本目录不完整": [
+    "版本目錄不完整",
+    "パッチ一覧が不完全です",
+    "Patch list is incomplete"
+  ],
+  "英文说明暂时无法读取": [
+    "暫時無法載入英文說明",
+    "英語の説明を読み込めません",
+    "Unable to load the English description"
+  ],
+  "Wiki 中文译文暂时无法读取": [
+    "暫時無法載入 Wiki 簡中譯文",
+    "Wikiの簡体字訳を読み込めません",
+    "Unable to load the Simplified Chinese Wiki translation"
+  ],
+  "英文说明格式不匹配": [
+    "英文說明格式不符",
+    "英語の説明の形式が一致しません",
+    "English description format mismatch"
+  ],
+  "Wiki 中文译文格式不匹配": [
+    "Wiki 簡中譯文格式不符",
+    "Wikiの簡体字訳の形式が一致しません",
+    "Simplified Chinese Wiki translation format mismatch"
+  ],
+  "高于当前范围基准 {points} 个百分点": [
+    "高於目前範圍基準 {points} 個百分點",
+    "現在の条件の基準より {points} ポイント高い",
+    "{points} percentage points above the current scope baseline"
+  ],
+  "低于当前范围基准 {points} 个百分点": [
+    "低於目前範圍基準 {points} 個百分點",
+    "現在の条件の基準より {points} ポイント低い",
+    "{points} percentage points below the current scope baseline"
+  ],
+  "{games} 场 · 英雄平均 {rate}": [
+    "{games} 場 · 英雄平均 {rate}",
+    "{games} 試合 · チャンピオン平均 {rate}",
+    "{games} games · Champion average {rate}"
+  ],
+  "{name}，全英雄逐选胜率。": [
+    "{name}，全英雄各選次勝率。",
+    "{name}、全チャンピオンの選択順ごとの勝率。",
+    "{name}: WR by selection order across all champions."
+  ],
+  "{name}：共同出场 {games} 次，覆盖 {heroes} 位英雄；组合胜率 {rate}，校正基准 {baseline}，综合 Δ胜率 {delta}（百分点）。{note}": [
+    "{name}：共同出場 {games} 次，涵蓋 {heroes} 位英雄；組合勝率 {rate}，校正基準 {baseline}，綜合 Δ勝率 {delta}（百分點）。{note}",
+    "{name}：同時使用 {games} 回、{heroes} チャンピオン。組み合わせ勝率 {rate}、補正基準 {baseline}、総合勝率差 {delta} ポイント。{note}",
+    "{name}: {games} joint appearances across {heroes} champions; combo win rate {rate}, adjusted baseline {baseline}, overall win-rate delta {delta} percentage points. {note}"
+  ],
+  "不足 {minimum} 场，样本较少。": [
+    "不足 {minimum} 場，樣本較少。",
+    "{minimum} 試合未満の少ないサンプルです。",
+    "Fewer than {minimum} games; small sample."
+  ],
+  "校正基准 {baseline}。覆盖 {heroes} 位英雄，按共同出场占比加权。{note}差值是历史关联，不代表因果收益。": [
+    "校正基準 {baseline}。涵蓋 {heroes} 位英雄，依共同出場占比加權。{note}差值為歷史關聯，不代表因果效益。",
+    "補正基準 {baseline}。{heroes} チャンピオンを同時使用の比率で加重。{note}差は過去の相関であり、因果的な効果ではありません。",
+    "Adjusted baseline {baseline}, weighted by joint appearances across {heroes} champions. {note}The delta reflects historical association, not causal benefit."
+  ],
+  "Ability power · 法术强度": [
+    "魔法攻擊",
+    "魔力",
+    "Ability power"
+  ],
+  "Attack damage · 攻击力": [
+    "物理攻擊",
+    "攻撃力",
+    "Attack damage"
+  ],
+  "Ability haste · 技能急速": [
+    "技能加速",
+    "スキルヘイスト",
+    "Ability haste"
+  ],
+  "Cooldown reduction · 冷却缩减": [
+    "冷卻時間減免",
+    "クールダウン短縮",
+    "Cooldown reduction"
+  ],
+  "Attack speed · 攻击速度": [
+    "攻速",
+    "攻撃速度",
+    "Attack speed"
+  ],
+  "Armor · 护甲": [
+    "物理防禦",
+    "物理防御",
+    "Armor"
+  ],
+  "Magic resistance · 魔法抗性": [
+    "魔法防禦",
+    "魔法防御",
+    "Magic resistance"
+  ],
+  "Health · 生命值": [
+    "生命",
+    "体力",
+    "Health"
+  ],
+  "Mana · 法力值": [
+    "魔力",
+    "マナ",
+    "Mana"
+  ],
+  "Health regeneration · 生命回复": [
+    "生命回復",
+    "体力自動回復",
+    "Health regeneration"
+  ],
+  "Mana regeneration · 法力回复": [
+    "魔力回復",
+    "マナ自動回復",
+    "Mana regeneration"
+  ],
+  "Movement speed · 移动速度": [
+    "跑速",
+    "移動速度",
+    "Movement speed"
+  ],
+  "Critical strike chance · 暴击几率": [
+    "暴擊機率",
+    "クリティカル率",
+    "Critical strike chance"
+  ],
+  "Critical strike damage · 暴击伤害": [
+    "暴擊傷害",
+    "クリティカルダメージ",
+    "Critical strike damage"
+  ],
+  "Magic penetration · 法术穿透": [
+    "魔法穿透",
+    "魔法防御貫通",
+    "Magic penetration"
+  ],
+  "Armor penetration · 护甲穿透": [
+    "物理穿透",
+    "物理防御貫通",
+    "Armor penetration"
+  ],
+  "Lethality · 穿甲": [
+    "致命",
+    "脅威",
+    "Lethality"
+  ],
+  "Life steal · 生命偷取": [
+    "普攻吸血",
+    "ライフスティール",
+    "Life steal"
+  ],
+  "Omnivamp · 全能吸血": [
+    "全能吸血",
+    "オムニヴァンプ",
+    "Omnivamp"
+  ],
+  "Tenacity · 韧性": [
+    "韌性",
+    "行動妨害耐性",
+    "Tenacity"
+  ],
+  "Heal and shield power · 治疗和护盾强度": [
+    "治癒及護盾強度",
+    "回復効果およびシールド量",
+    "Heal and shield power"
+  ],
+  "Adaptive force · 适应之力": [
+    "適性之力",
+    "アダプティブフォース",
+    "Adaptive force"
+  ],
+  "Gold · 金币": [
+    "金錢",
+    "ゴールド",
+    "Gold"
+  ],
+  "{name}：选择该符文 {games} 场，胜率 {rate}，选用率 {pick}。同版本全部流派 {allGames} 场，基准胜率 {baseline}；Δ胜率 {delta}（百分点）。{note}": [
+    "{name}：選擇此增幅裝置 {games} 場，勝率 {rate}，選用率 {pick}。同版本全部流派 {allGames} 場，基準勝率 {baseline}；Δ勝率 {delta}（百分點）。{note}",
+    "{name}：このオーグメントを選択した {games} 試合、勝率 {rate}、選択率 {pick}。同パッチの全ビルド {allGames} 試合、基準勝率 {baseline}、勝率差 {delta} ポイント。{note}",
+    "{name}: {games} games with this augment, win rate {rate}, pick rate {pick}. All builds in this patch: {allGames} games, baseline win rate {baseline}; win-rate delta {delta} percentage points. {note}"
+  ],
+  "不超过 {minimum} 场，样本较少。": [
+    "不超過 {minimum} 場，樣本較少。",
+    "{minimum} 試合以下の少ないサンプルです。",
+    "At most {minimum} games; small sample."
+  ],
+  "英雄×海克斯": [
+    "英雄×增幅",
+    "Champ. × Augs.",
+    "Champ. × Augs."
+  ],
+  "英雄×双海克斯": [
+    "英雄×雙增幅",
+    "Champ. × 2 Augs.",
+    "Champ. × 2 Augs."
+  ],
+  "较{baseline}": [
+    "較{baseline}",
+    "{baseline}比",
+    "vs {baseline}"
+  ],
+  "英雄占比加权基准": [
+    "英雄占比加權基準",
+    "チャンピオン構成加重基準",
+    "champion-weighted baseline"
+  ],
+  "{current}/{total}页": [
+    "{current}/{total}頁",
+    "{current}/{total}ページ",
+    "{current}/{total} pages"
+  ],
+  "翻页": [
+    "翻頁",
+    "ページ切替",
+    "Pagination"
+  ],
+  "历史搜索（按↓选择）": [
+    "歷史搜尋（按↓選擇）",
+    "検索履歴（↓キーで選択）",
+    "Search history (press ↓ to select)"
+  ],
+  "暂无使用率超过 0.5% 的装备": [
+    "暫無使用率超過 0.5% 的裝備",
+    "使用率が0.5%を超えるアイテムはありません",
+    "No items with pick rate above 0.5%"
+  ],
+  "暂无使用率超过 0.5% 的鞋子": [
+    "暫無使用率超過 0.5% 的鞋子",
+    "使用率が0.5%を超えるブーツはありません",
+    "No boots with pick rate above 0.5%"
+  ],
+  "· 装备与鞋子展示使用率 >0.5% 的条目 · 各品质海克斯展示全部有记录条目。默认按使用率降序，可点击每行左侧切换排序；再次点击胜率切换升序／降序。符文按胜率排序时，50 场及以下的条目放在末尾。": [
+    "裝備與鞋子僅展示使用率 >0.5% 的條目；海克斯展示全部記錄。預設按使用率降序，可切換排序；再次點擊勝率切換升序／降序。符文按勝率排序時，50 場及以下放在末尾。",
+    "装備とブーツは使用率 >0.5% のみ、オーグメントは全記録を表示。使用率の降順が初期設定です。勝率を再クリックすると昇順／降順を切り替えます。勝率順では50試合以下のオーグメントを末尾に表示します。",
+    "Items and boots require pick rate >0.5%; all recorded augments are shown. Default order is descending pick rate; click WR again to toggle direction. Augments with 50 or fewer games appear last when sorted by WR."
+  ],
+  "当前范围未提供该装备统计（使用率不超过 0.5% 或无记录），胜率不可用。": [
+    "目前範圍未提供該裝備統計（使用率不超過 0.5% 或無記錄），勝率不可用。",
+    "現在の範囲に統計がありません（使用率0.5%以下、または記録なし）。勝率は利用できません。",
+    "Statistics unavailable for this item in the current scope (pick rate at or below 0.5%, or no records); WR unavailable."
+  ]
+}

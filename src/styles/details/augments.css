@@ -1,0 +1,129 @@
+/* Rune detail shares the hero detail shell, with two explicitly labelled axes. */
+.rune-cell .build-stat-card[role=button] { cursor:pointer }
+.rune-cell .build-stat-card[aria-expanded=true] { border-color:var(--accent) }
+.rune-cell .build-stat-card:focus-visible { outline:2px solid var(--accent); outline-offset:2px }
+.rune-detail { --detail-inline-padding:20px; padding-inline:var(--detail-inline-padding) }
+.rune-detail-icon { width:60px; height:60px; object-fit:contain; flex-shrink:0; margin-inline:calc((var(--detail-rail-width) - 60px) / 2); }
+.rune-chart-module { width:50%; min-width:0 }
+.rune-chart-legend { display:flex; flex-wrap:wrap; gap:12px 28px; padding-top:16px; font-size:13px; font-weight:600 }
+.rune-count-key { color:var(--green); fill:var(--green) }
+.rune-rate-key { color:var(--accent-text); fill:var(--accent-text) }
+.rune-point-summary { min-height:22px; margin:8px 0 0; font-size:12px; color:var(--text) }
+.rune-chart-scroll { overflow-x:auto; scrollbar-width:thin }
+.rune-pick-chart { display:block; width:100%; min-width:440px; aspect-ratio:640/324; min-height:240px; max-height:360px; color:var(--muted); font-size:12px }
+.rune-chart-select { display:flex; justify-content:space-around; gap:4px; margin:4px 0 }
+.rune-chart-select button { padding:4px 10px; border:1px solid var(--border); border-radius:4px; background:transparent; color:var(--muted); font-size:12px }
+.rune-chart-select button[aria-pressed=true] { color:var(--accent-text); background:var(--surface) }
+.rune-chart-select button:focus-visible { outline:2px solid var(--accent-text); outline-offset:2px }
+.rune-chart-note { margin:8px 0; color:var(--muted); font-size:12px; line-height:1.7 }
+.rune-chart-data table { border-collapse:collapse; width:100%; text-align:right; font-size:12px }
+.rune-chart-data th,.rune-chart-data td { padding:8px; border-bottom:1px solid var(--border) }
+.rune-chart-data th:first-child { text-align:left; white-space:nowrap }
+@media(max-width:600px) {
+ .rune-detail { --detail-inline-padding:12px; padding-inline:var(--detail-inline-padding) }
+ .rune-chart-module { width:100% }
+ .rune-chart-legend { gap:12px; font-size:12px }
+}
+
+/* Independent Chinese / Wiki comparison panels share one renderer. */
+.rune-detail-body { display:flex; flex-direction:column; align-items:stretch }
+.rune-description { min-width:0; padding-top:20px; color:var(--text); font-size:14px; line-height:1.7 }
+.rune-description-comparison { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:24px }
+.rune-description-panel { min-width:0 }
+.rune-description-tabs { display:flex; border-bottom:1px solid var(--border-strong) }
+.rune-description-tabs button { border:0; border-bottom:2px solid transparent; padding:10px 18px; background:transparent; color:var(--muted); font:inherit; cursor:pointer }
+.rune-description-tabs button[aria-selected=true] { color:var(--text); background:var(--chip); border-bottom-color:var(--accent-text) }
+.rune-description-tabs button:hover { color:var(--text) }
+.rune-description-content { position:relative }
+.rune-description-text,.rune-description-sizer { min-height:250px; box-sizing:border-box; padding:16px; background:var(--surface); border:1px solid var(--border); border-top:0; scrollbar-width:thin; scrollbar-gutter:stable }
+.rune-description-sizer { max-height:50vh; overflow-y:auto; visibility:hidden; pointer-events:none }
+.rune-description-text { position:absolute; inset:0; overflow-y:auto }
+.rune-description-text p,.rune-description-sizer p { margin:0 0 12px; overflow-wrap:anywhere; white-space:pre-line }
+.rune-description-text > :last-child,.rune-description-sizer > :last-child { margin-bottom:0 }
+.rune-description-source { margin-top:16px; padding-top:10px; border-top:1px solid var(--border); color:var(--muted); font-size:12px; line-height:1.7 }
+.rune-description-source p { margin:4px 0 }
+.rune-description-source a,.rune-description-retry { color:var(--accent-text); text-decoration:underline; text-underline-offset:3px }
+.rune-description-retry { background:none; border:0; font:inherit; cursor:pointer }
+.rune-description a:focus-visible,.rune-description button:focus-visible,.rune-description-text:focus-visible { outline:2px solid var(--accent-text); outline-offset:-2px }
+@media(min-width:701px) {
+ .rune-description-text,.rune-description-sizer { min-height:min(250px,max(0px,calc(50vh - 100px))) }
+ .rune-description-sizer { max-height:max(0px,calc(50vh - 100px)) }
+}
+@media(max-width:700px) {
+ .rune-chart-module { width:100% }
+ .rune-description-comparison { grid-template-columns:minmax(0,1fr); gap:20px }
+ .rune-description-comparison>.rune-description-panel:nth-child(2) { display:none }
+ .rune-description-tabs button { padding-inline:14px }
+}
+
+/* Shared stat semantics: Wiki-like hues adjusted for each site's surface. */
+:root {
+ --stat-ap:#b9a0ff; --stat-ad:#efb26d; --stat-haste:#edd6a1;
+ --stat-attack-speed:#edce82; --stat-armor:#e5cc71; --stat-magic-resist:#a9b5ff;
+ --stat-health:#9fd29a; --stat-mana:#83c8ed; --stat-move-speed:#8bc5ba;
+ --stat-crit:#f0a1a6; --stat-penetration:#e2bc88; --stat-magic-pen:#bdabf3;
+ --stat-life-steal:#efaaaa; --stat-omnivamp:#ddabe9; --stat-tenacity:#c6b692;
+ --stat-heal-power:#9fd4cc; --stat-adaptive:#d9b2ef; --stat-gold:#e3c36e;
+}
+:root[data-theme=light] {
+ --stat-ap:#63419b; --stat-ad:#87440c; --stat-haste:#705315;
+ --stat-attack-speed:#765109; --stat-armor:#69500a; --stat-magic-resist:#494c9c;
+ --stat-health:#326332; --stat-mana:#1d597b; --stat-move-speed:#3c6d64;
+ --stat-crit:#8d3443; --stat-penetration:#784715; --stat-magic-pen:#6a4790;
+ --stat-life-steal:#8e3c3c; --stat-omnivamp:#793d89; --stat-tenacity:#615337;
+ --stat-heal-power:#28615a; --stat-adaptive:#71478d; --stat-gold:#725415;
+}
+.stat-inline { color:var(--stat-ink,var(--text)); font-weight:500 }
+.stat-inline img { display:inline-block; width:16px; height:16px; object-fit:contain; vertical-align:-3px; margin-inline:1px 3px }
+.stat-inline[data-stat=ap] { --stat-ink:var(--stat-ap) }
+.stat-inline[data-stat=ad] { --stat-ink:var(--stat-ad) }
+.stat-inline[data-stat=haste],.stat-inline[data-stat=cooldownReduction] { --stat-ink:var(--stat-haste) }
+.stat-inline[data-stat=attackSpeed] { --stat-ink:var(--stat-attack-speed) }
+.stat-inline[data-stat=armor] { --stat-ink:var(--stat-armor) }
+.stat-inline[data-stat=magicResist] { --stat-ink:var(--stat-magic-resist) }
+.stat-inline[data-stat=health],.stat-inline[data-stat=healthRegen] { --stat-ink:var(--stat-health) }
+.stat-inline[data-stat=mana],.stat-inline[data-stat=manaRegen] { --stat-ink:var(--stat-mana) }
+.stat-inline[data-stat=moveSpeed] { --stat-ink:var(--stat-move-speed) }
+.stat-inline[data-stat=crit],.stat-inline[data-stat=critDamage] { --stat-ink:var(--stat-crit) }
+.stat-inline[data-stat=armorPen],.stat-inline[data-stat=lethality] { --stat-ink:var(--stat-penetration) }
+.stat-inline[data-stat=magicPen] { --stat-ink:var(--stat-magic-pen) }
+.stat-inline[data-stat=lifeSteal] { --stat-ink:var(--stat-life-steal) }
+.stat-inline[data-stat=omnivamp] { --stat-ink:var(--stat-omnivamp) }
+.stat-inline[data-stat=tenacity] { --stat-ink:var(--stat-tenacity) }
+.stat-inline[data-stat=healPower] { --stat-ink:var(--stat-heal-power) }
+.stat-inline[data-stat=adaptive] { --stat-ink:var(--stat-adaptive) }
+.stat-inline[data-stat=gold] { --stat-ink:var(--stat-gold) }
+
+/* Overall augment win rate shares the right axis, independent of slot filters. */
+.rune-baseline-key { color:var(--muted); white-space:nowrap }
+
+/* Rune detail summary shares the card win-rate palette. */
+.rune-detail-summary { display:flex; align-items:center; gap:12px; flex-shrink:0; margin-left:20px }
+.rune-detail-result { flex-shrink:0; text-align:left; font-variant-numeric:tabular-nums; }
+.rune-detail-result>strong { font-size:19px; line-height:1.4; white-space:nowrap; }
+.rune-detail .build-detail-heading { flex-wrap:nowrap; }
+.rune-detail-actions { display:flex; align-items:center; gap:8px; margin-left:auto; flex-shrink:0 }
+.rune-detail .rune-detail-actions .build-detail-close { position:static; margin-left:0 }
+.rune-detail .build-detail-title { flex:0 1 auto; }
+.rune-detail .build-detail-heading :is(.build-detail-title,.rune-detail-result)>p { margin-top:0; font-size:13px; }
+.rune-detail .build-detail-close { margin-left:auto; }
+.rune-detail .build-detail-title h2 { overflow-wrap:anywhere; }
+@media(max-width:700px) {
+ .rune-detail-result>strong { font-size:16px; }
+ .rune-detail .build-detail-heading { flex-wrap:wrap }
+ .rune-detail-actions { flex:1 0 100%; justify-content:flex-end }
+
+ .rune-detail .build-detail-title h2 { font-size:16px; }
+ .rune-detail .build-detail-close { width:32px; }
+}
+
+
+/* Card patch arrows: increases green, decreases red, stronger changes darker. */
+.rune-card-trend { margin-left:3px; font-size:12px; font-weight:800; -webkit-text-stroke:.025em currentColor; line-height:1; white-space:nowrap; }
+/* Champion changes: a flat text section shared by inline and standalone details. */
+.champion-patch-toggle { min-height:40px; padding:8px 12px; border:1px solid var(--border-strong); border-radius:8px; background:var(--chip); color:var(--muted); font-size:12px; white-space:nowrap }
+.champion-patch-toggle-sign { display:inline-block; width:1ch; margin-left:6px; text-align:center }
+.champion-patch-toggle[aria-expanded=true] { color:var(--accent-text); border-color:var(--accent-text) }
+.champion-patch-toggle:hover { color:var(--text) }
+
+

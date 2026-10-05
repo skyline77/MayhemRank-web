@@ -1,0 +1,12 @@
+* { box-sizing:border-box }
+html { scrollbar-gutter:stable }
+/* The shared detail transition owns anchoring while its wrapper changes height. */
+html.is-detail-moving { overflow-anchor:none; scroll-behavior:auto }
+body { margin:0; min-width:min(320px,100%); line-height:1.5; padding:0 env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px); }
+button,input,a { -webkit-tap-highlight-color:transparent }
+button,input { font:inherit }
+button { cursor:pointer; color:inherit; border:0 }
+a { color:inherit; text-decoration:none }
+button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visible {
+  outline:2px solid var(--accent); outline-offset:3px;
+}
