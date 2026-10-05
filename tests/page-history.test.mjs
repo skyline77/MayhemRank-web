@@ -39,7 +39,7 @@ test('pagehide saves current selection and anchor without overwriting other hist
  assert.equal(env.history.state.teamPageViewV1.sections.board,undefined)
  stop();assert.equal(listeners.has('pagehide'),false)
 })
-test('waits for async detail data, then restores relative position and releases native restoration',async()=>{
+test('waits for async detail data, then restores relative position and keeps SPA scroll ownership',async()=>{
  const {api,env,flush}=setup()
  api.installPageHistory()
  assert.equal(env.history.scrollRestoration,'manual')
@@ -49,7 +49,7 @@ test('waits for async detail data, then restores relative position and releases 
  await env.observer.cb();flush()
  assert.equal(env.scrollY,440)
  assert.equal(env.anchorTop-env.scrollY,60)
- assert.equal(env.history.scrollRestoration,'auto')
+ assert.equal(env.history.scrollRestoration,'manual')
  assert.equal(env.observer.disconnected,true)
 })
 test('user scrolling cancels a pending restoration instead of fighting the user',async()=>{
@@ -58,5 +58,28 @@ test('user scrolling cancels a pending restoration instead of fighting the user'
  env.busy=false;env.scrollY=200
  await env.observer.cb();flush()
  assert.equal(env.scrollY,200)
- assert.equal(env.history.scrollRestoration,'auto')
+ assert.equal(env.history.scrollRestoration,'manual')
+})
+
+
+test('SPA navigation saves the outgoing view and restores its own entry on return',async()=>{
+ const {api,env,listeners,flush}=setup('navigate')
+ api.registerHistorySection('board',()=>({selected:'57:AP'}))
+ const stop=api.installPageHistory()
+ assert.equal(env.history.scrollRestoration,'manual')
+ env.scrollY=320;api.saveView();stop()
+ env.location.href='https://example.test/?page=augments'
+ api.preparePageHistory(false)
+ assert.equal(api.readHistorySection('board'),undefined)
+ const stopNext=api.installPageHistory()
+ assert.equal(env.history.scrollRestoration,'manual')
+ stopNext();env.location.href='https://example.test/'
+ api.preparePageHistory(true)
+ assert.equal(api.readHistorySection('board').selected,'57:AP')
+ env.scrollY=0;env.busy=false
+ const stopBack=api.installPageHistory()
+ await env.observer.cb();flush()
+ assert.equal(env.scrollY,320)
+ assert.equal(env.history.scrollRestoration,'manual')
+ stopBack();assert.equal(listeners.has('pagehide'),false)
 })

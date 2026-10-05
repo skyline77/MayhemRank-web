@@ -2628,5 +2628,10 @@
     "目前範圍未提供該裝備統計（使用率不超過 0.5% 或無記錄），勝率不可用。",
     "現在の範囲に統計がありません（使用率0.5%以下、または記録なし）。勝率は利用できません。",
     "Statistics unavailable for this item in the current scope (pick rate at or below 0.5%, or no records); WR unavailable."
+  ],
+  "技能说明暂不可用": [
+    "技能說明暫不可用",
+    "スキルの説明を現在読み込めません",
+    "Spell descriptions are temporarily unavailable"
   ]
 }

@@ -29,13 +29,13 @@ test('closing detail moves hint back to board and restores other original placeh
  assert.equal(hero.placeholder,'Ctrl+F 搜索');assert.equal(detail.placeholder,'符文名')
 })
 
-test('rune detail removes the board Ctrl+F hint until the detail closes',()=>{
+test('rune detail without a search field keeps the board search hint available',()=>{
  const {hero,root}=fields()
  hero.dataset.siteSearch='rune';hero.dataset.searchPlaceholder='符文名'
  root.querySelectorAll=()=>[hero]
  root.querySelector=selector=>selector==='.rune-detail'?{}:null
  updateSearchShortcutHints(root,viewport)
- assert.equal(hero.placeholder,'符文名')
+ assert.equal(hero.placeholder,'Ctrl+F 搜索')
  root.querySelector=()=>null
  updateSearchShortcutHints(root,viewport)
  assert.equal(hero.placeholder,'Ctrl+F 搜索')

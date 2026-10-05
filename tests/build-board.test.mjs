@@ -1,7 +1,6 @@
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import { test } from 'node:test'
-import ts from 'typescript'
 import { loadTS } from './load-ts.mjs'
 const {buildRows,buildStrips,columns,columnCapacities,championWinRates}=await loadTS('../src/buildBoard.ts')
 const entry=(id,winRate,column='AP输出',extra={})=>({id,winRate,column,name:'茂凯',role:'AP',interval:[.4,.6],games:500,lowSample:false,...extra})
@@ -27,11 +26,9 @@ test('search prunes empty bands and leaves labels and order intact',()=>{
  assert.equal(buildRows([entry('tiny',.8,'辅助',{lowSample:true})]).length,0)
 })
 
-const searchSource=readFileSync(new URL('../src/championSearch.ts',import.meta.url),'utf8')
-const searchJs=ts.transpile(searchSource,{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.ES2022})
-const {default:championSearch}=await import('data:text/javascript;base64,'+Buffer.from(searchJs).toString('base64'))
+const {default:championSearch}=await loadTS('../src/championSearch.ts')
 test('all board heroes have Chinese names, titles and pinyin',()=>{
- const snapshot=JSON.parse(readFileSync(new URL('../../python/src/aram_nn/team_site/snapshots/build_roles_16_18.json',import.meta.url),'utf8'))
+ const snapshot=JSON.parse(readFileSync(new URL('../../python/src/team_site/snapshots/build_roles_16_18.json',import.meta.url),'utf8'))
  for(const hero of snapshot.champions) assert.ok(championSearch[hero.id]?.length>=3,hero.name)
 })
 test('search matches Chinese titles and pinyin, excluding English names and codes',()=>{
@@ -64,7 +61,7 @@ test('visual strips preserve role capacity, ordering and every build without dup
  const entries=columns.flatMap((column,i)=>Array.from({length:columnCapacities[i]+1},(_,j)=>entry(`${i}:${j}`,.55-j/1000,column)))
  const strips=buildStrips(buildRows(entries))
  assert.equal(strips.length,2)
- assert.deepEqual(strips[0].cells.map(cell=>cell.length),[4,2,2,4,3,1])
+ assert.deepEqual(strips[0].cells.map(cell=>cell.length),[3,3,2,3,3,2])
  assert.deepEqual(strips[1].cells.map(cell=>cell.length),[1,1,1,1,1,1])
  assert.deepEqual(strips.map(s=>[s.key,s.last]),[['54:0',false],['54:1',true]])
  for(let i=0;i<columns.length;i++) assert.deepEqual(strips.flatMap(s=>s.cells[i]).map(e=>e.id),entries.filter(e=>e.column===columns[i]).map(e=>e.id))

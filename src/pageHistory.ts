@@ -27,8 +27,8 @@ export function saveView(){
  try{if(currentUrl===location.href)history.replaceState({...history.state,[stateKey]:value},'')}catch{/* Navigation remains usable if browser storage is unavailable. */}
 }
 export function installPageHistory(){
- // Native restoration runs before async Vue details exist and clamps the saved offset.
- // Retain it on ordinary loads; take over only when we have a view to restore.
+ // SPA 导航由本模块恢复滚动，避免浏览器在异步详情挂载前恢复并截断位置。
+ // 即使本次恢复已结束或被用户取消，也继续保持 manual，供后续单页导航使用。
  history.scrollRestoration='manual'
  window.addEventListener('pagehide',saveView)
  let stopRestore=()=>{}

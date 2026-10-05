@@ -32,12 +32,12 @@ test('navigation reuses targets and skips identical opacity writes, refreshing a
  const text=readFileSync(new URL('../src/BoardNavigation.vue',import.meta.url),'utf8').split('<script setup lang="ts">')[1].split('</script>')[0]
  const script=ts.transpile(text.replace(/^import .*$/gm,'').replace(/^const wordmark\w*=.*$/gm,''),{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.ES2022})
  let queries=0,writes=0,top=300
- const sandbox={defineEmits:()=>()=>{},ref:v=>({value:v}),onMounted:()=>{},onUnmounted:()=>{},window:{innerWidth:1200},navigationInset:()=>60,requestAnimationFrame:()=>1,
- fakeNav:{style:{setProperty:()=>writes++}},fakeMain:{querySelector:selector=>{queries++;return selector.includes('art')?{isConnected:true,offsetHeight:279}:{isConnected:true,getBoundingClientRect:()=>({top})}}}}
+ const sandbox={defineEmits:()=>()=>{},ref:v=>({value:v}),onMounted:()=>{},onUnmounted:()=>{},window:{innerWidth:1200,scrollY:0},navigationInset:()=>60,requestAnimationFrame:()=>1,
+ fakeNav:{style:{setProperty:()=>writes++}},fakeMain:{style:{setProperty:()=>writes++},querySelector:selector=>{queries++;return selector.includes('art')?{isConnected:true,offsetHeight:279}:{isConnected:true,closest:()=>null,getBoundingClientRect:()=>({top,height:50})}}}}
  vm.createContext(sandbox)
  vm.runInContext(script+';nav.value=fakeNav;main=fakeMain;updateOpacity();updateOpacity();',sandbox)
  assert.equal(queries,2);assert.equal(writes,1)
- top=60;vm.runInContext('updateOpacity();updateOpacity()',sandbox)
+ top=60;sandbox.window.scrollY=240;vm.runInContext('updateOpacity();updateOpacity()',sandbox)
  assert.equal(queries,2);assert.equal(writes,2)
  vm.runInContext('invalidateOpacity();updateOpacity()',sandbox)
  assert.equal(queries,4);assert.equal(writes,2)

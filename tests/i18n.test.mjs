@@ -21,7 +21,7 @@ test('手动选择优先，浏览器语言显式匹配地区，上游代码分�
 test('文案参数、缺失标记及重复传入已译标签',()=>{
  locale.value='en-US'
  assert.equal(t('英雄榜'),'Champions')
- assert.equal(message('胜率 {p0}',{p0:'58.0%'}),'Win rate 58.0%')
+ assert.equal(message('胜率 {p0}',{p0:'58.0%'}),'WR 58.0%')
  locale.value='ja-JP'
  assert.equal(t(t('英雄榜')),'チャンピオン')
  assert.match(t('测试未翻译文案'),/^⟦ja-JP:/)

@@ -1,12 +1,14 @@
 import assert from 'node:assert/strict'
 import {readFileSync} from 'node:fs'
 import {test} from 'node:test'
-import ts from 'typescript'
-const js=ts.transpile(readFileSync(new URL('../src/detailVisibility.ts',import.meta.url),'utf8'),{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.ES2022})
-const {observeDetailVisibility}=await import('data:text/javascript;base64,'+Buffer.from(js).toString('base64'))
+import {loadTS} from './load-ts.mjs'
+const {observeDetailVisibility}=await loadTS('../src/detailVisibility.ts')
 
 test('pinning follows visible panels, survives handoff and removes stale observers',()=>{
- const saved={IntersectionObserver:globalThis.IntersectionObserver,MutationObserver:globalThis.MutationObserver}
+ const saved={IntersectionObserver:globalThis.IntersectionObserver,MutationObserver:globalThis.MutationObserver,document:globalThis.document,matchMedia:globalThis.matchMedia,cancelAnimationFrame:globalThis.cancelAnimationFrame}
+ globalThis.document={documentElement:{classList:{contains:()=>false}}}
+ globalThis.matchMedia=()=>({matches:true})
+ globalThis.cancelAnimationFrame=()=>{}
  let notify,changed,mutationDisconnected=false,intersectionDisconnected=false
  const observed=new Set(),classes=new Set(),first={},second={}
  let elements=[first]
@@ -21,7 +23,7 @@ test('pinning follows visible panels, survives handoff and removes stale observe
   observe(){}
   disconnect(){mutationDisconnected=true}
  }
- const root={querySelectorAll:()=>elements,classList:{add:name=>classes.add(name),toggle:(name,on)=>on?classes.add(name):classes.delete(name),remove:name=>classes.delete(name)}}
+ const root={querySelectorAll:()=>elements,classList:{contains:name=>classes.has(name),add:name=>classes.add(name),toggle:(name,on)=>on?classes.add(name):classes.delete(name),remove:name=>classes.delete(name)}}
  try{
   const stop=observeDetailVisibility(root)
   assert.deepEqual([...observed],[first])
