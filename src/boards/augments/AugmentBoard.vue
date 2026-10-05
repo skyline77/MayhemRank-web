@@ -1,19 +1,13 @@
 <script setup lang="ts">
-import { locale, brands } from '@/i18n/locale'
+// 海克斯榜：按胜率区间 × 品质（棱彩 / 黄金 / 白银）排列符文卡片，点击卡片在所在条带下方展开详情。
+import { computed, nextTick, onUnmounted, ref, watch } from 'vue'
 import { t, message } from '@/i18n/i18n'
 import { gameName } from '@/i18n/gameLocalization'
-import DetailEdges from '@/details/DetailEdges.vue'
-import { createBoardScrollFloor } from '@/boards/boardScrollFloor'
 import { formatCount } from '@/stats/formatCount'
-
-import BoardBanner from '@/boards/BoardBanner.vue'
-import { createBoardReflow } from '@/boards/boardReflow'
-import { boardCardSize } from '@/boards/boardCardSize'
-import { computed, nextTick, onUnmounted, ref, watch } from 'vue'
-import { navigationInset } from '@/app/navigationLayout'
-import RuneDetail from '@/details/rune/RuneDetail.vue'
+import { useDocumentTitle } from '@/app/useDocumentTitle'
 import { runeDetailUrl, boardLink } from '@/app/detailLink'
 import { readHistorySection, registerHistorySection, pushDetailHistory } from '@/app/pageHistory'
+import { selectedPatch, selectedVersion } from '@/data/versions'
 import {
   fadeDetailAtTop,
   replaceDetailEntry,
@@ -23,18 +17,29 @@ import {
   cancelDetailTransition,
   preserveDetailPosition,
 } from '@/details/detailScroll'
-import WinRateTable from '@/boards/WinRateTable.vue'
+import { loadDetailSearch, type DetailSearchIndex } from '@/details/detailSearch'
+import DetailEdges from '@/details/DetailEdges.vue'
+import BuildStatCard from '@/details/BuildStatCard.vue'
+import RuneDetail from '@/details/rune/RuneDetail.vue'
+import { createDescriptionAnchor } from '@/details/rune/descriptionAnchor'
 import BoardNavSearch from '@/navigation/BoardNavSearch.vue'
-import { useCompactBoard } from '@/boards/useCompactBoard'
+import BoardBanner from '@/boards/BoardBanner.vue'
+import BoardUpdateNote from '@/boards/BoardUpdateNote.vue'
+import WinRateTable from '@/boards/WinRateTable.vue'
 import WinRateBand from '@/boards/WinRateBand.vue'
 import { winRateRows, winRateStrips } from '@/boards/winRateTable'
-import { loadRuneBoard, runeColumns, type RuneBoard, type RuneEntry } from './augmentBoard'
-import BuildStatCard from '@/details/BuildStatCard.vue'
+import { bandSections, openStripKey, stripGridRow, stripKeyOf } from '@/boards/boardStrips'
+import { createBoardReflow } from '@/boards/boardReflow'
+import { createBoardScrollFloor } from '@/boards/boardScrollFloor'
+import { boardCardSize } from '@/boards/boardCardSize'
+import { useCompactBoard } from '@/boards/useCompactBoard'
+import { usePreviousPatch } from '@/boards/usePreviousPatch'
 import RuneSearchControls from './RuneSearchControls.vue'
+import RuneBoardNotes from './RuneBoardNotes.vue'
+import { loadRuneBoard, runeColumns, type RuneBoard, type RuneEntry } from './augmentBoard'
+import { runeCardTrend } from './runeComparison'
 
-import { loadDetailSearch, type DetailSearchIndex } from '@/details/detailSearch'
-import { selectedPatch, selectedVersion, updateDate, loadVersions } from '@/data/versions'
-import { previousRunePatch, runeCardTrend } from './runeComparison'
+// ---- 榜单数据与浏览器历史 ----
 const data = ref<RuneBoard | null>(null),
   loading = ref(true),
   error = ref('')
@@ -50,35 +55,22 @@ const linkNotice = ref('')
 const query = ref(savedView?.query || ''),
   searchIndex = ref<DetailSearchIndex | null>(null),
   searchError = ref('')
-const previousBoard = ref<RuneBoard | null>(null),
-  previousFor = ref('')
+// 与上一版本比较胜率，在卡片上显示趋势标记
+const previous = usePreviousPatch(loadRuneBoard)
 const trends = computed(() => {
   const result: Record<string, ReturnType<typeof runeCardTrend>> = {}
-  if (!data.value || previousFor.value !== data.value.meta.patch || !previousBoard.value)
+  const previousBoard = previous.board.value
+  if (!data.value || previous.comparedWith.value !== data.value.meta.patch || !previousBoard)
     return result
-  const rates = new Map(previousBoard.value.entries.map(e => [e.id, e.winRate]))
+  const rates = new Map(previousBoard.entries.map(e => [e.id, e.winRate]))
   for (const entry of data.value.entries)
     result[entry.id] = runeCardTrend(entry.winRate, rates.get(entry.id))
   return result
 })
+
+// ---- 读取榜单与搜索索引 ----
 let serial = 0
-async function loadPrevious(patch: string, current: number) {
-  try {
-    const manifest = await loadVersions()
-    const previousPatch = previousRunePatch(
-      patch,
-      manifest.patches.map(p => p.patch),
-    )
-    if (!previousPatch) return
-    const value = await loadRuneBoard(previousPatch)
-    if (current === serial) {
-      previousBoard.value = value
-      previousFor.value = patch
-    }
-  } catch {
-    /* Missing history leaves card indicators empty. */
-  }
-}
+// 拼音与首字母索引读取失败时，仍可按中文名称搜索
 async function loadSearch(patch: string, current: number) {
   try {
     const index = await loadDetailSearch(patch)
@@ -95,10 +87,8 @@ async function load() {
   const patch = selectedPatch.value
   searchIndex.value = null
   searchError.value = ''
-  previousBoard.value = null
-  previousFor.value = ''
   void loadSearch(patch, current)
-  void loadPrevious(patch, current)
+  void previous.load(patch)
   loading.value = true
   error.value = ''
   try {
@@ -132,6 +122,7 @@ async function load() {
       await preserveDetailPosition(() => detailPanel(), applyBoard)
     }
     if (current !== serial) return
+    // 深链接（?rune=…）：榜单就绪后直接展开对应详情
     if (pendingRune) {
       const id = pendingRune
       pendingRune = null
@@ -150,7 +141,10 @@ onUnmounted(() => {
   serial++
   cancelDetailTransition()
 })
+
+// ---- 表格布局：品质列、条带与胜率区间 ----
 const columnFilter = ref(savedView?.column || '')
+// 筛选某一品质后：选中列占满剩余宽度，其余列收窄为表头宽度
 const focusedCardSize = ref(72)
 const columnWidths = ref<number[]>([]),
   columnSlots = ref(4)
@@ -192,31 +186,19 @@ const strips = computed(() =>
   ),
 )
 const table = ref<InstanceType<typeof WinRateTable> | null>(null)
+// openPanels：条带 key → 在该条带下方展开的符文
 const selected = ref<RuneEntry | null>(null),
   openPanels = ref<Record<string, RuneEntry>>({})
-watch(
-  [() => selected.value, locale],
-  () => {
-    document.title =
-      brands[locale.value] +
-      ' - ' +
-      (selected.value
-        ? gameName('augments', selected.value.id, selectedPatch.value, selected.value.name)
-        : t('海克斯榜'))
-  },
-  { immediate: true },
-)
-const stripFor = (entry: RuneEntry | null) =>
-  entry
-    ? strips.value.find(strip => strip.cells.some(cell => cell.some(item => item.id === entry.id)))
-        ?.key || null
-    : null
-// Preserve the mounted slot when restoring a detail from browser history.
-const selectedStrip = computed(
+useDocumentTitle(
+  () => selected.value,
   () =>
-    Object.keys(openPanels.value).find(key => openPanels.value[key]?.id === selected.value?.id) ||
-    null,
+    selected.value
+      ? gameName('augments', selected.value.id, selectedPatch.value, selected.value.name)
+      : t('海克斯榜'),
 )
+const stripFor = (entry: RuneEntry | null) => stripKeyOf(strips.value, entry)
+// 从浏览器历史恢复详情时保留原来挂载的条带
+const selectedStrip = computed(() => openStripKey(openPanels.value, selected.value))
 const detailPanel = (key = selectedStrip.value) =>
   key
     ? table.value?.header?.parentElement?.querySelector<HTMLElement>(
@@ -227,25 +209,8 @@ const findTrigger = (id: string) =>
   table.value?.header?.parentElement?.querySelector<HTMLElement>(
     '[data-rune-id="' + CSS.escape(id) + '"]',
   ) || null
-const gridRow = (key: string) => {
-  const index = strips.value.findIndex(strip => strip.key === key)
-  return (
-    index + 1 + strips.value.slice(0, index).filter(strip => openPanels.value[strip.key]).length
-  )
-}
-const ranges = computed(() => {
-  const sections: { key: string; lower: number; upper: number; count: number }[] = []
-  let section: (typeof sections)[number] | undefined
-  for (const strip of strips.value) {
-    if (!section) section = { key: strip.key, lower: strip.lower, upper: strip.upper, count: 0 }
-    section.count++
-    if (strip.last || openPanels.value[strip.key]) {
-      sections.push(section)
-      section = undefined
-    }
-  }
-  return sections
-})
+const gridRow = (key: string) => stripGridRow(strips.value, openPanels.value, key)
+const ranges = computed(() => bandSections(strips.value, openPanels.value))
 onUnmounted(
   registerHistorySection('rune-board', () => ({
     query: query.value,
@@ -254,6 +219,8 @@ onUnmounted(
     strip: selectedStrip.value,
   })),
 )
+
+// ---- 品质列筛选 ----
 const columnReflow = createBoardReflow('.build-stat-card[data-rune-id]', 'data-rune-id', true)
 onUnmounted(columnReflow.stop)
 const scrollFloor = createBoardScrollFloor({ keepBoardVisible: true })
@@ -318,7 +285,7 @@ watch(
 async function toggleColumn(column: string) {
   const switching = !!columnFilter.value && columnFilter.value !== column
   const clearing = columnFilter.value === column
-  stopDescriptionAnchor()
+  descriptionAnchor.stop()
   const root = table.value?.header?.closest<HTMLElement>('.board-table') || null
   await scrollFloor.preserve(root, () =>
     columnReflow.run(
@@ -336,38 +303,12 @@ async function toggleColumn(column: string) {
     ),
   )
 }
-let stopDescriptionAnchor = () => {}
-onUnmounted(() => stopDescriptionAnchor())
-function anchorDescription(panel: HTMLElement | null) {
-  stopDescriptionAnchor()
-  const section = panel?.querySelector<HTMLElement>('.rune-description')
-  if (!panel || !section) return
-  let frame = 0
-  const align = () => {
-    const header = panel.querySelector<HTMLElement>('.build-detail-heading')
-    window.scrollBy({
-      top:
-        section.getBoundingClientRect().top - navigationInset() - (header?.offsetHeight || 0) - 9,
-      behavior: 'instant',
-    })
-  }
-  const observer = new ResizeObserver(() => {
-    cancelAnimationFrame(frame)
-    frame = requestAnimationFrame(align)
-  })
-  const events = ['wheel', 'touchstart', 'pointerdown', 'keydown'] as const
-  stopDescriptionAnchor = () => {
-    observer.disconnect()
-    cancelAnimationFrame(frame)
-    for (const event of events) window.removeEventListener(event, stopDescriptionAnchor, true)
-  }
-  for (const event of events)
-    window.addEventListener(event, stopDescriptionAnchor, { capture: true, passive: true })
-  observer.observe(panel)
-  align()
-}
+
+// ---- 详情的展开、交接与关闭 ----
+const descriptionAnchor = createDescriptionAnchor()
+onUnmounted(descriptionAnchor.stop)
 async function selectEntry(entry: RuneEntry, linked = false) {
-  stopDescriptionAnchor()
+  descriptionAnchor.stop()
   const target = stripFor(entry) || (linked ? strips.value.at(-1)?.key : null),
     previous = selectedStrip.value
   if (!target) return
@@ -383,9 +324,10 @@ async function selectEntry(entry: RuneEntry, linked = false) {
   }
   if (linked) {
     await revealDetailImmediately(() => detailPanel(target), prepare)
-    if (location.hash === '#rune-description') anchorDescription(detailPanel(target))
+    if (location.hash === '#rune-description') descriptionAnchor.anchor(detailPanel(target))
     return
   }
+  // 手机：顶部淡入；桌面已有详情：交接到新位置；桌面首次展开：高度展开并滚动到位
   if (window.matchMedia('(max-width:700px)').matches) {
     await fadeDetailAtTop(
       () => detailPanel(target),
@@ -428,7 +370,7 @@ async function openSearchResult(entry: RuneEntry) {
       selected,
       openPanels,
       panel: () => detailPanel(currentStrip),
-      beforeReplace: stopDescriptionAnchor,
+      beforeReplace: descriptionAnchor.stop,
       afterRender: nextTick,
     })
     return
@@ -448,7 +390,7 @@ async function closeDetail(key = selectedStrip.value) {
   if (!key || !openPanels.value[key]) return
   pushDetailHistory('/?page=augments&patch=' + encodeURIComponent(selectedPatch.value))
   const id = openPanels.value[key]!.id
-  // A searched rune may belong to another board row. Close towards this slot.
+  // 搜索打开的符文可能不在这一条带，关闭时朝本条带收起。
   const strip = strips.value.find(strip => strip.key === key)
   const anchorId = strip?.cells.some(cell => cell.some(entry => entry.id === id))
     ? id
@@ -509,13 +451,12 @@ const count = formatCount
     <template v-else-if="data">
       <BoardBanner style="--board-banner-offset: 15px">
         <p v-if="linkNotice" class="board-message" role="status">{{ linkNotice }}</p>
-        <p
+        <BoardUpdateNote
           v-if="data.meta.updatedAt"
-          class="board-updated board-updated-corner board-updated-desktop"
-        >
-          {{ t('数据更新于') }}{{ updateDate(data.meta.updatedAt) }}{{ t('，共')
-          }}{{ count(data.meta.games) }}{{ t('场。') }}
-        </p>
+          class="board-updated-corner board-updated-desktop"
+          :updated-at="data.meta.updatedAt"
+          :games="data.meta.games"
+        />
       </BoardBanner>
       <WinRateTable
         ref="table"
@@ -642,7 +583,7 @@ const count = formatCount
             :lower="range.lower"
             :upper="range.upper"
             :row="gridRow(range.key)"
-            :span="range.count"
+            :span="range.strips.length"
             :stacked="compact"
           />
         </template>
@@ -652,10 +593,12 @@ const count = formatCount
           </p>
         </template>
       </WinRateTable>
-      <p v-if="data.meta.updatedAt" class="board-updated board-updated-mobile">
-        {{ t('数据更新于') }}{{ updateDate(data.meta.updatedAt) }}{{ t('，共')
-        }}{{ count(data.meta.games) }}{{ t('场。') }}
-      </p>
+      <BoardUpdateNote
+        v-if="data.meta.updatedAt"
+        class="board-updated-mobile"
+        :updated-at="data.meta.updatedAt"
+        :games="data.meta.games"
+      />
       <p v-if="error" class="board-message" role="alert">
         {{ t(error) }} <button class="board-retry" @click="load">{{ t('重新加载') }}</button>
       </p>
@@ -665,63 +608,7 @@ const count = formatCount
           {{ t('重试搜索词加载') }}
         </button>
       </p>
-      <details class="board-method">
-        <summary>{{ t('数据范围与胜率说明') }}</summary>
-        <p>
-          Mayhem · queue {{ data.meta.queue }} · {{ data.meta.patch }} ·
-          {{ t(data.meta.region) }}。{{ data.meta.source }}；{{ data.meta.from.slice(0, 10)
-          }}{{ t('至') }}{{ data.meta.cutoff.slice(0, 10) }}{{ t('（UTC），来源共')
-          }}{{ count(data.meta.games) }}{{ t('场对局。') }}
-        </p>
-        <p>
-          {{ t('首版复用英雄流派快照，仅涵盖可分类且具有已知符文记录的')
-          }}{{ count(data.meta.denominator)
-          }}{{
-            t(
-              '个出场人次，不代表全部对局。缺失装备、不足两件 TOP10 成装、无法识别流派或没有已知符文的出场不进入分母。',
-            )
-          }}
-        </p>
-        <p>
-          {{
-            t(
-              '胜率按原始胜场、使用人次合并后计算（胜场 + 1）÷（使用人次 + 2），不平均各英雄或流派的胜率。使用率 = 携带该符文的人次 ÷ 上述有效出场人次，不是出现后的选择率；每人可携带多个符文，总和可超过 100%。',
-            )
-          }}
-        </p>
-        <p>
-          {{ t('复用英雄榜每 2 个百分点的分档，至少') }}{{ data.meta.minimumGames
-          }}{{
-            t(
-              '人次才入榜。同格按未取整平滑胜率和样本数降序。胜率是历史关联，受英雄和流派构成影响，不表示因果收益。',
-            )
-          }}
-        </p>
-      </details>
-      <details v-if="unranked.length" class="board-method">
-        <summary>{{ unranked.length }}{{ t('个符文样本不足，暂不分档') }}</summary>
-        <p>
-          <span v-for="entry in unranked" :key="entry.id"
-            >{{ gameName('augments', entry.id, data.meta.patch, entry.name) }}（{{
-              count(entry.games)
-            }}{{ t('人次）') }}</span
-          >
-        </p>
-      </details>
-      <footer class="board-footer">
-        <span>{{
-          message('数据地区：{region} · 版本 {patch} · 队列 {queue}', {
-            region: t(data.meta.region) || t('地区无法核验'),
-            patch: data.meta.patch,
-            queue: data.meta.queue,
-          })
-        }}</span
-        ><span>Mayhem · 2400 · {{ data.meta.patch }}</span
-        ><span
-          >{{ count(data.meta.denominator) }}{{ t('个有效出场人次 ·')
-          }}{{ t(data.meta.region) }}</span
-        ><span>{{ t('按胜率分档 · 棱彩 / 黄金 / 白银') }}</span>
-      </footer>
+      <RuneBoardNotes :meta="data.meta" :unranked="unranked" />
     </template>
   </section>
 </template>

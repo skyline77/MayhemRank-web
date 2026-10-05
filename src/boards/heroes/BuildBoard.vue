@@ -1,19 +1,17 @@
 <script setup lang="ts">
-import { useNearViewport } from '@/shared/useNearViewport'
-import { locale, brands } from '@/i18n/locale'
+// 英雄榜：按胜率区间 × 职责列排列英雄（或流派）头像，点击头像在所在条带下方展开详情。
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
 import { t, message } from '@/i18n/i18n'
 import { gameName, roleName } from '@/i18n/gameLocalization'
-import DetailEdges from '@/details/DetailEdges.vue'
-import { createBoardScrollFloor } from '@/boards/boardScrollFloor'
-import { loadTooltipCatalogue } from '@/data/tooltipData'
 import { formatCount } from '@/stats/formatCount'
-
-import { previousRunePatch, runeCardTrend } from '@/boards/augments/runeComparison'
-import { rankHeroes } from './heroRanking'
+import { winRateColor } from '@/stats/winRateColor'
+import { useNearViewport } from '@/shared/useNearViewport'
+import { useDocumentTitle } from '@/app/useDocumentTitle'
+import { readHistorySection, registerHistorySection, pushDetailHistory } from '@/app/pageHistory'
+import { buildDetailUrl, boardLink } from '@/app/detailLink'
+import { selectedPatch, selectedVersion } from '@/data/versions'
+import championSearch from '@/data/championSearch'
 import heroDisplayRoles from '@/generated/heroDisplayRoles.json'
-import BoardBanner from '@/boards/BoardBanner.vue'
-import BoardModeSwitch from '@/boards/BoardModeSwitch.vue'
-import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
 import {
   fadeDetailAtTop,
   replaceDetailEntry,
@@ -23,23 +21,30 @@ import {
   cancelDetailTransition,
   preserveDetailPosition,
 } from '@/details/detailScroll'
-import WinRateTable from '@/boards/WinRateTable.vue'
-import { winRateStrips } from '@/boards/winRateTable'
-import { createBoardReflow } from '@/boards/boardReflow'
-import { boardCardSize, compactHeroSlots } from '@/boards/boardCardSize'
-import { readHistorySection, registerHistorySection, pushDetailHistory } from '@/app/pageHistory'
-import { useCompactBoard } from '@/boards/useCompactBoard'
-import WinRateBand from '@/boards/WinRateBand.vue'
+import DetailEdges from '@/details/DetailEdges.vue'
 import DetailLink from '@/details/DetailLink.vue'
-import { buildDetailUrl, boardLink } from '@/app/detailLink'
-import { loadRuneBoard } from '@/boards/augments/augmentBoard'
-import type { RuneFilter } from '@/details/hero/heroFilter'
 import BuildDetail from '@/details/hero/BuildDetail.vue'
-import HeroSearch from './HeroSearch.vue'
+import type { RuneFilter } from '@/details/hero/heroFilter'
 import BoardNavSearch from '@/navigation/BoardNavSearch.vue'
-import { selectedPatch, selectedVersion, updateDate, loadVersions } from '@/data/versions'
-import championSearch from '@/data/championSearch'
-import { winRateColor } from '@/stats/winRateColor'
+import BoardBanner from '@/boards/BoardBanner.vue'
+import BoardModeSwitch from '@/boards/BoardModeSwitch.vue'
+import BoardUpdateNote from '@/boards/BoardUpdateNote.vue'
+import WinRateTable from '@/boards/WinRateTable.vue'
+import WinRateBand from '@/boards/WinRateBand.vue'
+import { winRateStrips } from '@/boards/winRateTable'
+import { bandSections, openStripKey, stripGridRow, stripKeyOf } from '@/boards/boardStrips'
+import { createBoardReflow } from '@/boards/boardReflow'
+import { createBoardScrollFloor } from '@/boards/boardScrollFloor'
+import { boardCardSize, compactHeroSlots } from '@/boards/boardCardSize'
+import { useCompactBoard } from '@/boards/useCompactBoard'
+import { usePreviousPatch } from '@/boards/usePreviousPatch'
+import { loadRuneBoard } from '@/boards/augments/augmentBoard'
+import { runeCardTrend } from '@/boards/augments/runeComparison'
+import HeroSearch from './HeroSearch.vue'
+import HeroBoardNotes from './HeroBoardNotes.vue'
+import { rankHeroes } from './heroRanking'
+import { useRankingMode } from './useRankingMode'
+import { useRoleIcons } from './useRoleIcons'
 import {
   championBuilds,
   buildRows,
@@ -51,78 +56,32 @@ import {
   type BoardMeta,
   loadBuildBoard,
 } from './buildBoard'
+
+// ---- 榜单数据 ----
 const data = ref<{ meta: BoardMeta; entries: BuildEntry[]; heroEntries?: BuildEntry[] } | null>(
   null,
 )
-const previousHeroes = ref<BuildEntry[]>([]),
-  previousFor = ref('')
+// 与上一版本比较，只标记胜率上升的英雄
+const previous = usePreviousPatch(loadBuildBoard)
 const heroTrends = computed(() => {
   const trends: Record<number, ReturnType<typeof runeCardTrend>> = {}
-  if (rankingMode.value !== 'heroes' || !data.value || previousFor.value !== data.value.meta.patch)
+  const previousHeroes = previous.board.value?.heroEntries || []
+  if (
+    rankingMode.value !== 'heroes' ||
+    !data.value ||
+    previous.comparedWith.value !== data.value.meta.patch
+  )
     return trends
-  const rates = new Map(previousHeroes.value.map(hero => [hero.championId, hero.winRate]))
+  const rates = new Map(previousHeroes.map(hero => [hero.championId, hero.winRate]))
   for (const hero of data.value.heroEntries || []) {
     const trend = runeCardTrend(hero.winRate, rates.get(hero.championId))
     if (trend?.tone.startsWith('up')) trends[hero.championId] = trend
   }
   return trends
 })
-async function loadPreviousHeroes(patch: string, serial: number) {
-  try {
-    const versions = await loadVersions(),
-      previous = previousRunePatch(
-        patch,
-        versions.patches.map(row => row.patch),
-      )
-    if (!previous) return
-    const board = await loadBuildBoard(previous)
-    if (serial === loadSerial) {
-      previousHeroes.value = board.heroEntries || []
-      previousFor.value = patch
-    }
-  } catch {
-    /* No indicator without a comparable previous snapshot. */
-  }
-}
-const roleIconNames = ref<Record<string, string>>({})
-const failedRoleIcons = ref(new Set<string>())
-watch(
-  selectedPatch,
-  async (patch, _previous, onCleanup) => {
-    let active = true
-    onCleanup(() => {
-      active = false
-    })
-    roleIconNames.value = {}
-    failedRoleIcons.value = new Set()
-    if (!patch.trim()) return
-    try {
-      const catalogue = await loadTooltipCatalogue(patch)
-      if (active) {
-        const names: Record<string, string> = {}
-        // Base item IDs precede same-name variants from other game modes.
-        // Keep the base icon instead of overwriting it with the last variant.
-        for (const [id, item] of Object.entries(catalogue.items).sort(
-          ([a], [b]) => Number(a) - Number(b),
-        )) {
-          if (!names[item.name]) names[item.name] = `/snapshot-assets/${patch}/items-${id}.png`
-        }
-        roleIconNames.value = names
-      }
-    } catch {
-      /* Portrait and accessible role name remain available if metadata fails. */
-    }
-  },
-  { immediate: true },
-)
-function roleIcons(entry: BuildEntry) {
-  if (entry.nameItems) return entry.nameItems.filter(item => !failedRoleIcons.value.has(item.icon))
-  const label = entry.label
-  return label
-    .split('＋')
-    .map(name => ({ name, icon: roleIconNames.value[name] }))
-    .filter(item => item.icon && !failedRoleIcons.value.has(item.icon))
-}
+const { roleIcons, failedIcons: failedRoleIcons } = useRoleIcons(selectedPatch)
+
+// ---- 浏览器历史与深链接 ----
 const savedView = readHistorySection<{
   query: string
   column: string
@@ -136,21 +95,9 @@ let pendingLink = savedView ? null : boardLink(location.search)
 const initialRune = ref<RuneFilter | null>(null),
   linkNotice = ref('')
 const { seen: nearPortraits, directive: vNearPortrait } = useNearViewport()
-const rankingModeStorageKey = 'team-site.hero-ranking-mode'
-function readRankingMode() {
-  try {
-    return localStorage.getItem(rankingModeStorageKey) === 'roles' ? 'roles' : 'heroes'
-  } catch {
-    return 'heroes'
-  }
-}
-const rankingMode = ref(
-  savedView?.mode === 'heroes'
-    ? 'heroes'
-    : savedView?.mode === 'roles'
-      ? 'roles'
-      : readRankingMode(),
-)
+
+// ---- 统计方式：按英雄 / 按最强流派 ----
+const { mode: rankingMode, persist: persistRankingMode } = useRankingMode(savedView?.mode)
 const boardEntries = computed(() =>
   rankHeroes(
     data.value?.heroEntries || [],
@@ -170,29 +117,25 @@ async function setRankingMode(mode: string) {
       await nextTick()
     },
   )
-  try {
-    localStorage.setItem(rankingModeStorageKey, rankingMode.value)
-  } catch {
-    /* Keep switching available when browser storage is blocked. */
-  }
+  persistRankingMode()
 }
+
 const query = ref(savedView?.query || ''),
   error = ref(''),
   loading = ref(false)
 const selected = ref<BuildEntry | null>(null)
-watch(
-  [() => selected.value, locale],
-  () => {
-    document.title =
-      brands[locale.value] +
-      ' - ' +
-      (selected.value
-        ? gameName('champions', selected.value.championId, selectedPatch.value, selected.value.name)
-        : t('英雄榜'))
-  },
-  { immediate: true },
+useDocumentTitle(
+  () => selected.value,
+  () =>
+    selected.value
+      ? gameName('champions', selected.value.championId, selectedPatch.value, selected.value.name)
+      : t('英雄榜'),
 )
+
+// ---- 详情的展开、替换与关闭 ----
+// openPanels：条带 key → 在该条带下方展开的英雄
 const openPanels = ref<Record<string, BuildEntry>>({})
+// 打开详情的头像；关闭时焦点回到这里
 let selectedTriggerId: string | null = savedView?.anchorId || null
 function findTrigger(id = selectedTriggerId) {
   return id
@@ -208,12 +151,7 @@ function detailPanel(key = selectedStrip.value) {
       ) || null
     : null
 }
-function stripFor(entry: BuildEntry | null) {
-  return entry
-    ? strips.value.find(strip => strip.cells.some(cell => cell.some(item => item.id === entry.id)))
-        ?.key || null
-    : null
-}
+const stripFor = (entry: BuildEntry | null) => stripKeyOf(strips.value, entry)
 async function selectEntry(entry: BuildEntry, _trigger: HTMLAnchorElement | null, linked = false) {
   if (!linked) initialRune.value = null
   const targetStrip = stripFor(entry) || (linked ? strips.value.at(-1)?.key : null),
@@ -235,6 +173,7 @@ async function selectEntry(entry: BuildEntry, _trigger: HTMLAnchorElement | null
     await revealDetailImmediately(() => detailPanel(targetStrip), prepare)
     return
   }
+  // 手机或已有详情时：直接在顶部淡入；桌面首次展开：高度展开并滚动到位
   if (
     window.matchMedia('(max-width:700px)').matches ||
     (previousStrip && detailPanel(previousStrip))
@@ -264,7 +203,7 @@ async function openSearchResult(entry: BuildEntry) {
     await replaceSearchResult(entry, currentStrip)
     return
   }
-  // Clear an incompatible role filter only on activation, never while typing.
+  // 只在激活候选时清除不兼容的职责筛选，输入过程中不清除。
   if (!findTrigger(entry.id)) {
     resetDetails()
     columnFilter.value = ''
@@ -335,6 +274,8 @@ function resetDetails() {
   openPanels.value = {}
 }
 onUnmounted(cancelDetailTransition)
+
+// ---- 职责列筛选 ----
 const columnFilter = ref(savedView?.column || '')
 onUnmounted(
   registerHistorySection('hero-board', () => ({
@@ -374,6 +315,9 @@ async function toggleColumn(column: string) {
     ),
   )
 }
+
+// ---- 表格布局：职责列、条带与胜率区间 ----
+// ≤1024px 合并为三列；跨断点时清除筛选并尽量保持详情位置
 const compact = useCompactBoard(
   () => detailPanel(),
   () => {
@@ -389,6 +333,7 @@ const displayColumns = computed(() => (compact.value ? compactColumns : columns)
 const columnHeading = (column: string) =>
   column === 'AD输出' ? '射手' : column === 'AP输出' ? '法师' : column
 const rows = computed(() => buildRows(boardEntries.value, '', columnFilter.value, compact.value))
+// 筛选某一列后：选中列占满剩余宽度，其余列只保留表头图标的宽度
 const focusedCardSize = ref(56)
 const focusedWidths = ref<number[]>([]),
   focusedSlots = ref(1)
@@ -422,63 +367,25 @@ const singlePortraitColumns = computed(() =>
     strips.value.every(strip => (strip.cells[i]?.length || 0) <= 1),
   ),
 )
-const selectedStrip = computed(
-  () =>
-    Object.keys(openPanels.value).find(key => openPanels.value[key]?.id === selected.value?.id) ||
-    null,
-)
-const stripGridRow = (key: string) => {
-  const index = strips.value.findIndex(strip => strip.key === key)
-  return (
-    index + 1 + strips.value.slice(0, index).filter(strip => openPanels.value[strip.key]).length
-  )
-}
-// Center each range over its portrait strips; an expanded detail splits the band.
-const rangeSections = computed(() => {
-  const sections: {
-    key: string
-    lower: number
-    upper: number
-    strips: ReturnType<typeof buildStrips>
-    detail: boolean
-  }[] = []
-  let section: (typeof sections)[number] | undefined
-  for (const strip of strips.value) {
-    if (!section)
-      section = {
-        key: strip.key,
-        lower: strip.lower,
-        upper: strip.upper,
-        strips: [],
-        detail: false,
-      }
-    section.strips.push(strip)
-    if (strip.last || openPanels.value[strip.key]) {
-      section.detail = !!openPanels.value[strip.key]
-      sections.push(section)
-      section = undefined
-    }
-  }
-  return sections
-})
+const selectedStrip = computed(() => openStripKey(openPanels.value, selected.value))
+const gridRow = (key: string) => stripGridRow(strips.value, openPanels.value, key)
+const rangeSections = computed(() => bandSections(strips.value, openPanels.value))
 const unranked = computed(() => boardEntries.value.filter(e => e.lowSample))
 
 const pct = (v: number) => (v * 100).toFixed(1) + '%'
 const count = formatCount
-const day = (v: string) => v.slice(0, 10)
+
+// ---- 读取榜单 ----
 let loadSerial = 0
 async function load() {
   const serial = ++loadSerial
-  previousHeroes.value = []
-  previousFor.value = ''
-  void loadPreviousHeroes(selectedPatch.value, serial)
+  void previous.load(selectedPatch.value)
   loading.value = true
   error.value = ''
   try {
     const board = await loadBuildBoard(selectedPatch.value)
     if (serial !== loadSerial) return
-    // Read selection and viewport after the request, so scrolling or closing
-    // a detail while the network is pending is respected.
+    // 请求完成后再读取选择与视口，尊重等待期间的滚动或关闭详情。
     const restoring = !!restoreSelection
     const previousHero = selected.value?.championId
     const previousPanelKey = Object.keys(openPanels.value)[0]
@@ -529,23 +436,7 @@ async function load() {
       await preserveDetailPosition(() => detailPanel(), applyBoard)
     }
     if (serial !== loadSerial) return
-    if (pendingLink?.champion) {
-      const link = pendingLink
-      const choices = championBuilds(data.value!.entries, link.champion!)
-      const entry = choices.find(entry => entry.role === link.role) || choices[0]
-      if (link.augment) {
-        const runes = await loadRuneBoard(board.meta.patch)
-        if (serial !== loadSerial) return
-        const rune = runes.entries.find(rune => rune.id === link.augment)
-        if (rune) initialRune.value = { id: rune.id, name: rune.name, icon: rune.icon }
-        else linkNotice.value = '该符文在当前版本暂无统计，已显示英雄详情。'
-      }
-      pendingLink = null
-      if (entry) {
-        await nextTick()
-        await selectEntry(entry, findTrigger(entry.id), true)
-      } else linkNotice.value = '该英雄在当前版本暂无可用流派统计。'
-    }
+    if (pendingLink?.champion) await openPendingLink(serial, board.meta.patch)
   } catch (reason) {
     if (serial === loadSerial)
       error.value = reason instanceof Error ? reason.message : '榜单统计暂时无法读取，请重试。'
@@ -553,6 +444,26 @@ async function load() {
     if (serial === loadSerial) loading.value = false
   }
 }
+// 深链接（?champion=…&role=…&augment=…）：榜单就绪后直接展开对应详情
+async function openPendingLink(serial: number, patch: string) {
+  const link = pendingLink!
+  const choices = championBuilds(data.value!.entries, link.champion!)
+  const entry = choices.find(entry => entry.role === link.role) || choices[0]
+  if (link.augment) {
+    const runes = await loadRuneBoard(patch)
+    if (serial !== loadSerial) return
+    const rune = runes.entries.find(rune => rune.id === link.augment)
+    if (rune) initialRune.value = { id: rune.id, name: rune.name, icon: rune.icon }
+    else linkNotice.value = '该符文在当前版本暂无统计，已显示英雄详情。'
+  }
+  pendingLink = null
+  if (entry) {
+    await nextTick()
+    await selectEntry(entry, findTrigger(entry.id), true)
+  } else linkNotice.value = '该英雄在当前版本暂无可用流派统计。'
+}
+
+// ---- 筛选列宽度测量 ----
 const table = ref<InstanceType<typeof WinRateTable> | null>(null)
 const stickyHeader = computed(() => table.value?.header || null)
 function measureFocusedColumns() {
@@ -654,13 +565,12 @@ watch(selectedVersion, () => {
             ]"
             @update:model-value="setRankingMode"
           />
-          <p
+          <BoardUpdateNote
             v-if="data.meta.updatedAt"
-            class="board-updated board-updated-corner board-updated-desktop"
-          >
-            {{ t('数据更新于') }}{{ updateDate(data.meta.updatedAt) }}{{ t('，共')
-            }}{{ count(data.meta.games) }}{{ t('场。') }}
-          </p>
+            class="board-updated-corner board-updated-desktop"
+            :updated-at="data.meta.updatedAt"
+            :games="data.meta.games"
+          />
         </div>
       </BoardBanner>
       <WinRateTable
@@ -706,7 +616,7 @@ watch(selectedVersion, () => {
           <template v-for="(strip, index) in strips" :key="strip.key">
             <div
               class="board-row board-strip"
-              :style="{ gridRow: stripGridRow(strip.key) }"
+              :style="{ gridRow: gridRow(strip.key) }"
               :class="{
                 'board-strip-first':
                   strip.index === 0 || (index > 0 && !!openPanels[strips[index - 1]!.key]),
@@ -832,7 +742,7 @@ watch(selectedVersion, () => {
               v-if="openPanels[strip.key]"
               :data-detail-strip="strip.key"
               class="board-detail-row"
-              :style="{ gridRow: stripGridRow(strip.key) + 1 }"
+              :style="{ gridRow: gridRow(strip.key) + 1 }"
               role="row"
             >
               <DetailEdges />
@@ -854,7 +764,7 @@ watch(selectedVersion, () => {
             :key="'range-' + section.key"
             :lower="section.lower"
             :upper="section.upper"
-            :row="stripGridRow(section.key)"
+            :row="gridRow(section.key)"
             :span="section.strips.length"
             :stacked="compact"
           />
@@ -866,95 +776,16 @@ watch(selectedVersion, () => {
           </p>
         </template>
       </WinRateTable>
-      <p v-if="data.meta.updatedAt" class="board-updated board-updated-mobile">
-        {{ t('数据更新于') }}{{ updateDate(data.meta.updatedAt) }}{{ t('，共')
-        }}{{ count(data.meta.games) }}{{ t('场。') }}
-      </p>
+      <BoardUpdateNote
+        v-if="data.meta.updatedAt"
+        class="board-updated-mobile"
+        :updated-at="data.meta.updatedAt"
+        :games="data.meta.games"
+      />
       <p v-if="error" class="board-message" role="alert">
         {{ t(error) }} <button class="board-retry" @click="load">{{ t('重新加载') }}</button>
       </p>
-      <details class="board-method">
-        <summary>{{ t('数据范围与胜率说明') }}</summary>
-        <p>
-          Mayhem · queue {{ data.meta.queue }} · {{ data.meta.patch }} ·
-          {{ t(data.meta.region) }}。{{ data.meta.source }}{{ t('，共') }}{{ count(data.meta.games)
-          }}{{ t('场对局、') }}{{ count(data.meta.appearances) }}{{ t('个可分类英雄样本；')
-          }}{{ day(data.meta.from) }}{{ t('至') }}{{ day(data.meta.cutoff) }}（UTC）。
-        </p>
-        <p v-if="rankingMode === 'heroes'">
-          {{
-            t(
-              '每个英雄只显示一次，按全部有效出场的整体胜率分档，包含未能分类的出场。职责列按该英雄出场最多的职责决定（同列流派合并场次），仅决定展示位置，不筛选统计样本。胜率与英雄详情的“全部出场”一致，沿用固定英雄基准的 Beta(50) 平滑。至少',
-            )
-          }}{{ data.meta.minimumGames }}{{ t('场才进入分档。') }}
-        </p>
-        <p v-else>
-          {{
-            t(
-              '每张头像代表一个英雄的具体流派。职责列仅合并展示位置，保留原有流派的胜场和样本；例如近战暴击属于 AD 输出。流派按终局装备与既有分类划分，描述历史关联，不能解释为选择该出装带来的因果收益。',
-            )
-          }}
-        </p>
-        <p v-if="rankingMode === 'roles'">
-          {{ t('流派胜率采用中性 Beta(1,1) 平滑，并列归类按归属权重计算有效样本量。至少')
-          }}{{ data.meta.minimumGames
-          }}{{
-            t(
-              '场才进入胜率分档；分档使用未四舍五入的值，下界包含、上界不包含。同格按平滑胜率降序，持平时参考样本数。',
-            )
-          }}
-        </p>
-        <p v-if="data.meta.classification">
-          {{ data.meta.classification }}{{ t('。无法归类的出场（含旧口径特征不足）')
-          }}{{
-            count(
-              (data.meta.exclusions.unclassified_inventory || 0) +
-                (data.meta.exclusions.fewer_than_two_top10_completed_items || 0),
-            )
-          }}{{ t('人次，未知英雄') }}{{ count(data.meta.exclusions.unknown_champion || 0)
-          }}{{ t('人次，不归入具体流派，达到2件成装门槛的未分类出场仍计入流派使用率的分母。') }}
-        </p>
-        <p>
-          {{
-            t(
-              '两种口径均按使用率从高到低保留流派，直到未展示流派合计不超过流派统计分母的 5%；未分类单独统计。流派统计要求终局至少2件成装；流派出场率 = 该流派场次 ÷ 同版本该英雄至少2件成装的出场次数，各流派比例之和可能小于 100%。隐藏流派保留原始统计，不重新分配比例，也不计入未分类。不足2件成装的',
-            )
-          }}{{ count(data.meta.exclusions.fewer_than_two_completed_items || 0)
-          }}{{ t('人次单列为出装未成型；缺失装备的')
-          }}{{ count(data.meta.exclusions.missing_inventory || 0)
-          }}{{ t('人次也不进入流派分母。英雄整体统计仍保留全部有效出场。') }}
-        </p>
-        <p>
-          {{
-            t('当前队伍只用于显示客户端阵容；队伍头像与榜单头像使用相同版本、相同流派的历史统计。')
-          }}
-        </p>
-      </details>
-      <p v-if="unranked.length" class="board-footnote">
-        {{ t('样本不足，暂不分档：')
-        }}<span v-for="entry in unranked" :key="entry.id"
-          >{{ gameName('champions', entry.championId, data.meta.patch, entry.name) }} ·
-          {{ roleName(entry, data.meta.patch) }}（{{ formatCount(entry.games)
-          }}{{ t('场）') }}</span
-        >
-      </p>
-      <footer class="board-footer">
-        <span>{{
-          message('数据地区：{region} · 版本 {patch} · 队列 {queue}', {
-            region: t(data.meta.region) || t('地区无法核验'),
-            patch: data.meta.patch,
-            queue: data.meta.queue,
-          })
-        }}</span
-        ><span
-          >Mayhem · 2400 · {{ data.meta.patch }} · {{ count(data.meta.games) }}{{ t('场') }}</span
-        ><span
-          >{{ day(data.meta.from) }} — {{ day(data.meta.cutoff)
-          }}{{ t('UTC · 地区无法核验') }}</span
-        ><span>{{
-          rankingMode === 'heroes' ? t('点击头像查看英雄全部出场详情') : t('点击头像查看该流派详情')
-        }}</span>
-      </footer>
+      <HeroBoardNotes :meta="data.meta" :ranking-mode="rankingMode" :unranked="unranked" />
     </template>
   </section>
 </template>

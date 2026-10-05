@@ -49,6 +49,7 @@ export function winRateRows<T extends WinRateEntry>(
       ),
     }))
 }
+export type WinRateStrip<T> = ReturnType<typeof winRateStrips<T>>[number]
 export function winRateStrips<T>(rows: WinRateRow<T>[], capacities: readonly number[]) {
   if (capacities.some(n => !Number.isInteger(n) || n < 1))
     throw new Error('Invalid column capacity')
