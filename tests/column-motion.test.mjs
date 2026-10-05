@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import { loadTS } from './load-ts.mjs'
-const { captureColumns, prepareColumns } = await loadTS('../src/boardColumnMotion.ts')
+const { captureColumns, prepareColumns } = await loadTS('../src/boards/boardColumnMotion.ts')
 test('column decoration and header labels animate transforms without changing layout; cleanup removes layers', () => {
   const saved = {
     document: globalThis.document,

@@ -3,15 +3,15 @@ import { test } from 'node:test'
 import ts from 'typescript'
 import { ref, computed, watch, nextTick, effectScope, reactive } from 'vue'
 import { loadTS, scriptSetup, stripImports } from './load-ts.mjs'
-const setup = stripImports(scriptSetup('../src/BuildDetail.vue'))
+const setup = stripImports(scriptSetup('../src/details/hero/BuildDetail.vue'))
 const compiled = ts.transpile(
   setup +
     '\nreturn {entry,roles,filter,changeFilter,detail,baseline,loading,error,load,displayedFilter,initialLoading,scopeName,displayedPatch,allSortData}',
   { target: ts.ScriptTarget.ES2022 },
 )
-const { championBuilds } = await loadTS('../src/buildBoard.ts')
-const { t: translate, message } = await loadTS('../src/i18n.ts')
-const { heroFilter } = await loadTS('../src/heroFilter.ts')
+const { championBuilds } = await loadTS('../src/boards/heroes/buildBoard.ts')
+const { t: translate, message } = await loadTS('../src/i18n/i18n.ts')
+const { heroFilter } = await loadTS('../src/details/hero/heroFilter.ts')
 const settle = async () => {
   await nextTick()
   await Promise.resolve()

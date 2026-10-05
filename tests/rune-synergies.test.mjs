@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import { loadTS } from './load-ts.mjs'
-const { loadRuneSynergies } = await loadTS('../src/runeSynergies.ts')
-const { sortDetailCells } = await loadTS('../src/detailSort.ts')
+const { loadRuneSynergies } = await loadTS('../src/details/rune/runeSynergies.ts')
+const { sortDetailCells } = await loadTS('../src/details/detailSort.ts')
 function fixture(generation = 'synergy-test') {
   const cell = {
     id: '8',

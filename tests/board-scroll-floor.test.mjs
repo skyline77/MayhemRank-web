@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import { loadTS } from './load-ts.mjs'
-const { createBoardScrollFloor } = await loadTS('../src/boardScrollFloor.ts')
+const { createBoardScrollFloor } = await loadTS('../src/boards/boardScrollFloor.ts')
 test('品质筛选缩短表格后回到底部，保留正常视窗与英雄榜行为', async () => {
   const saved = {
     window: globalThis.window,

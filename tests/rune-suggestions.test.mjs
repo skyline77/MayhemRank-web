@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import { loadTS } from './load-ts.mjs'
-const { runeSuggestions } = await loadTS('../src/runeSuggestions.ts')
+const { runeSuggestions } = await loadTS('../src/boards/augments/runeSuggestions.ts')
 const rune = (id, name, extra = {}) => ({
   id,
   name,

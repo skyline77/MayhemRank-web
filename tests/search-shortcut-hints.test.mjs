@@ -1,9 +1,9 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import { loadTS } from './load-ts.mjs'
-const { locale } = await loadTS('../src/locale.ts')
+const { locale } = await loadTS('../src/i18n/locale.ts')
 locale.value = 'zh-CN'
-const { updateSearchShortcutHints } = await loadTS('../src/searchShortcutHints.ts')
+const { updateSearchShortcutHints } = await loadTS('../src/app/searchShortcutHints.ts')
 const viewport = { innerHeight: 800, innerWidth: 1200 }
 function fields() {
   const panel = {

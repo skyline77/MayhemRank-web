@@ -1,7 +1,7 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { loadTS } from './load-ts.mjs'
-const { rankCombos, orderComboRunes } = await loadTS('../src/comboRanking.ts')
+const { rankCombos, orderComboRunes } = await loadTS('../src/boards/combos/comboRanking.ts')
 const rows = [
   {
     championId: '51',

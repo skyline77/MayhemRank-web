@@ -1,10 +1,10 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import { loadTS } from './load-ts.mjs'
-const { locale } = await loadTS('../src/locale.ts')
+const { locale } = await loadTS('../src/i18n/locale.ts')
 locale.value = 'zh-CN'
 const { heroSuggestions, suggestionScore, moveSuggestion } = await loadTS(
-  '../src/heroSuggestions.ts',
+  '../src/boards/heroes/heroSuggestions.ts',
 )
 const hero = (championId, name, extra = {}) => ({
   championId,

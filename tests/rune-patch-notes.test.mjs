@@ -2,7 +2,7 @@ import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import { readFileSync } from 'node:fs'
 import { loadTS } from './load-ts.mjs'
-const { recentPatches, coveredPatchLabel } = await loadTS('../src/patchNotes.ts')
+const { recentPatches, coveredPatchLabel } = await loadTS('../src/data/patchNotes.ts')
 const data = JSON.parse(
   readFileSync(new URL('../public/champion-patches/recent.json', import.meta.url), 'utf8'),
 )

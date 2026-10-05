@@ -2,9 +2,9 @@ import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import { test } from 'node:test'
 import { loadTS } from './load-ts.mjs'
-const { locale } = await loadTS('../src/locale.ts')
+const { locale } = await loadTS('../src/i18n/locale.ts')
 locale.value = 'zh-CN'
-const { filterDetailGroups, loadDetailSearch } = await loadTS('../src/detailSearch.ts')
+const { filterDetailGroups, loadDetailSearch } = await loadTS('../src/details/detailSearch.ts')
 const index = JSON.parse(
   readFileSync(new URL('../public/search-catalogues/16.18.json', import.meta.url), 'utf8'),
 )
@@ -59,7 +59,7 @@ test('search catalogue requests are cached and reject wrong statistical scope', 
 })
 
 test('both patch catalogues used by the rune board contain Chinese and pinyin aliases only', async () => {
-  const { matchesSearch } = await loadTS('../src/search.ts')
+  const { matchesSearch } = await loadTS('../src/search/search.ts')
   for (const patch of ['16.18', '16.19']) {
     const catalogue = JSON.parse(
       readFileSync(
@@ -93,7 +93,7 @@ test('no-shoes statistics match Chinese and pinyin without a catalogue item', ()
 })
 
 test('rune board initials support substrings in both patches and detail search', async () => {
-  const { matchesSearch } = await loadTS('../src/search.ts')
+  const { matchesSearch } = await loadTS('../src/search/search.ts')
   for (const patch of ['16.18', '16.19']) {
     const catalogue = JSON.parse(
       readFileSync(
@@ -120,7 +120,7 @@ test('rune board initials support substrings in both patches and detail search',
 })
 
 test('detail and rune suggestions share full and partial initials, including 回归基本功', async () => {
-  const { runeSuggestions } = await loadTS('../src/runeSuggestions.ts')
+  const { runeSuggestions } = await loadTS('../src/boards/augments/runeSuggestions.ts')
   for (const patch of ['16.18', '16.19']) {
     const catalogue = JSON.parse(
       readFileSync(
@@ -163,7 +163,7 @@ test('detail and rune suggestions share full and partial initials, including 回
 })
 
 test('rune detail filters match partial names, hero titles, pinyin and initials across all card kinds', async () => {
-  const { matchesRuneDetailSearch } = await loadTS('../src/detailSearch.ts')
+  const { matchesRuneDetailSearch } = await loadTS('../src/details/detailSearch.ts')
   const index = {
     items: { 1: ['shouhuzhehaojiao'] },
     augments: { 2: ['jurenshashou'] },

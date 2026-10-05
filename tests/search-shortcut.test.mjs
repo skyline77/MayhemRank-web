@@ -3,7 +3,7 @@ import { readFileSync } from 'node:fs'
 import { test } from 'node:test'
 import ts from 'typescript'
 const js = ts.transpile(
-  readFileSync(new URL('../src/searchShortcut.ts', import.meta.url), 'utf8'),
+  readFileSync(new URL('../src/app/searchShortcut.ts', import.meta.url), 'utf8'),
   { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.ES2022 },
 )
 const {

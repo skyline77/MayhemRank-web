@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import { loadTS } from './load-ts.mjs'
-const { sortDetailCells } = await loadTS('../src/detailSort.ts')
-const { visibleSpellPairs } = await loadTS('../src/spellBuilds.ts')
+const { sortDetailCells } = await loadTS('../src/details/detailSort.ts')
+const { visibleSpellPairs } = await loadTS('../src/details/hero/spellBuilds.ts')
 const cell = (id, pickRate, winRate, games = 100) => ({ id, pickRate, winRate, games })
 
 test('sorts unrounded rates descending without mutating cached input; ties are stable', () => {

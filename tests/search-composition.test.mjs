@@ -3,9 +3,9 @@ import { test } from 'node:test'
 import ts from 'typescript'
 import { ref } from 'vue'
 import { loadTS, scriptSetup, stripImports } from './load-ts.mjs'
-const { isSearchSubmit } = await loadTS('../src/search.ts')
-const { heroSuggestions } = await loadTS('../src/heroSuggestions.ts')
-const script = ts.transpile(stripImports(scriptSetup('../src/SearchBox.vue')), {
+const { isSearchSubmit } = await loadTS('../src/search/search.ts')
+const { heroSuggestions } = await loadTS('../src/boards/heroes/heroSuggestions.ts')
+const script = ts.transpile(stripImports(scriptSetup('../src/search/SearchBox.vue')), {
   target: ts.ScriptTarget.ES2022,
 })
 function harness() {

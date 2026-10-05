@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import { loadTS } from './load-ts.mjs'
-const { loadHeroDetail } = await loadTS('../src/heroCohorts.ts')
+const { loadHeroDetail } = await loadTS('../src/details/hero/heroCohorts.ts')
 const entry = { championId: 10, snapshotId: 'generation-a' }
 const filter = { role: null, rune: { id: '7' } }
 const value = (patch = '16.19', generation = 'generation-a', aid = '7') => ({

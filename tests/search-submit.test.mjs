@@ -1,9 +1,9 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import { loadTS } from './load-ts.mjs'
-const { singleSearchCandidate, isSearchSubmit } = await loadTS('../src/search.ts')
-const { buildRows } = await loadTS('../src/buildBoard.ts')
-const { winRateRows } = await loadTS('../src/winRateTable.ts')
+const { singleSearchCandidate, isSearchSubmit } = await loadTS('../src/search/search.ts')
+const { buildRows } = await loadTS('../src/boards/heroes/buildBoard.ts')
+const { winRateRows } = await loadTS('../src/boards/winRateTable.ts')
 const hero = (id, extra = {}) => ({
   id,
   name: '茂凯',

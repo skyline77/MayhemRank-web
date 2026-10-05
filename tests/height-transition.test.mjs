@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import { loadTS } from './load-ts.mjs'
-const { animateHeight } = await loadTS('../src/heightTransition.ts')
+const { animateHeight } = await loadTS('../src/shared/heightTransition.ts')
 async function fixture(run, reduced = false) {
   const keys = ['window', 'requestAnimationFrame', 'cancelAnimationFrame']
   const saved = Object.fromEntries(keys.map(k => [k, globalThis[k]]))

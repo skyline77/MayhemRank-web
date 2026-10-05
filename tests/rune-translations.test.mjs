@@ -2,7 +2,9 @@ import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import { test } from 'node:test'
 import { loadTS } from './load-ts.mjs'
-const { loadRuneDescriptions, matchingRuneTranslation } = await loadTS('../src/runeDescriptions.ts')
+const { loadRuneDescriptions, matchingRuneTranslation } = await loadTS(
+  '../src/details/rune/runeDescriptions.ts',
+)
 const catalogue = name =>
   JSON.parse(readFileSync(new URL('../public/rune-descriptions/' + name, import.meta.url), 'utf8'))
 const en = catalogue('wiki-en-20260925.json')

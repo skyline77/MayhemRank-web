@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import { loadTS } from './load-ts.mjs'
-const { boardCardSize, compactHeroSlots } = await loadTS('../src/boardCardSize.ts')
+const { boardCardSize, compactHeroSlots } = await loadTS('../src/boards/boardCardSize.ts')
 test('hero sizes never rebound when narrowing across layout and slot changes', () => {
   let previous = 54
   for (let width = 1500; width >= 350; width--) {

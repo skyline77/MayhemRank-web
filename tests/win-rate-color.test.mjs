@@ -1,9 +1,9 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import { loadTS } from './load-ts.mjs'
-const { winRateColor } = await loadTS('../src/winRateColor.ts')
-const { winRateBandInk } = await loadTS('../src/winRateTable.ts')
-const { runePatchChange, runeCardTrend } = await loadTS('../src/runeComparison.ts')
+const { winRateColor } = await loadTS('../src/stats/winRateColor.ts')
+const { winRateBandInk } = await loadTS('../src/boards/winRateTable.ts')
+const { runePatchChange, runeCardTrend } = await loadTS('../src/boards/augments/runeComparison.ts')
 const strength = color => Number(color.match(/ ([\d.]+)%\)$/)?.[1] || 0)
 
 test('inclusive one-point neutral interval works for arbitrary baselines', () => {

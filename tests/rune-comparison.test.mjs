@@ -1,10 +1,10 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import { loadTS } from './load-ts.mjs'
-const { locale } = await loadTS('../src/locale.ts')
+const { locale } = await loadTS('../src/i18n/locale.ts')
 locale.value = 'zh-CN'
 const { previousRunePatch, runePatchChange, runeCardTrend } = await loadTS(
-  '../src/runeComparison.ts',
+  '../src/boards/augments/runeComparison.ts',
 )
 test('previous patch is numeric, earlier and handles missing history', () => {
   assert.equal(previousRunePatch('16.19', ['16.9', '16.18', '16.20']), '16.18')

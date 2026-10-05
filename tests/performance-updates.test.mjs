@@ -3,7 +3,7 @@ import assert from 'node:assert/strict'
 import vm from 'node:vm'
 import ts from 'typescript'
 import { loadTS, scriptSetup, stripImports } from './load-ts.mjs'
-const { normalizeSearch, matchesSearch } = await loadTS('../src/search.ts')
+const { normalizeSearch, matchesSearch } = await loadTS('../src/search/search.ts')
 test('cached search retains Unicode, empty queries and changed labels after eviction', () => {
   assert.equal(normalizeSearch(' ＡＢ，Ｃ '), 'abc')
   assert.ok(matchesSearch(['疾风剑豪', 'YASUO'], ' ＹＡ '))
@@ -13,7 +13,7 @@ test('cached search retains Unicode, empty queries and changed labels after evic
   assert.ok(!matchesSearch(['新名'], '旧名'))
 })
 test('hero selection reuses theme and only updates series; zoom dispatches without rebuilding', () => {
-  const script = ts.transpile(stripImports(scriptSetup('../src/RuneHeroChart.vue')), {
+  const script = ts.transpile(stripImports(scriptSetup('../src/details/rune/RuneHeroChart.vue')), {
     target: ts.ScriptTarget.ES2022,
     module: ts.ModuleKind.ES2022,
   })
@@ -52,7 +52,7 @@ test('hero selection reuses theme and only updates series; zoom dispatches witho
 
 test('navigation reuses targets and skips identical opacity writes, refreshing after invalidation', () => {
   const script = ts.transpile(
-    stripImports(scriptSetup('../src/BoardNavigation.vue')).replace(
+    stripImports(scriptSetup('../src/navigation/BoardNavigation.vue')).replace(
       /^const wordmark\w*\s*=.*$/gm,
       '',
     ),

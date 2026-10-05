@@ -2,10 +2,10 @@ import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import { readFileSync } from 'node:fs'
 import { loadTS } from './load-ts.mjs'
-const { sortRuneVisualFamilies } = await loadTS('../src/runeVisualSort.ts')
+const { sortRuneVisualFamilies } = await loadTS('../src/details/rune/runeVisualSort.ts')
 const sort = (cells, reference = cells) => sortRuneVisualFamilies(cells, reference)
 const config = JSON.parse(
-  readFileSync(new URL('../src/runeVisualFamilies.json', import.meta.url), 'utf8'),
+  readFileSync(new URL('../src/details/rune/runeVisualFamilies.json', import.meta.url), 'utf8'),
 )
 const [a, b, c] = config.families
   .filter(f => f.ids.length >= 2)

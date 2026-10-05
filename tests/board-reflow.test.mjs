@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import { loadTS } from './load-ts.mjs'
-const { createBoardReflow } = await loadTS('../src/boardReflow.ts')
+const { createBoardReflow } = await loadTS('../src/boards/boardReflow.ts')
 async function fixture(run, { reduced = false } = {}) {
   const keys = ['window', 'matchMedia', 'innerWidth', 'innerHeight', 'getComputedStyle']
   const saved = Object.fromEntries(keys.map(k => [k, globalThis[k]]))

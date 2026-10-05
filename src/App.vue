@@ -1,28 +1,28 @@
 <script setup lang="ts">
-import { locale, brands } from './locale'
-import { loadGameLocale } from './gameLocalization'
-import { t } from './i18n'
-import { selectedPatch, selectedVersion, defaultVersion, loadVersions } from './versions'
-import { dataPatch } from './versionSelection'
+import { locale, brands } from './i18n/locale'
+import { loadGameLocale } from './i18n/gameLocalization'
+import { t } from './i18n/i18n'
+import { selectedPatch, selectedVersion, defaultVersion, loadVersions } from './data/versions'
+import { dataPatch } from './data/versionSelection'
 import {
   readHistorySection,
   registerHistorySection,
   saveView,
   preparePageHistory,
   installPageHistory,
-} from './pageHistory'
+} from './app/pageHistory'
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
-import { boardLink } from './detailLink'
-import InfoTooltip from './InfoTooltip.vue'
-import { handleFindShortcut, handleDetailEscape } from './searchShortcut'
-import { observeSearchShortcutHints } from './searchShortcutHints'
-import { closeTip } from './tooltip'
-import { cancelDetailTransition } from './detailScroll'
-import { observeDetailVisibility } from './detailVisibility'
-import BuildBoard from './BuildBoard.vue'
-import AugmentBoard from './AugmentBoard.vue'
-import ComboBoards from './ComboBoards.vue'
-import BoardNavigation from './BoardNavigation.vue'
+import { boardLink } from './app/detailLink'
+import InfoTooltip from './tooltip/InfoTooltip.vue'
+import { handleFindShortcut, handleDetailEscape } from './app/searchShortcut'
+import { observeSearchShortcutHints } from './app/searchShortcutHints'
+import { closeTip } from './tooltip/tooltip'
+import { cancelDetailTransition } from './details/detailScroll'
+import { observeDetailVisibility } from './details/detailVisibility'
+import BuildBoard from './boards/heroes/BuildBoard.vue'
+import AugmentBoard from './boards/augments/AugmentBoard.vue'
+import ComboBoards from './boards/combos/ComboBoards.vue'
+import BoardNavigation from './navigation/BoardNavigation.vue'
 const savedPatch = readHistorySection<{ patch: string }>('app')
 if (savedPatch?.patch) {
   selectedVersion.value = savedPatch.patch

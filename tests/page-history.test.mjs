@@ -3,10 +3,13 @@ import { readFileSync } from 'node:fs'
 import { test } from 'node:test'
 import vm from 'node:vm'
 import ts from 'typescript'
-const js = ts.transpile(readFileSync(new URL('../src/pageHistory.ts', import.meta.url), 'utf8'), {
-  target: ts.ScriptTarget.ES2022,
-  module: ts.ModuleKind.CommonJS,
-})
+const js = ts.transpile(
+  readFileSync(new URL('../src/app/pageHistory.ts', import.meta.url), 'utf8'),
+  {
+    target: ts.ScriptTarget.ES2022,
+    module: ts.ModuleKind.CommonJS,
+  },
+)
 function setup(type = 'back_forward', url = 'https://example.test/', saved = {}) {
   const listeners = new Map(),
     frames = new Map(),

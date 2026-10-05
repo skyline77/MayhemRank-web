@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import { loadTS } from './load-ts.mjs'
-const { observeDetailVisibility } = await loadTS('../src/detailVisibility.ts')
+const { observeDetailVisibility } = await loadTS('../src/details/detailVisibility.ts')
 
 test('pinning follows visible panels, survives handoff and removes stale observers', () => {
   const saved = {

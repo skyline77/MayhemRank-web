@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import { loadTS } from './load-ts.mjs'
-const { dataPatch, resolveVersion } = await loadTS('../src/versionSelection.ts')
+const { dataPatch, resolveVersion } = await loadTS('../src/data/versionSelection.ts')
 const manifest = {
   generation: 'new',
   defaultPatch: '16.19',
@@ -31,7 +31,7 @@ test('detail links use the requested patch even from a retired comparison URL', 
   const old = globalThis.location
   try {
     globalThis.location = { search: '?patch=16.18%E6%97%A7' }
-    const { buildDetailUrl, runeDetailUrl } = await loadTS('../src/detailLink.ts')
+    const { buildDetailUrl, runeDetailUrl } = await loadTS('../src/app/detailLink.ts')
     assert.equal(
       new URL(buildDetailUrl(4, 'AP', '16.18'), 'http://localhost').searchParams.get('patch'),
       '16.18',

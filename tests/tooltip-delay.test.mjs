@@ -4,7 +4,7 @@ import { test } from 'node:test'
 import ts from 'typescript'
 import { stripImports } from './load-ts.mjs'
 import { shallowRef } from 'vue'
-const source = readFileSync(new URL('../src/tooltip.ts', import.meta.url), 'utf8')
+const source = readFileSync(new URL('../src/tooltip/tooltip.ts', import.meta.url), 'utf8')
 const script = ts.transpile(stripImports(source).replace(/export /g, ''), {
   target: ts.ScriptTarget.ES2022,
 })

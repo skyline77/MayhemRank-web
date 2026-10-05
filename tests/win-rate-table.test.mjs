@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import { loadTS } from './load-ts.mjs'
-const { winRateRows, winRateStrips } = await loadTS('../src/winRateTable.ts')
+const { winRateRows, winRateStrips } = await loadTS('../src/boards/winRateTable.ts')
 const columns = ['棱彩', '黄金', '白银']
 const entry = (id, wr, column = '黄金', extra = {}) => ({
   id,

@@ -4,10 +4,10 @@ import ts from 'typescript'
 import { ref, reactive, watch, nextTick, effectScope, computed, watchEffect } from 'vue'
 import { loadTS, scriptSetup, stripImports } from './load-ts.mjs'
 const { scheduleDetailMeasurement, cancelDetailMeasurement } = await loadTS(
-  '../src/detailMeasurements.ts',
+  '../src/details/detailMeasurements.ts',
 )
-const { detailPaginationKey, pageWindow } = await loadTS('../src/detailPagination.ts')
-const setup = stripImports(scriptSetup('../src/DetailCardList.vue'))
+const { detailPaginationKey, pageWindow } = await loadTS('../src/details/detailPagination.ts')
+const setup = stripImports(scriptSetup('../src/details/DetailCardList.vue'))
 const compiled = ts.transpile(setup + '\nreturn {scroller,hasMore,schedule,scroll,visibleCount}', {
   target: ts.ScriptTarget.ES2022,
 })

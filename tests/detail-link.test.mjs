@@ -2,10 +2,13 @@ import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import { test } from 'node:test'
 import ts from 'typescript'
-const js = ts.transpile(readFileSync(new URL('../src/detailLink.ts', import.meta.url), 'utf8'), {
-  target: ts.ScriptTarget.ES2022,
-  module: ts.ModuleKind.ES2022,
-})
+const js = ts.transpile(
+  readFileSync(new URL('../src/app/detailLink.ts', import.meta.url), 'utf8'),
+  {
+    target: ts.ScriptTarget.ES2022,
+    module: ts.ModuleKind.ES2022,
+  },
+)
 const { buildDetailUrl, runeDetailUrl, isInlineActivation, boardLink } = await import(
   'data:text/javascript;base64,' + Buffer.from(js).toString('base64')
 )

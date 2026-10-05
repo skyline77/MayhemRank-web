@@ -1,10 +1,11 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import { loadTS } from './load-ts.mjs'
-const { locale } = await loadTS('../src/locale.ts')
+const { locale } = await loadTS('../src/i18n/locale.ts')
 locale.value = 'zh-CN'
-const { chartHeroes, heroChartBounds, overlappingHeroes, heroArrowDescription } =
-  await loadTS('../src/runeHeroChart.ts')
+const { chartHeroes, heroChartBounds, overlappingHeroes, heroArrowDescription } = await loadTS(
+  '../src/details/rune/runeHeroChart.ts',
+)
 const hero = (id, games, winRate = 0.6, baseline = 0.5) => ({
   id,
   name: '英雄' + id,

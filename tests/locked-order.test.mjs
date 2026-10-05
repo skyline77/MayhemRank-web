@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import { loadTS } from './load-ts.mjs'
-const { reconcileLockedOrder, matchingScrollOffset } = await loadTS('../src/lockedOrder.ts')
+const { reconcileLockedOrder, matchingScrollOffset } = await loadTS('../src/shared/lockedOrder.ts')
 const cell = (id, games) => ({ id, games })
 const missing = cell => ({ ...cell, games: 0, missing: true })
 test('keeps locked order while using new statistics and appending new entries', () => {

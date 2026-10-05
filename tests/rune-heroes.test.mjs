@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import { loadTS } from './load-ts.mjs'
-const { loadRuneHeroes } = await loadTS('../src/runeHeroes.ts')
+const { loadRuneHeroes } = await loadTS('../src/details/rune/runeHeroes.ts')
 
 test('one cached rune request, exact patch/generation identity, failure retry', async () => {
   const original = globalThis.fetch

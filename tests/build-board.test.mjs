@@ -2,8 +2,9 @@ import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import { test } from 'node:test'
 import { loadTS } from './load-ts.mjs'
-const { buildRows, buildStrips, columns, columnCapacities, championWinRates } =
-  await loadTS('../src/buildBoard.ts')
+const { buildRows, buildStrips, columns, columnCapacities, championWinRates } = await loadTS(
+  '../src/boards/heroes/buildBoard.ts',
+)
 const entry = (id, winRate, column = 'AP输出', extra = {}) => ({
   id,
   winRate,
@@ -47,7 +48,7 @@ test('search prunes empty bands and leaves labels and order intact', () => {
   assert.equal(buildRows([entry('tiny', 0.8, '辅助', { lowSample: true })]).length, 0)
 })
 
-const { default: championSearch } = await loadTS('../src/championSearch.ts')
+const { default: championSearch } = await loadTS('../src/data/championSearch.ts')
 test('all board heroes have Chinese names, titles and pinyin', () => {
   const snapshot = JSON.parse(
     readFileSync(
@@ -266,7 +267,7 @@ test('hero board matches name/title initials and their contiguous substrings', (
 })
 
 test('old cached role-only boards retry without cache, not a disabled hero switch', async () => {
-  const { fetchBoardPayload } = await loadTS('../src/buildBoard.ts')
+  const { fetchBoardPayload } = await loadTS('../src/boards/heroes/buildBoard.ts')
   const original = globalThis.fetch,
     calls = []
   const legacy = { meta: { patch: '16.19', snapshotId: 'generation' }, entries: [] }

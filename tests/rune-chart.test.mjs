@@ -2,8 +2,8 @@ import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import { loadTS } from './load-ts.mjs'
 const { runeChartPoints, runeChartTotal, runeChartOption, runePointDescription, runeRateRange } =
-  await loadTS('../src/runeChart.ts')
-const { locale } = await loadTS('../src/locale.ts')
+  await loadTS('../src/details/rune/runeChart.ts')
+const { locale } = await loadTS('../src/i18n/locale.ts')
 locale.value = 'zh-CN'
 const theme = {
   count: '#98bca8',

@@ -10,7 +10,7 @@ const {
   handoffDetail,
   cancelDetailTransition,
   preserveDetailPosition,
-} = await loadTS('../src/detailScroll.ts')
+} = await loadTS('../src/details/detailScroll.ts')
 
 test('shared scroll aligns the panel and respects reduced motion', () => {
   const original = globalThis.window

@@ -6,7 +6,7 @@ const {
   recentPatches,
   coveredPatchLabel,
   loadPatchNotes: loadChampionPatchNotes,
-} = await loadTS('../src/patchNotes.ts')
+} = await loadTS('../src/data/patchNotes.ts')
 const recentChampionPatches = (data, id, patch) => recentPatches(data, 'champion', id, patch)
 const data = JSON.parse(
   readFileSync(new URL('../public/champion-patches/recent.json', import.meta.url), 'utf8'),

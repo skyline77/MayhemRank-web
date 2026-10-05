@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import { loadTS } from './load-ts.mjs'
-const { usageRateColor } = await loadTS('../src/usageRateColor.ts')
+const { usageRateColor } = await loadTS('../src/stats/usageRateColor.ts')
 test('zero through half a percent, missing and invalid usage retain muted text', () => {
   for (const value of [0, 0.001, 0.00499, 0.005, -0.1, null, undefined, NaN, Infinity])
     assert.equal(usageRateColor(value), 'var(--muted)')

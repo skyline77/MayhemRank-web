@@ -1,7 +1,7 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import { loadTS } from './load-ts.mjs'
-const { loadHeroRunePairs, matchesRunePair } = await loadTS('../src/heroRunePairs.ts')
+const { loadHeroRunePairs, matchesRunePair } = await loadTS('../src/details/hero/heroRunePairs.ts')
 const row = {
   id: '1-2',
   games: 100,

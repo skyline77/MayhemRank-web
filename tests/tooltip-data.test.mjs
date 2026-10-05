@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import { loadTS } from './load-ts.mjs'
-const { loadDescription, loadTooltipCatalogue } = await loadTS('../src/tooltipData.ts')
-const { locale } = await loadTS('../src/locale.ts')
+const { loadDescription, loadTooltipCatalogue } = await loadTS('../src/data/tooltipData.ts')
+const { locale } = await loadTS('../src/i18n/locale.ts')
 const payload = patch => ({
   schema: 1,
   patch,

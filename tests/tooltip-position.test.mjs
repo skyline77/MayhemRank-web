@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import { loadTS } from './load-ts.mjs'
-const { tooltipPosition } = await loadTS('../src/tooltipPosition.ts')
+const { tooltipPosition } = await loadTS('../src/tooltip/tooltipPosition.ts')
 function check(box, width, height, vw, vh) {
   const result = tooltipPosition(box, width, height, vw, vh)
   const x = parseFloat(result.left),

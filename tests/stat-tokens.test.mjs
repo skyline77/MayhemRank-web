@@ -2,8 +2,9 @@ import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import { readFileSync, existsSync } from 'node:fs'
 import { loadTS } from './load-ts.mjs'
-const { tokenizeStats, statDefinitions, localizedStatAliases } =
-  await loadTS('../src/statTokens.ts')
+const { tokenizeStats, statDefinitions, localizedStatAliases } = await loadTS(
+  '../src/stats/statTokens.ts',
+)
 
 test('Taiwanese and Japanese stat vocabulary maps to stable stat keys without changing source text', () => {
   for (const [locale, stats] of Object.entries(localizedStatAliases)) {

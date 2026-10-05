@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import { loadTS } from './load-ts.mjs'
-const { rankHeroes } = await loadTS('../src/heroRanking.ts')
+const { rankHeroes } = await loadTS('../src/boards/heroes/heroRanking.ts')
 test('same hero set, strongest eligible role, fixed columns and fallback', () => {
   const heroes = [
     { id: 'h1', championId: 1, column: '战士' },
