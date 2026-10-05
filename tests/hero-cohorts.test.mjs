@@ -105,7 +105,7 @@ test('other loads a separate unclassified cohort and rejects an all-appearances 
     e = { ...entry, snapshotId: 'other-test' }
   let wrong = true
   global.fetch = async url => {
-    assert.match(url, /^\/api\/hero-unclassified\?/)
+    assert.equal(url, `/snapshots/other-test/16.19/hero-unclassified/${e.championId}.json`)
     return {
       ok: true,
       json: async () => ({

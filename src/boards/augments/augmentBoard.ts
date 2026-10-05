@@ -44,11 +44,13 @@ export async function loadRuneBoard(patch?: string): Promise<RuneBoard> {
   if (!manifest.patches.some(p => p.patch === patch)) throw new Error('该版本暂无统计')
   const key = manifest.generation + ':' + patch
   if (!requests.has(key)) {
-    const params = new URLSearchParams({ patch })
-    if (manifest.generation) params.set('generation', manifest.generation)
+    // 快照内的静态文件；无快照编号的旧数据仍由接口组装
+    const url = manifest.generation
+      ? `/snapshots/${manifest.generation}/${patch}/augment-board.json`
+      : '/api/augment-board?' + new URLSearchParams({ patch })
     requests.set(
       key,
-      fetch('/api/augment-board?' + params, { signal: AbortSignal.timeout(15000) })
+      fetch(url, { signal: AbortSignal.timeout(15000) })
         .then(async response => {
           if (!response.ok) throw new Error('符文统计暂时无法读取')
           const data = (await response.json()) as RuneBoard

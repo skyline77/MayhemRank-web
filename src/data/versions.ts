@@ -11,7 +11,11 @@ export const snapshotGeneration = ref<string | null>(null)
 let request: Promise<Manifest> | undefined
 export function loadVersions() {
   if (!request)
-    request = fetch('/api/snapshots', { cache: 'no-store', signal: AbortSignal.timeout(10000) })
+    // 版本清单是可变指针，不使用浏览器缓存
+    request = fetch('/snapshots/current.json', {
+      cache: 'no-store',
+      signal: AbortSignal.timeout(10000),
+    })
       .then(async response => {
         if (!response.ok) throw new Error('版本目录暂时无法读取')
         return (await response.json()) as Manifest

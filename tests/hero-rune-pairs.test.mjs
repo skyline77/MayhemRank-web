@@ -45,6 +45,6 @@ test('requests only one hero, caches the immutable scope, rejects another hero',
   await loadHeroRunePairs(120, '16.19', 'gen')
   await loadHeroRunePairs(120, '16.19', 'gen')
   assert.equal(requests.length, 1)
-  assert.match(requests[0], /champion=120/)
+  assert.equal(requests[0], '/snapshots/gen/16.19/hero-rune-pairs/120.json')
   await assert.rejects(loadHeroRunePairs(10, '16.19', 'gen'), /范围不一致/)
 })

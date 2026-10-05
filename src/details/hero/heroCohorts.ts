@@ -50,14 +50,10 @@ export async function loadHeroDetail(
   if (aid && iid) throw new Error('不能同时筛选符文和装备')
   if (aid && !/^\d+$/.test(aid)) throw new Error('无效的符文编号')
   const other = filter.role === 'other'
+  const root = `/snapshots/${entry.snapshotId}/${patch}`
   const path = other
-    ? '/api/hero-unclassified?' +
-      new URLSearchParams({
-        champion: String(entry.championId),
-        patch,
-        generation: entry.snapshotId,
-      })
-    : `/snapshots/${entry.snapshotId}/${patch}/hero-cohorts/${entry.championId}/${iid ? 'items/' + iid : aid ? 'augments/' + aid : 'all'}.json`
+    ? `${root}/hero-unclassified/${entry.championId}.json`
+    : `${root}/hero-cohorts/${entry.championId}/${iid ? 'items/' + iid : aid ? 'augments/' + aid : 'all'}.json`
   if (!cache.has(path))
     cache.set(
       path,

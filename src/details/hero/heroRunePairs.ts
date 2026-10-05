@@ -46,7 +46,9 @@ export function loadHeroRunePairs(
   if (!cache.has(key))
     cache.set(
       key,
-      fetch('/api/hero-rune-pairs?' + params, { signal: AbortSignal.timeout(15000) })
+      fetch(`/snapshots/${generation}/${patch}/hero-rune-pairs/${champion}.json`, {
+        signal: AbortSignal.timeout(15000),
+      })
         .then(async response => {
           if (!response.ok) throw new Error('海克斯组合暂时无法读取')
           const data = (await response.json()) as HeroRunePairs
