@@ -12,6 +12,7 @@ const compiled = ts.transpile(
 const { championBuilds } = await loadTS('../src/boards/heroes/buildBoard.ts')
 const { t: translate, message } = await loadTS('../src/i18n/i18n.ts')
 const { heroFilter } = await loadTS('../src/details/hero/heroFilter.ts')
+const heroDetailGroups = await loadTS('../src/details/hero/heroDetailGroups.ts')
 const settle = async () => {
   await nextTick()
   await Promise.resolve()
@@ -106,6 +107,10 @@ function harness(t, delayed = false) {
     heroFilter,
     closeTip: () => {},
     loadHeroDetail,
+    ...heroDetailGroups,
+    // 标题概览与字号适配不属于筛选切换的测试范围
+    useHeroOverview: () => ({ allWinRate: ref(), allGames: ref(), otherStats: ref(null) }),
+    useFittedHeading: () => {},
   }
   const run = new Function(...Object.keys(env), compiled)
   const app = scope.run(() => run(...Object.values(env)))

@@ -22,7 +22,10 @@ import HeroFilterControls from './HeroFilterControls.vue'
 import { heroFilter, type HeroFilter, type HeroFilterAction, type RuneFilter } from './heroFilter'
 import { loadHeroDetail, type HeroDetailPayload } from './heroCohorts'
 import { usePatchAvailability } from '@/data/usePatchAvailability'
-import { computed, onMounted, onUnmounted, provide, ref, watch, nextTick } from 'vue'
+import { useHeroOverview } from './useHeroOverview'
+import { useFittedHeading } from './useFittedHeading'
+import { statGroups, bootsGroup, mobileTabs } from './heroDetailGroups'
+import { computed, onUnmounted, provide, ref, watch } from 'vue'
 import { closeTip } from '@/tooltip/tooltip'
 import { championBuilds, type BuildEntry } from '@/boards/heroes/buildBoard'
 const props = withDefaults(
@@ -76,7 +79,6 @@ onUnmounted(
 const roles = computed(() =>
   championBuilds(props.entries.length ? props.entries : [props.entry], props.entry.championId),
 )
-const displayedRoles = roles
 // The board portrait remains the expansion anchor when its cohort changes.
 const entry = computed(
   () => roles.value.find(option => option.role === filter.value.role) || props.entry,
@@ -105,53 +107,10 @@ function changeFilter(action: HeroFilterAction) {
   emit('filter-change', filter.value)
 }
 provide('filter-hero-rune', (rune: RuneFilter) => changeFilter({ type: 'rune', rune }))
-const allWinRate = ref<number | undefined>(),
-  allGames = ref<number | undefined>()
-watch(
-  () => [props.entry.championId, props.patch, props.entry.snapshotId],
-  async (_scope, _previous, onCleanup) => {
-    let active = true
-    onCleanup(() => {
-      active = false
-    })
-    allWinRate.value = undefined
-    allGames.value = undefined
-    try {
-      const all = await loadHeroDetail(props.entry, props.patch, { role: null, rune: null })
-      if (active) {
-        allWinRate.value = all.summary.winRate
-        allGames.value = all.summary.games
-      }
-    } catch {
-      /* Leave unavailable statistics blank. */
-    }
-  },
-  { immediate: true },
-)
-const otherStats = ref<{ games: number; heroGames: number; winRate: number } | null>(null)
-watch(
-  () => [props.entry.championId, props.patch, props.entry.snapshotId],
-  async (_scope, _previous, onCleanup) => {
-    let active = true
-    onCleanup(() => {
-      active = false
-    })
-    otherStats.value = null
-    const source = props.entry,
-      patch = props.patch
-    try {
-      const other = await loadHeroDetail(source, patch, { role: 'other', rune: null })
-      const heroGames =
-        source.eligibleGames ??
-        source.heroGames ??
-        (await loadHeroDetail(source, patch, { role: null, rune: null })).summary.games
-      if (active)
-        otherStats.value = { games: other.summary.games, heroGames, winRate: other.summary.winRate }
-    } catch {
-      /* Keep unavailable statistics distinct from zero appearances. */
-    }
-  },
-  { immediate: true },
+// 标题与流派选择器中的“全部出场”和“未归类”统计，不随筛选变化
+const { allWinRate, allGames, otherStats } = useHeroOverview(
+  () => props.entry,
+  () => props.patch,
 )
 const data = ref<HeroDetailPayload | null>(null)
 const allSortData = ref<HeroDetailPayload | null>(null)
@@ -161,18 +120,6 @@ const appliedFilter = ref<HeroFilter>(filter.value)
 const displayedFilter = computed(() => (data.value ? appliedFilter.value : filter.value))
 const initialLoading = computed(() => loading.value && !data.value)
 let requestId = 0
-const groups = [
-  { id: 'kPrismatic', name: '棱彩海克斯', label: '棱彩', css: 'prismatic' },
-  { id: 'kGold', name: '黄金海克斯', label: '黄金', css: 'gold' },
-  { id: 'kSilver', name: '白银海克斯', label: '白银', css: 'silver' },
-  { id: 'items', name: '常见装备', label: '装备', css: 'items' },
-]
-const bootsGroup = { id: 'boots', name: '鞋子', label: '鞋子', css: 'items' }
-const mobileTabs = [
-  ...groups.slice(0, 3).map(group => ({ id: group.id, label: group.label, css: group.css })),
-  { id: 'pairs', label: '组合', css: 'pairs' },
-  ...groups.slice(3).map(group => ({ id: group.id, label: group.label, css: group.css })),
-]
 const detail = computed(() => data.value?.detail)
 const summary = computed(() => data.value?.summary)
 const headingRole = computed(() =>
@@ -186,37 +133,7 @@ const headingTitle = computed(() => {
   return title + '－' + roleName(headingRole.value, props.patch) + suffix
 })
 const headingName = ref<HTMLElement | null>(null)
-let headingResize: ResizeObserver | undefined,
-  headingFrame = 0
-function fitHeading() {
-  cancelAnimationFrame(headingFrame)
-  headingFrame = requestAnimationFrame(() => {
-    const el = headingName.value
-    if (!el) return
-    el.style.removeProperty('font-size')
-    if (
-      window.matchMedia('(max-width:700px)').matches &&
-      el.clientWidth > 0 &&
-      el.scrollWidth > el.clientWidth
-    ) {
-      el.style.fontSize =
-        Math.max(12, Math.floor(((22 * el.clientWidth) / el.scrollWidth) * 10) / 10) + 'px'
-    }
-  })
-}
-onMounted(() => {
-  headingResize = new ResizeObserver(fitHeading)
-  if (headingName.value) headingResize.observe(headingName.value)
-  fitHeading()
-})
-watch(headingTitle, async () => {
-  await nextTick()
-  fitHeading()
-})
-onUnmounted(() => {
-  headingResize?.disconnect()
-  cancelAnimationFrame(headingFrame)
-})
+useFittedHeading(headingName, headingTitle)
 const headingGames = computed(
   () =>
     summary.value?.games ??
@@ -373,7 +290,7 @@ onUnmounted(() => {
         "
         :selection-win-rate="summary?.winRate"
         :state="displayedFilter"
-        :roles="displayedRoles"
+        :roles="roles"
         :patch="patch"
         @change="changeFilter"
       />
@@ -403,7 +320,7 @@ onUnmounted(() => {
       >
         <DesktopCategoryBrowser
           :enabled="!compact"
-          :groups="compact ? groups.filter(group => contentTab.id === group.id) : groups"
+          :groups="compact ? statGroups.filter(group => contentTab.id === group.id) : statGroups"
           :panel-id="panelId"
           v-slot="{ group, expanded, toggle, rowAttrs, tabMode }"
         >
