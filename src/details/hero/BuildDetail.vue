@@ -122,7 +122,12 @@ const displayedFilter = computed(() => (data.value ? appliedFilter.value : filte
 const initialLoading = computed(() => loading.value && !data.value)
 // 按行分步换出真实卡片：统计四行(0-3)、召唤师技能(4)、鞋子(5)、海克斯组合(6)。
 // 手机每次只显示一个分类，效果为“先挂载占位，下一帧再填卡片”。
-const stagedHidden = useStagedRows(() => !initialLoading.value, 7)
+const stagedHidden = useStagedRows(
+  () => !initialLoading.value,
+  7,
+  // 桌面屏外的行（通常是技能、鞋子、海克斯组合）等滚动到附近才生成卡片
+  () => (compact.value ? null : panel.value),
+)
 const rowLoading = (index: number) => initialLoading.value || stagedHidden(index)
 const statRowIndex = (id: string) => statGroups.findIndex(group => group.id === id)
 let requestId = 0
