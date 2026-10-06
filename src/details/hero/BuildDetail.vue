@@ -24,6 +24,7 @@ import { loadHeroDetail, type HeroDetailPayload } from './heroCohorts'
 import { usePatchAvailability } from '@/data/usePatchAvailability'
 import { useHeroOverview } from './useHeroOverview'
 import { useFittedHeading } from './useFittedHeading'
+import { useStagedRows } from '@/details/useStagedRows'
 import { statGroups, bootsGroup, mobileTabs } from './heroDetailGroups'
 import { computed, onUnmounted, provide, ref, watch } from 'vue'
 import { closeTip } from '@/tooltip/tooltip'
@@ -119,6 +120,11 @@ const loading = ref(true),
 const appliedFilter = ref<HeroFilter>(filter.value)
 const displayedFilter = computed(() => (data.value ? appliedFilter.value : filter.value))
 const initialLoading = computed(() => loading.value && !data.value)
+// 按行分步换出真实卡片：统计四行(0-3)、召唤师技能(4)、鞋子(5)、海克斯组合(6)。
+// 手机每次只显示一个分类，效果为“先挂载占位，下一帧再填卡片”。
+const stagedHidden = useStagedRows(() => !initialLoading.value, 7)
+const rowLoading = (index: number) => initialLoading.value || stagedHidden(index)
+const statRowIndex = (id: string) => statGroups.findIndex(group => group.id === id)
 let requestId = 0
 const detail = computed(() => data.value?.detail)
 const summary = computed(() => data.value?.summary)
@@ -340,7 +346,7 @@ onUnmounted(() => {
             :show-delta="!compact"
             :group="group"
             :cells="displayedGroups[group.id] || []"
-            :loading="initialLoading"
+            :loading="rowLoading(statRowIndex(group.id))"
             :locked="locked"
             query=""
             :patch="displayedPatch"
@@ -362,7 +368,7 @@ onUnmounted(() => {
             :show-delta="!compact"
             :locked="locked"
             :scope="spellScope"
-            :loading="initialLoading"
+            :loading="rowLoading(4)"
             :patch="displayedPatch"
             :baseline="baseline"
           />
@@ -370,7 +376,7 @@ onUnmounted(() => {
             :show-delta="!compact"
             :group="bootsGroup"
             :cells="displayedGroups.boots || []"
-            :loading="initialLoading"
+            :loading="rowLoading(5)"
             :locked="locked"
             query=""
             :patch="displayedPatch"
@@ -387,6 +393,7 @@ onUnmounted(() => {
           :champion-id="entry.championId"
           :patch="patch"
           :snapshot-id="entry.snapshotId"
+          :deferred="stagedHidden(6)"
           :locked="locked"
           query=""
         />

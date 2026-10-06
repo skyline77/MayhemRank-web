@@ -24,6 +24,7 @@ import {
 import DetailEdges from '@/details/DetailEdges.vue'
 import DetailLink from '@/details/DetailLink.vue'
 import BuildDetail from '@/details/hero/BuildDetail.vue'
+import { prefetchHeroDetail } from '@/details/hero/prefetchHeroDetail'
 import type { RuneFilter } from '@/details/hero/heroFilter'
 import BoardNavSearch from '@/navigation/BoardNavSearch.vue'
 import BoardBanner from '@/boards/BoardBanner.vue'
@@ -152,6 +153,11 @@ function detailPanel(key = selectedStrip.value) {
     : null
 }
 const stripFor = (entry: BuildEntry | null) => stripKeyOf(strips.value, entry)
+// 鼠标或触控笔按下时提前请求详情数据。触摸时不预取：手机的停顿主要来自整页重排，
+// 数据提前到达反而会与挂载挤在同一段工作中，实测缓存命中时停顿更长。
+function prefetchOnPress(event: PointerEvent, entry: BuildEntry) {
+  if (event.pointerType !== 'touch' && data.value) prefetchHeroDetail(entry, data.value.meta.patch)
+}
 async function selectEntry(entry: BuildEntry, _trigger: HTMLAnchorElement | null, linked = false) {
   if (!linked) initialRune.value = null
   const targetStrip = stripFor(entry) || (linked ? strips.value.at(-1)?.key : null),
@@ -664,6 +670,7 @@ watch(selectedVersion, () => {
                       ? 'inline-build-detail-' + strip.key
                       : undefined
                   "
+                  @pointerdown="prefetchOnPress($event, entry)"
                   @activate="(event, trigger) => selectEntry(entry, trigger)"
                   :title="
                     message('{p0} · {p1} · {p2} · {p3} 场', {

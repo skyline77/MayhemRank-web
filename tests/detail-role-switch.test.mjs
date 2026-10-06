@@ -111,6 +111,8 @@ function harness(t, delayed = false) {
     // 标题概览与字号适配不属于筛选切换的测试范围
     useHeroOverview: () => ({ allWinRate: ref(), allGames: ref(), otherStats: ref(null) }),
     useFittedHeading: () => {},
+    // 分步显示只影响桌面渲染节奏，筛选测试中视为全部行已显示
+    useStagedRows: () => () => false,
   }
   const run = new Function(...Object.keys(env), compiled)
   const app = scope.run(() => run(...Object.values(env)))

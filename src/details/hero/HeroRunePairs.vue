@@ -29,6 +29,8 @@ const props = defineProps<{
   locked: boolean
   query: string
   searchIndex: DetailSearchIndex | null
+  /** 由父组件分步显示控制：为 true 时即使数据已到也先显示占位 */
+  deferred?: boolean
 }>()
 const data = ref<HeroRunePairs | null>(null),
   loading = ref(true),
@@ -111,8 +113,8 @@ function revealRune(event: Event, rune: HeroRunePair['runes'][number]) {
       v-slot="{ sortedCells, sortBy }"
     >
       <DetailCardList
-        :loading="loading"
-        :class="{ 'is-empty': !loading && !visible(sortedCells).length }"
+        :loading="loading || deferred"
+        :class="{ 'is-empty': !loading && !deferred && !visible(sortedCells).length }"
         :reset-key="scope + (locked ? '' : query) + sortBy"
         :match-key="locked && query.trim() ? query : undefined"
         :match-revision="sortedCells"
@@ -122,7 +124,7 @@ function revealRune(event: Event, rune: HeroRunePair['runes'][number]) {
         tabindex="0"
         :aria-label="t('海克斯组合，可左右滚动查看全部')"
       >
-        <template v-if="loading"
+        <template v-if="loading || deferred"
           ><div v-for="i in 8" :key="i" class="build-stat-placeholder"></div
         ></template>
         <template v-else>
