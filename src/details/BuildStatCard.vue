@@ -4,9 +4,7 @@ import { gameName } from '@/i18n/gameLocalization'
 import { formatCount, formatCompactCount } from '@/stats/formatCount'
 
 import { computed } from 'vue'
-import DetailLink from './DetailLink.vue'
-import StatCardFrame from './StatCardFrame.vue'
-import WinRateDelta from './WinRateDelta.vue'
+import { isInlineActivation } from '@/app/detailLink'
 import { winRateDelta } from './buildDetails'
 import { augmentIcon, needsGoldTint } from '@/data/augmentIcons'
 import type { DetailCell } from './buildDetails'
@@ -65,8 +63,17 @@ function reveal(event: Event) {
 function activate(event: Event) {
   if (props.expandable) emit('activate', event)
 }
+// 卡片外框、链接与 Δ胜率直接写在本组件模板中（不再嵌套 StatCardFrame / DetailLink /
+// WinRateDelta 组件），DOM 不变，每张卡片只创建一个组件实例。
 function clickCard(event: MouseEvent) {
-  if (!props.href) activate(event)
+  if (!props.href) {
+    activate(event)
+    return
+  }
+  // 可展开的链接卡片：普通左键在站内展开；修饰键点击保留浏览器默认行为
+  if (!props.expandable || event.defaultPrevented || !isInlineActivation(event)) return
+  event.preventDefault()
+  activate(event)
 }
 function pressCard(event: KeyboardEvent) {
   if (props.href || !props.expandable) return
@@ -91,13 +98,12 @@ function toggleIdentity(event: KeyboardEvent) {
 }
 </script>
 <template>
-  <StatCardFrame
-    :as="href ? (expandable ? DetailLink : 'a') : 'figure'"
-    :caption-as="href ? 'span' : 'figcaption'"
-    :caption-class="cell.lowSample ? 'build-stat-caption is-low-sample' : 'build-stat-caption'"
+  <component
+    :is="href ? 'a' : 'figure'"
     :href="href"
+    :draggable="href && expandable ? 'true' : undefined"
+    class="stat-card-frame build-stat-card"
     :data-detail-card-id="group + ':' + cell.id"
-    class="build-stat-card"
     :class="{ uncertain: cell.lowSample, 'is-actionable': expandable && !!actionLabel }"
     :tabindex="expandable && !href ? 0 : undefined"
     :role="expandable && !href ? 'button' : undefined"
@@ -158,135 +164,144 @@ function toggleIdentity(event: KeyboardEvent) {
     @focusin="wholeCardTip && reveal($event)"
     @focusout="wholeCardTip && hideTip()"
     @click.capture="captureTap"
-    @activate="activate"
     @click="clickCard"
     @keydown.self.enter="pressCard"
     @keydown.self.space="pressCard"
   >
-    <span
-      class="build-stat-identity"
-      :class="{
-        'has-custom-identity': $slots.identity,
-        'is-augment-identity': group !== 'items' && group !== 'heroes' && !$slots.identity,
-      }"
-      :tabindex="tip && !expandable && !href ? 0 : undefined"
-      :role="tip && !expandable && !href ? 'button' : undefined"
-      :aria-label="
-        tip
-          ? message('{p0}，查看装备或符文说明', {
-              p0: gameName(
-                group === 'heroes' ? 'champions' : group === 'items' ? 'items' : 'augments',
-                cell.id,
-                patch,
-                cell.name,
-              ),
-            })
-          : undefined
-      "
-      @mouseenter="!wholeCardTip && reveal($event)"
-      @mouseleave="!wholeCardTip && hideTip()"
-      @focus="!wholeCardTip && reveal($event)"
-      @blur="!wholeCardTip && hideTip()"
-      @click="clickIdentity"
-      @keydown.self.enter="toggleIdentity"
-      @keydown.self.space="toggleIdentity"
+    <component
+      :is="href ? 'span' : 'figcaption'"
+      class="stat-card-layout"
+      :class="cell.lowSample ? 'build-stat-caption is-low-sample' : 'build-stat-caption'"
     >
-      <slot name="identity">
-        <span v-if="group === 'items'" class="build-item-icon">
+      <span
+        class="build-stat-identity"
+        :class="{
+          'has-custom-identity': $slots.identity,
+          'is-augment-identity': group !== 'items' && group !== 'heroes' && !$slots.identity,
+        }"
+        :tabindex="tip && !expandable && !href ? 0 : undefined"
+        :role="tip && !expandable && !href ? 'button' : undefined"
+        :aria-label="
+          tip
+            ? message('{p0}，查看装备或符文说明', {
+                p0: gameName(
+                  group === 'heroes' ? 'champions' : group === 'items' ? 'items' : 'augments',
+                  cell.id,
+                  patch,
+                  cell.name,
+                ),
+              })
+            : undefined
+        "
+        @mouseenter="!wholeCardTip && reveal($event)"
+        @mouseleave="!wholeCardTip && hideTip()"
+        @focus="!wholeCardTip && reveal($event)"
+        @blur="!wholeCardTip && hideTip()"
+        @click="clickIdentity"
+        @keydown.self.enter="toggleIdentity"
+        @keydown.self.space="toggleIdentity"
+      >
+        <slot name="identity">
+          <span v-if="group === 'items'" class="build-item-icon">
+            <img
+              :src="cell.icon"
+              alt=""
+              loading="lazy"
+              width="34"
+              height="34"
+              :draggable="href ? false : undefined"
+            />
+          </span>
           <img
-            :src="cell.icon"
+            v-else
+            class="augment-artwork"
+            :class="{ 'augment-gold-fallback': needsGoldTint(cell.id, patch, group) }"
+            :src="augmentIcon(cell.id, patch, cell.icon || '')"
             alt=""
             loading="lazy"
-            width="34"
-            height="34"
+            width="42"
+            height="42"
             :draggable="href ? false : undefined"
           />
-        </span>
-        <img
-          v-else
-          class="augment-artwork"
-          :class="{ 'augment-gold-fallback': needsGoldTint(cell.id, patch, group) }"
-          :src="augmentIcon(cell.id, patch, cell.icon || '')"
-          alt=""
-          loading="lazy"
-          width="42"
-          height="42"
-          :draggable="href ? false : undefined"
-        />
-        <span class="build-stat-name">{{
-          gameName(
-            group === 'heroes' ? 'champions' : group === 'items' ? 'items' : 'augments',
-            cell.id,
-            patch,
-            cell.name,
-          )
-        }}</span>
-      </slot>
-    </span>
-    <span
-      v-if="cell.missing"
-      class="build-stat-result"
-      :title="t(missingNote) || t('当前范围无记录')"
-      :aria-label="t('胜率暂无数据')"
-      >—</span
-    >
-    <span
-      v-else
-      class="build-stat-result"
-      :title="resultTitle"
-      :aria-label="message('胜率 {p0}', { p0: pct(cell.winRate) })"
-    >
-      <strong
-        class="win"
-        :style="{ color: winRateColor(cell.winRate, baseline) }"
-        :aria-label="pct(cell.winRate) + (comparison ? '，' + comparison : '')"
-        >{{ pct(cell.winRate) }}</strong
+          <span class="build-stat-name">{{
+            gameName(
+              group === 'heroes' ? 'champions' : group === 'items' ? 'items' : 'augments',
+              cell.id,
+              patch,
+              cell.name,
+            )
+          }}</span>
+        </slot>
+      </span>
+      <span
+        v-if="cell.missing"
+        class="build-stat-result"
+        :title="t(missingNote) || t('当前范围无记录')"
+        :aria-label="t('胜率暂无数据')"
+        >—</span
       >
-      <slot name="result-extra" />
-      <span v-if="cell.lowSample" class="build-low-sample" :aria-label="t('样本较少')">*</span>
-    </span>
-    <span
-      v-if="showDelta && cell.missing"
-      class="build-stat-usage build-stat-delta"
-      :aria-label="t('Δ胜率暂无数据')"
-      >—</span
-    >
-    <span
-      v-else-if="showDelta"
-      class="build-stat-usage build-stat-delta"
-      :title="comparison"
-      :aria-label="
-        message('Δ胜率 {p0}，百分点', { p0: winRateDelta(cell.winRate, baseline ?? 0.5) })
-      "
-      ><WinRateDelta :win-rate="cell.winRate" :baseline="baseline ?? 0.5"
-    /></span>
-    <span
-      v-if="cell.missing"
-      class="build-stat-usage"
-      :title="t(missingNote) || t('当前范围无记录')"
-      >{{ missingUsage || '0.0%' }}</span
-    >
-    <span
-      v-else
-      class="build-stat-usage"
-      :style="isRuneUsage && !$slots.usage ? { color: usageRateColor(cell.pickRate) } : undefined"
-      :title="usageTitle"
-      :aria-label="
-        usageLabel ||
-        (usageDisplay === 'count'
-          ? message('使用次数 {p0}次', { p0: formatCount(cell.games) })
-          : message('使用率 {p0}，样本 {p1} {p2}', {
-              p0: pct(cell.pickRate),
-              p1: formatCount(cell.games),
-              p2: sampleUnit || t('人次'),
-            }))
-      "
-      ><slot name="usage">{{
-        usageDisplay === 'count' ? compactCount(cell.games) : pct(cell.pickRate)
-      }}</slot></span
-    >
-    <slot name="additional-stats" />
-  </StatCardFrame>
+      <span
+        v-else
+        class="build-stat-result"
+        :title="resultTitle"
+        :aria-label="message('胜率 {p0}', { p0: pct(cell.winRate) })"
+      >
+        <strong
+          class="win"
+          :style="{ color: winRateColor(cell.winRate, baseline) }"
+          :aria-label="pct(cell.winRate) + (comparison ? '，' + comparison : '')"
+          >{{ pct(cell.winRate) }}</strong
+        >
+        <slot name="result-extra" />
+        <span v-if="cell.lowSample" class="build-low-sample" :aria-label="t('样本较少')">*</span>
+      </span>
+      <span
+        v-if="showDelta && cell.missing"
+        class="build-stat-usage build-stat-delta"
+        :aria-label="t('Δ胜率暂无数据')"
+        >—</span
+      >
+      <span
+        v-else-if="showDelta"
+        class="build-stat-usage build-stat-delta"
+        :title="comparison"
+        :aria-label="
+          message('Δ胜率 {p0}，百分点', { p0: winRateDelta(cell.winRate, baseline ?? 0.5) })
+        "
+        ><span
+          class="win-rate-delta"
+          :style="{ color: winRateColor(cell.winRate - (baseline ?? 0.5), 0) }"
+          >{{ winRateDelta(cell.winRate, baseline ?? 0.5) }}</span
+        ></span
+      >
+      <span
+        v-if="cell.missing"
+        class="build-stat-usage"
+        :title="t(missingNote) || t('当前范围无记录')"
+        >{{ missingUsage || '0.0%' }}</span
+      >
+      <span
+        v-else
+        class="build-stat-usage"
+        :style="isRuneUsage && !$slots.usage ? { color: usageRateColor(cell.pickRate) } : undefined"
+        :title="usageTitle"
+        :aria-label="
+          usageLabel ||
+          (usageDisplay === 'count'
+            ? message('使用次数 {p0}次', { p0: formatCount(cell.games) })
+            : message('使用率 {p0}，样本 {p1} {p2}', {
+                p0: pct(cell.pickRate),
+                p1: formatCount(cell.games),
+                p2: sampleUnit || t('人次'),
+              }))
+        "
+        ><slot name="usage">{{
+          usageDisplay === 'count' ? compactCount(cell.games) : pct(cell.pickRate)
+        }}</slot></span
+      >
+      <slot name="additional-stats" />
+    </component>
+  </component>
 </template>
 
 <style scoped>
