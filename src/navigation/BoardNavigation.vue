@@ -3,13 +3,11 @@ import { t } from '@/i18n/i18n'
 import LanguagePicker from './LanguagePicker.vue'
 import { locale, brands } from '@/i18n/locale'
 import { onMounted, onUnmounted, ref } from 'vue'
+import { brandImage } from './brandImage'
 import PatchPicker from './PatchPicker.vue'
 import { navigationInset } from '@/app/navigationLayout'
 
 const emit = defineEmits<{ navigate: [href: string] }>()
-const wordmark = new URL('../assets/haidou-wordmark.webp', import.meta.url).href
-const wordmarkInternational = new URL('../assets/mayhemrank-wordmark.png', import.meta.url).href
-const wordmarkTraditional = new URL('../assets/haidou-tw-wordmark.png', import.meta.url).href
 const nav = ref<HTMLElement | null>(null)
 const links = ref<HTMLElement | null>(null)
 const indicator = ref({ left: 0, width: 0 })
@@ -177,13 +175,7 @@ onUnmounted(() => {
       <div class="product-nav-destinations">
         <a class="product-nav-brand" href="/" :aria-label="brands[locale]">
           <img
-            :src="
-              locale === 'zh-CN'
-                ? wordmark
-                : locale === 'zh-TW'
-                  ? wordmarkTraditional
-                  : wordmarkInternational
-            "
+            :src="brandImage"
             :alt="brands[locale]"
             decoding="sync"
             fetchpriority="high"
