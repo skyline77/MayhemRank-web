@@ -15,8 +15,6 @@ import BuildBoard from './boards/heroes/BuildBoard.vue'
 import AugmentBoard from './boards/augments/AugmentBoard.vue'
 import ComboBoards from './boards/combos/ComboBoards.vue'
 import BoardNavigation from './navigation/BoardNavigation.vue'
-import SkinSwitcher from './app/SkinSwitcher.vue'
-import { applySkin, skin } from './app/skin'
 
 restoreHistoryPatch()
 const siteRoot = ref<HTMLElement | null>(null)
@@ -32,7 +30,6 @@ const comboPage = computed(() => page.value === 'combos')
 const runePage = computed(() => page.value === 'augments')
 
 document.documentElement.dataset.theme = localStorage.getItem('team-theme') || 'dark'
-applySkin(skin.value)
 onMounted(() => {
   void loadVersions().catch(() => {})
 })
@@ -73,6 +70,5 @@ useGlobalShortcuts()
     <AugmentBoard v-else-if="runePage" :key="routeKey" />
     <BuildBoard v-else :key="routeKey" />
     <InfoTooltip />
-    <SkinSwitcher />
   </main>
 </template>

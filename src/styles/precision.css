@@ -1,0 +1,265 @@
+/* “精工”方向的装饰规则（2026-10-07 定稿，见 DESIGN.md）。
+   参考高端腕表官网：哑光纯黑、拉丝金细线、精确网格；金色只用于招牌、当前项与细线，
+   顶部插画去色压暗，去掉发光与彩色职业图标。颜色变量在 tokens.css；这里只改圆角、线条、字距等，
+   不改变尺寸与间距，榜单列宽、头像排布与详情高度计算不受影响。
+   白色半透明细线只适用于深色主题，因此规则限定在非浅色主题。
+   注意：插画层与导航栏不能加 filter / backdrop-filter，否则插画会盖到表格上。 */
+
+/* ---- 顶部插画：保留原图，去色并压暗，贴合黑金调子 ----
+   插画层不能用 filter（会盖到表格上），改用背景混合：灰色层以 saturation 混合去掉约 75% 饱和度，
+   再叠黑色渐变压暗；底部仍渐隐到页面底色。层顺序：压暗、渐隐、去色、原图。 */
+:root:not([data-theme='light']) .shared-board-art {
+  --banner-shade: rgba(10, 10, 10, 0.72);
+  --banner-wash: rgba(10, 10, 10, 0.38);
+  background-image:
+    linear-gradient(90deg, var(--banner-shade), var(--banner-wash)),
+    linear-gradient(0deg, var(--bg), transparent 96px),
+    linear-gradient(rgba(128, 128, 128, 0.75), rgba(128, 128, 128, 0.75)),
+    url('../assets/board-background.webp');
+  background-position:
+    center top,
+    center top,
+    center top,
+    center calc(var(--site-nav-height, 59px) - 75px);
+  background-blend-mode: normal, normal, saturation, normal;
+}
+@media (max-width: 700px) {
+  :root:not([data-theme='light']) .board-banner {
+    --banner-shade: rgba(10, 10, 10, 0.72);
+    --banner-wash: rgba(10, 10, 10, 0.38);
+    background-image:
+      linear-gradient(90deg, var(--banner-shade), var(--banner-wash)),
+      linear-gradient(0deg, var(--bg), transparent 70%),
+      linear-gradient(rgba(128, 128, 128, 0.75), rgba(128, 128, 128, 0.75)),
+      url('../assets/board-background.webp');
+    background-blend-mode: normal, normal, saturation, normal;
+  }
+}
+
+/* ---- 导航 ---- */
+:root:not([data-theme='light']) .product-nav {
+  border-bottom-color: rgba(255, 255, 255, 0.06);
+}
+:root:not([data-theme='light']) .product-nav-links > a {
+  letter-spacing: 0.12em;
+  color: var(--muted);
+}
+:root:not([data-theme='light']) .product-nav-links > a[aria-current='page'] {
+  color: var(--text);
+}
+:root:not([data-theme='light']) :is(.product-nav-indicator, .ranking-mode-indicator) {
+  height: 1px;
+  background: var(--brushed-gold);
+}
+:root:not([data-theme='light'])
+  :is(.product-nav .search, .product-nav .patch-picker select, .product-nav .language-picker) {
+  border-color: rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+/* ---- 排序方式：去掉外框，改为文字页签 + 拉丝金细线 ---- */
+:root:not([data-theme='light']) .hero-ranking-mode {
+  border-color: transparent;
+  border-radius: 0;
+  box-shadow: inset 0 -1px rgba(255, 255, 255, 0.08);
+}
+:root:not([data-theme='light']) .hero-ranking-mode button {
+  background: transparent;
+  letter-spacing: 0.1em;
+}
+:root:not([data-theme='light']) .hero-ranking-mode button[aria-pressed='true'] {
+  background: transparent;
+  color: var(--text);
+}
+
+/* ---- 表格：细线、小圆角、无竖线 ---- */
+:root:not([data-theme='light']) :is(.board-header-scroll, .board-scroll) {
+  border-color: rgba(255, 255, 255, 0.06);
+  box-shadow: none;
+}
+:root:not([data-theme='light']) .board-header-scroll {
+  border-radius: 4px 4px 0 0;
+}
+:root:not([data-theme='light']) .board-scroll {
+  border-radius: 0 0 4px 4px;
+}
+:root:not([data-theme='light']) :is(.board-cell, .board-column) {
+  border-left-color: transparent;
+}
+:root:not([data-theme='light']) .board-column-head,
+:root:not([data-theme='light']) .board-axis {
+  background: transparent;
+}
+:root:not([data-theme='light']) .board-column-filter {
+  font-weight: 600;
+  letter-spacing: 0.14em;
+}
+:root:not([data-theme='light']) .board-column-filter:hover {
+  background: rgba(255, 255, 255, 0.025);
+}
+:root:not([data-theme='light']) .board-column-filter[aria-pressed='true'] {
+  color: var(--accent-text);
+  background: transparent;
+  box-shadow: inset 0 -1px var(--accent);
+}
+/* 职业图标改为单色 */
+:root:not([data-theme='light']) .board-role-icon {
+  filter: grayscale(1) brightness(1.5);
+  opacity: 0.6;
+}
+:root:not([data-theme='light']) .board-column-filter[aria-pressed='true'] .board-role-icon {
+  filter: sepia(1) saturate(1.4) brightness(1.15);
+  opacity: 1;
+}
+/* 胜率区间：数字略放大，颜色仍按胜率 */
+:root:not([data-theme='light']) .board-range-label b {
+  font-size: 13px;
+  letter-spacing: 0.02em;
+}
+:root:not([data-theme='light']) .board-column-head .board-axis {
+  letter-spacing: 0.2em;
+  font-size: 10px;
+}
+
+/* ---- 头像：去掉边框，悬停与展开时只出现一圈金色细线 ---- */
+:root:not([data-theme='light']) .build-portrait {
+  border-color: transparent;
+  border-radius: 4px;
+}
+:root:not([data-theme='light']) .build-win {
+  border-radius: 2px;
+  padding: 0 3px;
+  letter-spacing: 0.02em;
+}
+:root:not([data-theme='light'])
+  :is(.build-tile:hover, .build-tile[aria-expanded='true'])
+  .build-portrait {
+  border-color: transparent;
+  box-shadow: none;
+  outline: 1px solid var(--accent);
+  outline-offset: 2px;
+}
+:root:not([data-theme='light']) .board-detail-row {
+  border-block-color: rgba(201, 164, 92, 0.45);
+}
+
+/* ---- 详情卡片：深色小圆角面板，极细描边，悬停出现金色细框 ---- */
+:root:not([data-theme='light']) .stat-card-frame:not(.build-detail-rail) {
+  border-color: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  background: var(--surface);
+}
+:root:not([data-theme='light']) .build-stat-card .build-stat-identity {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent);
+}
+:root:not([data-theme='light']) .build-stat-card :is(.build-stat-result, .build-stat-usage) {
+  border-top-color: rgba(255, 255, 255, 0.045);
+}
+:root:not([data-theme='light']) .build-stat-name {
+  color: color-mix(in srgb, var(--text) 88%, var(--muted));
+}
+:root:not([data-theme='light']) a.build-stat-card {
+  transition: border-color 160ms ease;
+}
+:root:not([data-theme='light']) a.build-stat-card:hover {
+  border-color: var(--accent);
+}
+:root:not([data-theme='light']) .build-stat-placeholder {
+  border-radius: 4px;
+}
+/* 左侧分类栏（仅桌面；手机的浮动排序条复用这些类）：保留稀有度底色，改为哑光并收小圆角 */
+@media (min-width: 701px) {
+  :root:not([data-theme='light']) .build-detail-rail {
+    border-color: transparent;
+    border-radius: 4px;
+    background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.12), transparent 55%);
+  }
+  :root:not([data-theme='light']) .build-detail-rail h3 {
+    letter-spacing: 0.12em;
+    font-weight: 600;
+  }
+  :root:not([data-theme='light']) .build-detail-rail .build-detail-sort {
+    font-weight: 500;
+    letter-spacing: 0.04em;
+  }
+}
+/* 标题区的数据块与关闭按钮 */
+:root:not([data-theme='light']) .build-detail-close {
+  border-radius: 4px;
+}
+
+/* ---- 详情头部：流派数据块、手机流派菜单 ---- */
+:root:not([data-theme='light'])
+  :is(
+    .build-role-picker a,
+    .selected-rune,
+    .mobile-role-menu summary,
+    .mobile-role-options button
+  ) {
+  border-color: rgba(255, 255, 255, 0.07);
+  border-radius: 4px;
+  background: var(--surface);
+  transition: border-color 160ms ease;
+}
+:root:not([data-theme='light']) :is(.build-role-picker a, .mobile-role-menu summary):hover {
+  border-color: rgba(255, 255, 255, 0.16);
+}
+:root:not([data-theme='light'])
+  :is(
+    .build-role-picker a[aria-current='true'],
+    .selected-rune,
+    .mobile-role-options button[aria-pressed='true']
+  ) {
+  border-color: var(--accent);
+}
+:root:not([data-theme='light']) .role-selection-border {
+  border-radius: 4px;
+}
+:root:not([data-theme='light']) .build-role-picker .role-choice-stats small {
+  letter-spacing: 0.02em;
+}
+:root:not([data-theme='light']) .mobile-role-options {
+  border-color: rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+}
+:root:not([data-theme='light']) :is(.role-item-placeholder, .role-item-icons img) {
+  border-radius: 2px;
+}
+/* ---- 手机分页：描边按钮，不可用时只留淡线 ---- */
+:root:not([data-theme='light']) .detail-card-pagination button {
+  border-color: rgba(255, 255, 255, 0.14);
+  background: transparent;
+  letter-spacing: 0.06em;
+}
+:root:not([data-theme='light']) .detail-card-pagination button:not(:disabled):active {
+  border-color: var(--accent);
+  color: var(--accent-text);
+}
+:root:not([data-theme='light']) .detail-card-pagination button:disabled {
+  border-color: rgba(255, 255, 255, 0.05);
+}
+:root:not([data-theme='light']) .detail-card-page-count {
+  letter-spacing: 0.04em;
+}
+
+/* ---- 组合榜：分页按钮与详情分页一致，表头字距拉开 ---- */
+:root:not([data-theme='light']) .combo-pagination button {
+  border-color: rgba(255, 255, 255, 0.14);
+  border-radius: 4px;
+  background: transparent;
+  letter-spacing: 0.06em;
+}
+:root:not([data-theme='light']) .combo-pagination button:disabled {
+  border-color: rgba(255, 255, 255, 0.05);
+}
+:root:not([data-theme='light']) .combo-table th {
+  letter-spacing: 0.08em;
+  font-weight: 600;
+}
+:root:not([data-theme='light']) .combo-table :is(th, td) {
+  border-bottom-color: rgba(255, 255, 255, 0.05);
+}
+:root:not([data-theme='light']) .combo-table tbody tr[data-rank]:hover {
+  background: rgba(255, 255, 255, 0.025);
+}

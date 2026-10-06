@@ -1,4 +1,4 @@
-/* Reference: arammeta.com. Local companion layout, shared visual language.
+/* 全站颜色变量。深色为“精工”方向（2026-10-07）：哑光纯黑、拉丝金、低饱和稀有度色，见 DESIGN.md。
    Keep all theme colors here; rarity colors encode rarity, never win rate. */
 :root {
   --safe-area-top: env(safe-area-inset-top, 0px);
@@ -8,29 +8,29 @@
   font-variant-numeric: tabular-nums;
   color: var(--text);
   background: var(--bg);
-  --bg: #0a0b0d;
-  --surface: #101114;
-  --low-sample-card-bg: #30363f;
-  --card: #161a20;
-  --detail-surface: #252b34;
-  --detail-edge-shadow: rgba(0, 0, 0, 0.62);
-  --detail-header-shadow: rgba(0, 0, 0, 0.24);
-  --border: rgba(255, 255, 255, 0.09);
-  --border-strong: rgba(255, 255, 255, 0.18);
-  --muted: #9aa0a6;
-  --text: #e8eaed;
-  --accent: #f5c518;
-  --accent-text: #f5d780;
-  --accent-on: #14110a;
-  --chip: #1a1d21;
+  --bg: #0a0a0a;
+  --surface: #0e0e0f;
+  --low-sample-card-bg: #2c2c2f;
+  --card: #161617;
+  --detail-surface: #232325;
+  --detail-edge-shadow: rgba(0, 0, 0, 0.6);
+  --detail-header-shadow: rgba(0, 0, 0, 0.3);
+  --border: rgba(255, 255, 255, 0.055);
+  --border-strong: rgba(255, 255, 255, 0.12);
+  --muted: #8a8780;
+  --text: #f2efe8;
+  --accent: #c9a45c;
+  --accent-text: #dcc08a;
+  --accent-on: #14100a;
+  --chip: #18181a;
   --green: #94baa6;
-  --prismatic: #d8b8ff;
-  --gold: #e3c36e;
-  --silver: #b9c3cf;
-  --silver-rail: #8aadb5;
-  --rune-pair-blue: #4c91ed;
+  --prismatic: #b9a6d8;
+  --gold: #c9a45c;
+  --silver: #a4acb6;
+  --silver-rail: #7f959b;
+  --rune-pair-blue: #6f8fc2;
   --role-icon-filter: none;
-  --icon-bg: #252a32;
+  --icon-bg: #1a1a1c;
   --detail-card-width: 76px;
   --detail-card-gap: 4px;
   --detail-rail-width: 70px;
@@ -41,18 +41,20 @@
   --board-portrait-gap: 6px;
   --portrait-label-font-size: 10px;
   --portrait-rate-font-size: calc(var(--portrait-label-font-size) + 1px);
-  --rail-ink: #242630;
-  --rail-shade: #242630;
-  --portrait-bg: #0a0b0de8;
-  --portrait-label-bg: rgba(10, 11, 13, 0.6);
-  --portrait-text: #f5f6ff;
-  --portrait-tag-gold: #ffda63;
-  --shadow: 0 12px 36px #0005;
+  --rail-ink: #18181a;
+  --rail-shade: #18181a;
+  --portrait-bg: rgba(10, 10, 10, 0.9);
+  --portrait-label-bg: rgba(10, 10, 10, 0.68);
+  --portrait-text: #f6f3ec;
+  --portrait-tag-gold: #dcc08a;
+  --shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
   /* Shared win-rate scale endpoints; neutral and interpolation live in winRateColor.ts. */
   --win-positive-3: #64c06a;
   --win-negative-3: #f87e77;
   --usage-yellow: oklch(0.73 0.15 95);
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  /* 拉丝金：中间亮、两端暗的细渐变，只用于 1–2px 的线 */
+  --brushed-gold: linear-gradient(90deg, #7d6130, #e6cc93 50%, #7d6130);
 }
 :root[data-theme='light'] {
   color-scheme: light;
