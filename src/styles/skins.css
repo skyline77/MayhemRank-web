@@ -1,0 +1,325 @@
+/* UI 方案试用（ui/hero-board-themes 分支）。
+   三套方案只覆盖颜色变量与少量装饰（圆角、阴影、线条、标签），不改变尺寸与间距，
+   因此榜单的列宽、头像排布与详情高度计算都不受影响。
+   注意：插画层与导航栏不能加 filter / backdrop-filter，否则插画会盖到表格上。 */
+
+/* ===================== A 晨光：简洁浅色 ===================== */
+:root[data-skin='a'] {
+  color-scheme: light;
+  --bg: #f6f6f4;
+  --surface: #ffffff;
+  --card: #f0f0ee;
+  --low-sample-card-bg: #f4f4f2;
+  --detail-surface: #f3f3f1;
+  --detail-edge-shadow: rgba(24, 24, 27, 0.12);
+  --detail-header-shadow: rgba(24, 24, 27, 0.06);
+  --border: rgba(24, 24, 27, 0.07);
+  --border-strong: rgba(24, 24, 27, 0.14);
+  --muted: #71717a;
+  --text: #18181b;
+  --accent: #4f46e5;
+  --accent-text: #4338ca;
+  --accent-on: #ffffff;
+  --chip: #f1f1f4;
+  --icon-bg: #ececef;
+  --rail-ink: #ffffff;
+  --role-icon-filter: brightness(0.35) saturate(0.6);
+  --portrait-bg: rgba(255, 255, 255, 0.94);
+  --portrait-label-bg: rgba(255, 255, 255, 0.9);
+  --portrait-text: #18181b;
+  --portrait-tag-gold: #a16207;
+  --shadow: 0 10px 30px rgba(24, 24, 27, 0.08);
+  --win-positive-3: #15803d;
+  --win-negative-3: #b91c1c;
+}
+/* 顶部不放插画，只留白 */
+:root[data-skin='a'] :is(.shared-board-art, .board-banner) {
+  background-image: none;
+}
+:root[data-skin='a'] .board-vignette-blend {
+  display: none;
+}
+:root[data-skin='a'] .board-range-label b {
+  font-weight: 700;
+}
+:root[data-skin='a'] .product-nav {
+  background: var(--bg);
+}
+/* 表格：一张白色卡片，去掉竖向分隔线，以浅色横线分档 */
+:root[data-skin='a'] :is(.board-header-scroll, .board-scroll) {
+  border-color: transparent;
+  box-shadow:
+    0 1px 2px rgba(24, 24, 27, 0.04),
+    0 8px 24px rgba(24, 24, 27, 0.05);
+}
+:root[data-skin='a'] .board-header-scroll {
+  border-radius: 14px 14px 0 0;
+  border-bottom: 1px solid var(--border);
+}
+:root[data-skin='a'] .board-scroll {
+  border-radius: 0 0 14px 14px;
+}
+:root[data-skin='a'] :is(.board-cell, .board-column) {
+  border-left-color: transparent;
+}
+:root[data-skin='a'] .board-column-filter[aria-pressed='true'] {
+  background: #eef0ff;
+}
+:root[data-skin='a'] .build-portrait {
+  border-color: transparent;
+  border-radius: 10px;
+  box-shadow: 0 1px 2px rgba(24, 24, 27, 0.12);
+}
+:root[data-skin='a'] .build-win {
+  border-radius: 5px;
+  padding: 0 3px;
+}
+:root[data-skin='a'] :is(.build-tile:hover, .build-tile[aria-expanded='true']) .build-portrait {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent);
+}
+:root[data-skin='a'] .board-detail-row {
+  border-block-color: var(--border-strong);
+}
+:root[data-skin='a'] .hero-ranking-mode {
+  border-color: var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+}
+:root[data-skin='a'] .hero-ranking-mode button {
+  background: transparent;
+}
+:root[data-skin='a'] .hero-ranking-mode button[aria-pressed='true'] {
+  background: #eef0ff;
+}
+
+/* ===================== B 夜幕：精致深色 ===================== */
+:root[data-skin='b'] {
+  color-scheme: dark;
+  --bg: #0d1015;
+  --surface: #13171e;
+  --card: #1a1f28;
+  --low-sample-card-bg: #262c36;
+  --detail-surface: #1a1f28;
+  --detail-edge-shadow: rgba(0, 0, 0, 0.5);
+  --border: rgba(255, 255, 255, 0.055);
+  --border-strong: rgba(255, 255, 255, 0.12);
+  --muted: #8b93a1;
+  --text: #e4e7ec;
+  --accent: #8fb3ff;
+  --accent-text: #b4cbff;
+  --accent-on: #0d1015;
+  --chip: #1d232d;
+  --icon-bg: #20262f;
+  --rail-ink: #1d232d;
+  --rail-shade: #1d232d;
+  --portrait-bg: rgba(13, 16, 21, 0.9);
+  --portrait-label-bg: rgba(13, 16, 21, 0.72);
+  --portrait-text: #eef1f6;
+  --portrait-tag-gold: #f1d38a;
+  --shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+  --win-positive-3: #6fcf97;
+  --win-negative-3: #f08a80;
+}
+/* 插画换成冷色光晕 */
+:root[data-skin='b'] :is(.shared-board-art, .board-banner) {
+  background-image:
+    radial-gradient(60% 120% at 18% 0%, rgba(110, 140, 255, 0.22), transparent 70%),
+    radial-gradient(50% 110% at 85% 10%, rgba(180, 120, 255, 0.16), transparent 70%),
+    linear-gradient(0deg, var(--bg), transparent 96px);
+}
+:root[data-skin='b'] .board-vignette-blend {
+  display: none;
+}
+:root[data-skin='b'] :is(.board-cell, .board-column) {
+  border-left-color: transparent;
+}
+/* 胜率档胶囊只用于桌面横排标签；手机竖排标签太窄 */
+@media (min-width: 701px) {
+  :root[data-skin='b'] .board-range-label b {
+    padding: 3px 8px;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--range-ink, var(--text)) 13%, transparent);
+  }
+}
+:root[data-skin='b'] .product-nav {
+  background: var(--bg);
+}
+/* 表格：更大的圆角、细描边与内高光，分档之间用底色而非粗线区分 */
+:root[data-skin='b'] :is(.board-header-scroll, .board-scroll) {
+  border-color: rgba(255, 255, 255, 0.07);
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.03);
+}
+:root[data-skin='b'] .board-header-scroll {
+  border-radius: 16px 16px 0 0;
+  background: #161b23;
+}
+:root[data-skin='b'] .board-scroll {
+  border-radius: 0 0 16px 16px;
+}
+:root[data-skin='b'] .board-column-head {
+  background: #161b23;
+}
+:root[data-skin='b'] .board-column-filter[aria-pressed='true'] {
+  background: rgba(143, 179, 255, 0.08);
+}
+:root[data-skin='b'] .build-portrait {
+  border-color: transparent;
+  border-radius: 14px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+}
+:root[data-skin='b'] .build-win {
+  left: 4px;
+  bottom: 3px;
+  border-radius: 6px;
+  padding: 0 4px;
+}
+:root[data-skin='b'] :is(.build-tile:hover, .build-tile[aria-expanded='true']) .build-portrait {
+  border-color: var(--accent);
+  box-shadow:
+    0 0 0 1px var(--accent),
+    0 6px 18px rgba(143, 179, 255, 0.25);
+}
+:root[data-skin='b'] .board-detail-row {
+  border-block-color: rgba(143, 179, 255, 0.35);
+}
+:root[data-skin='b'] .hero-ranking-mode {
+  border-radius: 10px;
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+/* ===================== C 海克斯：游戏氛围 ===================== */
+:root[data-skin='c'] {
+  color-scheme: dark;
+  --bg: #050a13;
+  --surface: #0a1322;
+  --card: #0f1b2e;
+  --low-sample-card-bg: #1a2638;
+  --detail-surface: #0d1a2c;
+  --detail-edge-shadow: rgba(0, 0, 0, 0.7);
+  --border: rgba(200, 170, 110, 0.14);
+  --border-strong: rgba(200, 170, 110, 0.38);
+  --muted: #a09b8c;
+  --text: #f0e6d2;
+  --accent: #c8aa6e;
+  --accent-text: #e9d29b;
+  --accent-on: #1e1405;
+  --chip: #12223a;
+  --icon-bg: #10203a;
+  --rail-ink: #12223a;
+  --rail-shade: #12223a;
+  --portrait-bg: rgba(5, 10, 19, 0.92);
+  --portrait-label-bg: rgba(5, 10, 19, 0.78);
+  --portrait-text: #f0e6d2;
+  --portrait-tag-gold: #f0d58c;
+  --shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+  --win-positive-3: #4fd1a5;
+  --win-negative-3: #f07c6c;
+  --hextech: #0ac8b9;
+}
+/* 插画保留原色，只在左侧加深 */
+:root[data-skin='c'] .shared-board-art {
+  --banner-shade: rgba(5, 10, 19, 0.5);
+  --banner-wash: rgba(5, 10, 19, 0);
+}
+:root[data-skin='c'] .board-banner {
+  --banner-shade: rgba(5, 10, 19, 0.5);
+  --banner-wash: rgba(5, 10, 19, 0);
+}
+:root[data-skin='c'] .product-nav {
+  border-bottom: 1px solid transparent;
+  border-image: linear-gradient(
+      90deg,
+      transparent,
+      #785a28 20%,
+      #c8aa6e 50%,
+      #785a28 80%,
+      transparent
+    )
+    1;
+}
+:root[data-skin='c'] .product-nav-links > a {
+  letter-spacing: 0.08em;
+}
+:root[data-skin='c'] .product-nav-links > a[aria-current='page'] {
+  color: var(--accent-text);
+  text-shadow: 0 0 12px rgba(200, 170, 110, 0.45);
+}
+/* 表格：金色细框 + 直角，像游戏内面板 */
+:root[data-skin='c'] :is(.board-header-scroll, .board-scroll) {
+  border-color: #785a28;
+}
+:root[data-skin='c'] .board-header-scroll {
+  border-radius: 2px 2px 0 0;
+  background: linear-gradient(180deg, #102037, #0a1322);
+  box-shadow: inset 0 -1px #785a28;
+}
+:root[data-skin='c'] .board-scroll {
+  border-radius: 0 0 2px 2px;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(10, 200, 185, 0.06), transparent 60%), var(--surface);
+}
+:root[data-skin='c'] .board-column-head {
+  background: transparent;
+}
+:root[data-skin='c'] .board-column {
+  letter-spacing: 0.06em;
+  color: var(--accent-text);
+}
+:root[data-skin='c'] .board-column-filter[aria-pressed='true'] {
+  color: #fff;
+  background: rgba(10, 200, 185, 0.1);
+  box-shadow: inset 0 -2px var(--hextech);
+}
+:root[data-skin='c'] .board-axis {
+  background: transparent;
+}
+:root[data-skin='c'] .build-portrait {
+  border-color: #785a28;
+  border-radius: 2px;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.6);
+}
+:root[data-skin='c'] .build-win {
+  border-radius: 1px;
+  padding: 0 3px;
+}
+:root[data-skin='c'] :is(.build-tile:hover, .build-tile[aria-expanded='true']) .build-portrait {
+  border-color: var(--hextech);
+  box-shadow:
+    0 0 0 1px var(--hextech),
+    0 0 14px rgba(10, 200, 185, 0.55);
+}
+:root[data-skin='c'] .board-detail-row {
+  border-block-color: #c8aa6e;
+  box-shadow: 0 0 24px rgba(10, 200, 185, 0.08);
+}
+:root[data-skin='c'] .hero-ranking-mode {
+  border-color: #785a28;
+  border-radius: 2px;
+}
+:root[data-skin='c'] .ranking-mode-indicator {
+  background: var(--hextech);
+  box-shadow: 0 0 8px var(--hextech);
+}
+:root[data-skin='c'] .product-nav-indicator {
+  background: var(--accent);
+  box-shadow: 0 0 10px rgba(200, 170, 110, 0.8);
+}
+:root[data-skin='c'] .board-column-filter {
+  color: var(--accent-text);
+}
+:root[data-skin='c'] .board-role-icon {
+  filter: sepia(1) saturate(2.2) hue-rotate(-12deg) brightness(1.05);
+}
+:root[data-skin='c'] .board-range-label b {
+  letter-spacing: 0.04em;
+  text-shadow: 0 0 10px color-mix(in srgb, var(--range-ink, var(--text)) 50%, transparent);
+}
+:root[data-skin='c']
+  :is(.product-nav .search, .product-nav .patch-picker select, .product-nav .language-picker) {
+  border-color: #785a28;
+  border-radius: 2px;
+}
+:root[data-skin='c'] .build-win {
+  box-shadow: 0 0 0 1px rgba(120, 90, 40, 0.6);
+}
