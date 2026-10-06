@@ -53,16 +53,29 @@ export function useRolePicker() {
     if (picker.value) picker.value.scrollLeft = Number((event.target as HTMLInputElement).value)
   }
 
+  // 组件更新后不立即测量：详情展开时数据分批到达、组件会连续更新，
+  // 立即读取位置会在页面仍在变化时反复强制整页布局。合并到下一帧开始时测量一次。
+  let updateFrame = 0
+  function scheduleSync() {
+    if (updateFrame) return
+    updateFrame = requestAnimationFrame(() => {
+      updateFrame = 0
+      syncScroll()
+    })
+  }
+
   let observer: ResizeObserver | undefined
   onMounted(() => {
+    // ResizeObserver 在布局完成后回调，此时读取位置没有额外开销，保持直接同步
     observer = new ResizeObserver(syncScroll)
     if (picker.value) observer.observe(picker.value)
     syncScroll()
   })
-  onUpdated(syncScroll)
+  onUpdated(scheduleSync)
   onUnmounted(() => {
     observer?.disconnect()
     cancelAnimationFrame(highlightFrame)
+    cancelAnimationFrame(updateFrame)
   })
 
   return { picker, highlight, scrollLeft, scrollLimit, scrollThumb, syncScroll, moveScroll }
