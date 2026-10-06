@@ -42,6 +42,13 @@
   /* 拉丝金：中间亮、两端暗的细渐变，只用于 1–2px 的线 */
   --brushed-gold: linear-gradient(90deg, #7d6130, #e6cc93 50%, #7d6130);
   --heading-font: inherit;
+  /* 稀有度颜色降低饱和度，像金属表面而非游戏道具色 */
+  --prismatic: #b9a6d8;
+  --gold: #c9a45c;
+  --silver: #a4acb6;
+  --silver-rail: #7f959b;
+  --rune-pair-blue: #6f8fc2;
+  --low-sample-card-bg: #2c2c2f;
 }
 :root[data-skin='a'] {
   --heading-font: 'Haidou Serif', 'Noto Serif SC', 'Songti SC', serif;
@@ -169,6 +176,53 @@
 }
 :root:is([data-skin='a'], [data-skin='b']) .board-detail-row {
   border-block-color: rgba(201, 164, 92, 0.45);
+}
+
+/* ---- 详情卡片：深色小圆角面板，极细描边，悬停出现金色细框 ---- */
+:root:is([data-skin='a'], [data-skin='b']) .stat-card-frame:not(.build-detail-rail) {
+  border-color: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  background: var(--surface);
+}
+:root:is([data-skin='a'], [data-skin='b']) .build-stat-card .build-stat-identity {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent);
+}
+:root:is([data-skin='a'], [data-skin='b'])
+  .build-stat-card
+  :is(.build-stat-result, .build-stat-usage) {
+  border-top-color: rgba(255, 255, 255, 0.045);
+}
+:root:is([data-skin='a'], [data-skin='b']) .build-stat-name {
+  color: color-mix(in srgb, var(--text) 88%, var(--muted));
+}
+:root:is([data-skin='a'], [data-skin='b']) a.build-stat-card {
+  transition: border-color 160ms ease;
+}
+:root:is([data-skin='a'], [data-skin='b']) a.build-stat-card:hover {
+  border-color: var(--accent);
+}
+:root:is([data-skin='a'], [data-skin='b']) .build-stat-placeholder {
+  border-radius: 4px;
+}
+/* 左侧分类栏（仅桌面；手机的浮动排序条复用这些类）：保留稀有度底色，改为哑光并收小圆角 */
+@media (min-width: 701px) {
+  :root:is([data-skin='a'], [data-skin='b']) .build-detail-rail {
+    border-color: transparent;
+    border-radius: 4px;
+    background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.12), transparent 55%);
+  }
+  :root:is([data-skin='a'], [data-skin='b']) .build-detail-rail h3 {
+    letter-spacing: 0.12em;
+    font-weight: 600;
+  }
+  :root:is([data-skin='a'], [data-skin='b']) .build-detail-rail .build-detail-sort {
+    font-weight: 500;
+    letter-spacing: 0.04em;
+  }
+}
+/* 标题区的数据块与关闭按钮 */
+:root:is([data-skin='a'], [data-skin='b']) .build-detail-close {
+  border-radius: 4px;
 }
 
 /* ===================== C 极简科技 ===================== */
