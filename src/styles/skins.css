@@ -19,7 +19,8 @@
   --surface: #0e0e0f;
   --card: #161617;
   --low-sample-card-bg: #262628;
-  --detail-surface: #121213;
+  /* 详情底色比表格亮一截（与原版的明度差相近），卡片沿用表格的深色，三层才分得开 */
+  --detail-surface: #232325;
   --detail-edge-shadow: rgba(0, 0, 0, 0.6);
   --detail-header-shadow: rgba(0, 0, 0, 0.3);
   --border: rgba(255, 255, 255, 0.055);
