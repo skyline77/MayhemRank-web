@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { gameName } from '@/i18n/gameLocalization'
 import { t, message } from '@/i18n/i18n'
 import { formatCount } from '@/stats/formatCount'
 
@@ -70,22 +69,6 @@ onBeforeUnmount(() => {
   ++request
 })
 const pct = (n: number) => (n * 100).toFixed(1) + '%'
-function description(cell: RuneSynergy) {
-  return message(
-    '{name}：共同出场 {games} 次，覆盖 {heroes} 位英雄；组合胜率 {rate}，校正基准 {baseline}，综合 Δ胜率 {delta}（百分点）。{note}',
-    {
-      name: gameName(props.kind, cell.id, props.patch, cell.name),
-      games: formatCount(cell.games),
-      heroes: formatCount(cell.heroCount),
-      rate: pct(cell.winRate),
-      baseline: pct(cell.baselineWinRate),
-      delta: winRateDelta(cell.winRate, cell.baselineWinRate),
-      note: cell.lowSample
-        ? message('不足 {minimum} 场，样本较少。', { minimum: RUNE_SYNERGY_MIN_GAMES })
-        : '',
-    },
-  )
-}
 function tip(cell: RuneSynergy): TipData {
   return {
     ...cell,
@@ -151,8 +134,6 @@ function tip(cell: RuneSynergy): TipData {
             :patch="patch"
             :baseline="0.5"
             :tip="tip(cell)"
-            :result-title="description(cell)"
-            :usage-title="description(cell)"
             :usage-label="
               message('综合 Δ胜率 {p0}，共同出场 {p1} 次', {
                 p0: winRateDelta(cell.winRate, cell.baselineWinRate),
@@ -168,7 +149,6 @@ function tip(cell: RuneSynergy): TipData {
             <template #additional-stats
               ><span
                 class="build-stat-usage"
-                :title="description(cell)"
                 :aria-label="message('共同出场 {p0} 次', { p0: formatCount(cell.games) })"
                 >{{ formatCount(cell.games) }}</span
               ></template

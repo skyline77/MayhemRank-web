@@ -598,11 +598,6 @@ watch(selectedVersion, () => {
             class="board-column-filter"
             :aria-label="t(column)"
             :aria-pressed="columnFilter === column"
-            :title="
-              columnFilter === column
-                ? t('再次点击显示全部职责')
-                : message('筛选{p0}', { p0: t(column) })
-            "
             @click="toggleColumn(column)"
           >
             <span class="board-column-content"
@@ -672,14 +667,6 @@ watch(selectedVersion, () => {
                   "
                   @pointerdown="prefetchOnPress($event, entry)"
                   @activate="(event, trigger) => selectEntry(entry, trigger)"
-                  :title="
-                    message('{p0} · {p1} · {p2} · {p3} 场', {
-                      p0: gameName('champions', entry.championId, data.meta.patch, entry.name),
-                      p1: entry.role ? roleName(entry, data.meta.patch) : t('全部出场'),
-                      p2: pct(entry.winRate),
-                      p3: count(entry.games),
-                    })
-                  "
                   :aria-label="
                     message('{p0}，{p1}，{p2}平滑胜率 {p3}，{p4} 场，查看详情', {
                       p0: gameName('champions', entry.championId, data.meta.patch, entry.name),
@@ -712,7 +699,6 @@ watch(selectedVersion, () => {
                         v-if="heroTrends[entry.championId]"
                         class="hero-card-trend"
                         :style="{ color: heroTrends[entry.championId]!.color }"
-                        :title="heroTrends[entry.championId]!.label"
                         :aria-label="heroTrends[entry.championId]!.label"
                         >{{ heroTrends[entry.championId]!.symbol }}</span
                       ></span
@@ -725,7 +711,6 @@ watch(selectedVersion, () => {
                           nearPortraits.has(entry.championId)
                         "
                         class="build-tag build-equipment-tag"
-                        :title="roleName(entry, data.meta.patch)"
                         ><img
                           v-for="item in roleIcons(entry)"
                           :key="item.name"

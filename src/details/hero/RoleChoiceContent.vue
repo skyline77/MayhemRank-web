@@ -8,7 +8,6 @@ defineProps<{
   winRate?: number
   pickRate: number
   usageText?: string
-  usageTitle?: string
   games?: number
   showWinLabel?: boolean
 }>()
@@ -37,7 +36,7 @@ const pct = (value: number) => (value * 100).toFixed(1) + '%'
     ><strong :style="{ color: winRate === undefined ? undefined : winRateColor(winRate) }"
       ><span v-if="showWinLabel">{{ locale === 'en-US' ? 'WR: ' : t('胜率：') }}</span
       >{{ winRate === undefined ? '—' : pct(winRate) }}</strong
-    ><small :title="usageTitle">{{ t('使用率：') }}{{ usageText || pct(pickRate) }}</small
+    ><small>{{ t('使用率：') }}{{ usageText || pct(pickRate) }}</small
     ><small v-if="games !== undefined"
       >{{ formatCount(games) }}{{ locale === 'en-US' ? ' games' : t('场') }}</small
     ></span

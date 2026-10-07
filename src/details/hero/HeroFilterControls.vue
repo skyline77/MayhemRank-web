@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { t, message } from '@/i18n/i18n'
 import { gameName, roleName } from '@/i18n/gameLocalization'
-import { formatCount } from '@/stats/formatCount'
 
 import { computed, watch } from 'vue'
 import DetailLink from '@/details/DetailLink.vue'
@@ -220,11 +219,6 @@ const pct = (v: number) => (v * 100).toFixed(1) + '%'
         :aria-current="state.role === option.role ? 'true' : undefined"
         class="filter-choice role-choice"
         :class="{ 'is-selected': state.role === option.role }"
-        :title="
-          roleName(option, patch) +
-          ' · ' +
-          (state.role === option.role ? t('再次点击，取消流派筛选') : t('筛选该流派'))
-        "
         :aria-label="
           message('{p0}，使用率 {p1}，胜率 {p2}', {
             p0: roleName(option, patch),
@@ -238,18 +232,6 @@ const pct = (v: number) => (v * 100).toFixed(1) + '%'
           :slots="iconSlots(option)"
           :win-rate="option.winRate"
           :pick-rate="option.pickRate"
-          :usage-title="
-            option.heroGames
-              ? message('流派出场率：{p0} / {p1}{p2}', {
-                  p0: formatCount(option.games),
-                  p1: formatCount(option.eligibleGames ?? option.heroGames),
-                  p2:
-                    option.eligibleGames === undefined
-                      ? t(' 次英雄全部出场')
-                      : t(' 次至少2件成装的出场'),
-                })
-              : undefined
-          "
           @icon-error="failedIcons.add($event)"
         />
       </DetailLink>

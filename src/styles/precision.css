@@ -313,3 +313,13 @@
   ) {
   filter: none;
 }
+
+/* ---- 详情卡片行的浮动横向滚动条 ----
+   滚动条浮在卡片底部 8px 上（卡片列表容器为 overflow: clip，不能把它移到卡片外）。
+   轨道改为透明、只留滑块，滑块与底边留 1px，卡片悬停金框的底边与两侧不再被轨道遮住。 */
+:root:not([data-theme='light']) .overlay-scrollbar {
+  background: transparent;
+}
+:root:not([data-theme='light']) .overlay-scroll-thumb {
+  background: rgba(255, 255, 255, 0.3);
+}

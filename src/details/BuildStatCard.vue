@@ -29,12 +29,9 @@ const props = defineProps<{
   expanded?: boolean
   actionLabel?: string
   href?: string
-  resultTitle?: string
-  usageTitle?: string
   usageLabel?: string
   sampleUnit?: string
   missingUsage?: string
-  missingNote?: string
 }>()
 const emit = defineEmits<{ activate: [event: Event] }>()
 const pct = (value: number) => (value * 100).toFixed(1) + '%'
@@ -233,17 +230,10 @@ function toggleIdentity(event: KeyboardEvent) {
           }}</span>
         </slot>
       </span>
-      <span
-        v-if="cell.missing"
-        class="build-stat-result"
-        :title="t(missingNote) || t('当前范围无记录')"
-        :aria-label="t('胜率暂无数据')"
-        >—</span
-      >
+      <span v-if="cell.missing" class="build-stat-result" :aria-label="t('胜率暂无数据')">—</span>
       <span
         v-else
         class="build-stat-result"
-        :title="resultTitle"
         :aria-label="message('胜率 {p0}', { p0: pct(cell.winRate) })"
       >
         <strong
@@ -264,7 +254,6 @@ function toggleIdentity(event: KeyboardEvent) {
       <span
         v-else-if="showDelta"
         class="build-stat-usage build-stat-delta"
-        :title="comparison"
         :aria-label="
           message('Δ胜率 {p0}，百分点', { p0: winRateDelta(cell.winRate, baseline ?? 0.5) })
         "
@@ -274,17 +263,11 @@ function toggleIdentity(event: KeyboardEvent) {
           >{{ winRateDelta(cell.winRate, baseline ?? 0.5) }}</span
         ></span
       >
-      <span
-        v-if="cell.missing"
-        class="build-stat-usage"
-        :title="t(missingNote) || t('当前范围无记录')"
-        >{{ missingUsage || '0.0%' }}</span
-      >
+      <span v-if="cell.missing" class="build-stat-usage">{{ missingUsage || '0.0%' }}</span>
       <span
         v-else
         class="build-stat-usage"
         :style="isRuneUsage && !$slots.usage ? { color: usageRateColor(cell.pickRate) } : undefined"
-        :title="usageTitle"
         :aria-label="
           usageLabel ||
           (usageDisplay === 'count'

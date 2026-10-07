@@ -11,7 +11,7 @@ import DetailCardList from '@/details/DetailCardList.vue'
 import BuildStatCard from '@/details/BuildStatCard.vue'
 import RuneHeroChart from './RuneHeroChart.vue'
 import { showRuneHeroChart } from './runeFeatures'
-import { RUNE_HERO_MIN_GAMES, loadRuneHeroes, type RuneHeroes, type RuneHero } from './runeHeroes'
+import { RUNE_HERO_MIN_GAMES, loadRuneHeroes, type RuneHeroes } from './runeHeroes'
 import WinRateDelta from '@/details/WinRateDelta.vue'
 import { winRateDelta } from '@/details/buildDetails'
 import { buildDetailUrl } from '@/app/detailLink'
@@ -66,23 +66,6 @@ async function load() {
 }
 watch(() => [props.runeId, props.patch, props.snapshotId], load, { immediate: true })
 const pct = (n: number) => (n * 100).toFixed(1) + '%'
-function description(cell: RuneHero) {
-  return message(
-    '{name}：选择该符文 {games} 场，胜率 {rate}，选用率 {pick}。同版本全部流派 {allGames} 场，基准胜率 {baseline}；Δ胜率 {delta}（百分点）。{note}',
-    {
-      name: gameName('champions', cell.id, props.patch, cell.name),
-      games: formatCount(cell.games),
-      rate: pct(cell.winRate),
-      pick: pct(cell.pickRate),
-      allGames: formatCount(cell.baseline.games),
-      baseline: pct(cell.baseline.winRate),
-      delta: winRateDelta(cell.winRate, cell.baseline.winRate),
-      note: cell.lowSample
-        ? message('不超过 {minimum} 场，样本较少。', { minimum: RUNE_HERO_MIN_GAMES })
-        : '',
-    },
-  )
-}
 </script>
 <template>
   <div
@@ -134,8 +117,6 @@ function description(cell: RuneHero) {
             group="heroes"
             :patch="patch"
             :baseline="0.5"
-            :result-title="description(cell)"
-            :usage-title="description(cell)"
             :usage-label="
               message('Δ胜率 {p0}，样本 {p1} 场', {
                 p0: winRateDelta(cell.winRate, cell.baseline.winRate),
@@ -149,9 +130,6 @@ function description(cell: RuneHero) {
                 :href="buildDetailUrl(Number(cell.id), '', patch, runeId)"
                 target="_blank"
                 rel="noopener noreferrer"
-                :title="
-                  message('{p0}点击在新页面查看选择该符文的英雄统计。', { p0: description(cell) })
-                "
                 :aria-label="
                   message('{p0}，在新页面查看选择当前符文的英雄详情', {
                     p0: gameName('champions', cell.id, patch, cell.name),
@@ -169,12 +147,6 @@ function description(cell: RuneHero) {
             <template #additional-stats>
               <span
                 class="build-stat-usage"
-                :title="
-                  message('{p0} ÷ {p1} 场', {
-                    p0: formatCount(cell.games),
-                    p1: formatCount(cell.baseline.games),
-                  })
-                "
                 :aria-label="message('选用率 {p0}', { p0: pct(cell.pickRate) })"
                 >{{ pct(cell.pickRate) }}</span
               >

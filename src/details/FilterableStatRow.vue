@@ -151,7 +151,6 @@ function cardTip(cell: DetailCell & { missing?: boolean }): TipData {
             'low-sample-card': !isItemGroup && cell.lowSample,
           }"
           :missing-usage="missingUsage"
-          :missing-note="missingNote"
           :cell="cell"
           :href="isItemGroup ? undefined : runeDetailUrl(cell.id, patch)"
           :expandable="group.id !== 'boots'"
@@ -173,7 +172,7 @@ function cardTip(cell: DetailCell & { missing?: boolean }): TipData {
           :tip="cell.noBoots ? undefined : cardTip(cell)"
         >
           <template v-if="cell.noBoots" #identity>
-            <span class="no-boots-identity" :title="t('无鞋：终局未持有任何鞋子')">
+            <span class="no-boots-identity">
               <span class="no-boots-easter-egg" aria-hidden="true"
                 >光脚的<br />不怕穿<br />鞋的。</span
               >

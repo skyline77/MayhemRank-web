@@ -3,7 +3,6 @@
 import { computed, nextTick, onUnmounted, ref, watch } from 'vue'
 import { t, message } from '@/i18n/i18n'
 import { gameName } from '@/i18n/gameLocalization'
-import { formatCount } from '@/stats/formatCount'
 import { useDocumentTitle } from '@/app/useDocumentTitle'
 import { runeDetailUrl, boardLink } from '@/app/detailLink'
 import { readHistorySection, registerHistorySection, pushDetailHistory } from '@/app/pageHistory'
@@ -421,8 +420,6 @@ watch(
   { immediate: true },
 )
 const unranked = computed(() => (data.value?.entries || []).filter(entry => entry.lowSample))
-const pct = (n: number) => (n * 100).toFixed(1) + '%'
-const count = formatCount
 </script>
 <template>
   <section
@@ -478,11 +475,6 @@ const count = formatCount
             class="board-column-filter"
             :class="'rune-rarity-' + index"
             :aria-pressed="columnFilter === column"
-            :title="
-              columnFilter === column
-                ? t('再次点击显示全部品质')
-                : message('筛选{p0}', { p0: t(column) })
-            "
             @click="toggleColumn(column)"
           >
             <span class="rune-column-name">{{ t(column) }}</span>
@@ -535,14 +527,6 @@ const count = formatCount
                     selected?.id === entry.id ? 'rune-detail-' + selectedStrip : undefined
                   "
                   @activate="selectEntry(entry)"
-                  :title="
-                    message('{p0} · 胜率 {p1} · 使用次数 {p2}次{p3} · 点击查看逐选走势', {
-                      p0: gameName('augments', entry.id, data.meta.patch, entry.name),
-                      p1: pct(entry.winRate),
-                      p2: count(entry.games),
-                      p3: trends[entry.id] ? ' · ' + trends[entry.id]!.label : '',
-                    })
-                  "
                 >
                   <template #result-extra
                     ><span
@@ -550,7 +534,6 @@ const count = formatCount
                       class="rune-card-trend"
                       :class="'is-' + trends[entry.id]!.tone"
                       :style="{ color: trends[entry.id]!.color }"
-                      :title="trends[entry.id]!.label"
                       :aria-label="trends[entry.id]!.label"
                       >{{ trends[entry.id]!.symbol }}</span
                     ></template

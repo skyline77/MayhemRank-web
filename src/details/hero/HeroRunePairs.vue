@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { gameName } from '@/i18n/gameLocalization'
-import { t, message } from '@/i18n/i18n'
-import { formatCount } from '@/stats/formatCount'
+import { t } from '@/i18n/i18n'
 
 import { computed, inject, onUnmounted, ref, watch } from 'vue'
 import DetailStatRow from '@/details/DetailStatRow.vue'
@@ -141,19 +140,7 @@ function revealRune(event: Event, rune: HeroRunePair['runes'][number]) {
             :baseline="data?.baseline.winRate"
             :data-search-match="locked && matches(cell) ? 'true' : undefined"
             :class="{ 'search-mismatch': locked && !matches(cell) }"
-            :result-title="
-              message('{p0} 胜 / {p1} 场', {
-                p0: formatCount(cell.wins),
-                p1: formatCount(cell.games),
-              })
-            "
             :comparison="t('与该英雄全部出场胜率比较')"
-            :usage-title="
-              message('{p0} 场 / {p1} 场有海克斯记录的出场', {
-                p0: formatCount(cell.games),
-                p1: formatCount(data?.augmentGames),
-              })
-            "
           >
             <template #identity
               ><span class="rune-pair-identity">

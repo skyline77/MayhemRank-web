@@ -183,19 +183,16 @@ useFittedRuneHeading(headingName, [headingText, locale, change])
           <strong :style="{ color: rateColor }"
             >{{ t('胜率：') }}{{ englishGap }}{{ pct(entry.winRate) }}</strong
           >
-          <p
-            v-if="change"
-            :style="{ color: change.color }"
-            :title="
-              comparisonPatch
-                ? message('相较 {p0}，胜率差值以百分点计；前后版本采用相同统计口径', {
-                    p0: comparisonPatch,
-                  })
-                : undefined
-            "
-            aria-live="polite"
-          >
+          <p v-if="change" :style="{ color: change.color }" aria-live="polite">
             {{ t('较上版本') }}{{ englishGap }}{{ t(change.label) }}
+            <MetaNote
+              v-if="comparisonPatch"
+              :text="
+                message('相较 {p0}，胜率差值以百分点计；前后版本采用相同统计口径', {
+                  p0: comparisonPatch,
+                })
+              "
+            />
           </p>
           <p v-else>{{ t('暂无上版本数据') }}</p>
         </div>

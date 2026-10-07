@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { t, message } from '@/i18n/i18n'
+import { message } from '@/i18n/i18n'
 import { computed, useId } from 'vue'
 import type { RuneSlot } from '@/boards/augments/augmentBoard'
 import {
@@ -40,7 +40,7 @@ const label = computed(
 )
 </script>
 <template>
-  <figure class="rune-mini-chart" :title="t('全英雄逐选胜率，与符文详情页统计一致')">
+  <figure class="rune-mini-chart">
     <svg viewBox="0 0 168 82" role="img" :aria-label="label">
       <defs>
         <clipPath :id="clipId"><rect x="4" y="8" width="130" height="64" /></clipPath>

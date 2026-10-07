@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { t, message } from '@/i18n/i18n'
+import { t } from '@/i18n/i18n'
 import { gameName } from '@/i18n/gameLocalization'
-import { formatCount } from '@/stats/formatCount'
 
 import { showTip, hideTip, toggleTip, type TipData } from '@/tooltip/tooltip'
 import { computed } from 'vue'
@@ -75,13 +74,6 @@ function revealSpell(event: Event, spell: { id: number; icon: string | null }) {
           :patch="patch"
           :baseline="baseline"
           :sample-unit="t('场')"
-          :result-title="
-            message('{p0} 胜 / {p1} 场', {
-              p0: formatCount(pair.wins),
-              p1: formatCount(pair.games),
-            })
-          "
-          :usage-title="message('{p0} 场', { p0: formatCount(pair.games) })"
         >
           <template #identity>
             <span class="spell-icons">
