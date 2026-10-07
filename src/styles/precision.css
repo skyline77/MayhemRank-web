@@ -67,10 +67,18 @@
 :root:not([data-theme='light']) .hero-ranking-mode button {
   background: transparent;
   letter-spacing: 0.1em;
+  transition:
+    color 160ms ease,
+    box-shadow 160ms ease;
 }
 :root:not([data-theme='light']) .hero-ranking-mode button[aria-pressed='true'] {
   background: transparent;
   color: var(--text);
+}
+/* 未选中项悬停：文字变亮，底部出现浅灰细线（选中项的拉丝金线不变） */
+:root:not([data-theme='light']) .hero-ranking-mode button:not([aria-pressed='true']):hover {
+  color: color-mix(in srgb, var(--text) 85%, var(--muted));
+  box-shadow: inset 0 -1px rgba(255, 255, 255, 0.28);
 }
 
 /* ---- 表格：细线、小圆角、无竖线 ---- */
