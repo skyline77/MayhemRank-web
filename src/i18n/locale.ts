@@ -9,7 +9,7 @@ export const localeNames: Record<Locale, string> = {
 }
 export const brands: Record<Locale, string> = {
   'zh-CN': '海斗榜',
-  'zh-TW': '海鬥榜',
+  'zh-TW': '海斗榜',
   'ja-JP': 'MayhemRank',
   'en-US': 'MayhemRank',
 }
