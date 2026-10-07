@@ -1,6 +1,6 @@
 /* “精工”方向的装饰规则（2026-10-07 定稿，见 DESIGN.md）。
    参考高端腕表官网：哑光纯黑、拉丝金细线、精确网格；金色只用于招牌、当前项与细线，
-   顶部插画去色压暗，去掉发光与彩色职业图标。颜色变量在 tokens.css；这里只改圆角、线条、字距等，
+   顶部插画去色压暗，去掉发光，职业图标降饱和。颜色变量在 tokens.css；这里只改圆角、线条、字距等，
    不改变尺寸与间距，榜单列宽、头像排布与详情高度计算不受影响。
    白色半透明细线只适用于深色主题，因此规则限定在非浅色主题。
    注意：插画层与导航栏不能加 filter / backdrop-filter，否则插画会盖到表格上。 */
@@ -111,13 +111,15 @@
   background: transparent;
   box-shadow: inset 0 -1px var(--accent);
 }
-/* 职业图标改为单色 */
+/* 职业图标降饱和；悬停或选中列显示原色 */
 :root:not([data-theme='light']) .board-role-icon {
-  filter: grayscale(1) brightness(1.5);
-  opacity: 0.6;
+  /* 保留约一半原色，不做成完全灰色，以免显得死板 */
+  filter: saturate(0.55) brightness(1.1);
+  opacity: 0.85;
 }
+:root:not([data-theme='light']) .board-column-filter:hover .board-role-icon,
 :root:not([data-theme='light']) .board-column-filter[aria-pressed='true'] .board-role-icon {
-  filter: sepia(1) saturate(1.4) brightness(1.15);
+  filter: none;
   opacity: 1;
 }
 /* 胜率区间：数字略放大，颜色仍按胜率 */

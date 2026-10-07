@@ -195,7 +195,13 @@ onUnmounted(() => {
       @focusin="keepTip"
       @focusout="hideTip"
     >
-      <header class="game-tip-heading" :class="{ 'is-spell': data.kind === 'spells' }">
+      <header
+        class="game-tip-heading"
+        :class="{
+          'is-spell': data.kind === 'spells',
+          'has-source': description && data.kind !== 'spells',
+        }"
+      >
         <component
           :is="detailHref ? 'a' : 'div'"
           class="game-tip-heading-content"
@@ -268,8 +274,6 @@ onUnmounted(() => {
             {{ description.cooldown }}{{ locale === 'en-US' ? 's' : t('秒') }}</span
           ><small v-if="description.cost">{{ description.cost }}</small>
         </div>
-      </header>
-      <div class="game-tip-description" aria-live="polite">
         <MetaNote
           v-if="description && data.kind !== 'spells'"
           class="game-tip-source"
@@ -283,6 +287,8 @@ onUnmounted(() => {
             )
           "
         />
+      </header>
+      <div class="game-tip-description" aria-live="polite">
         <p v-if="loading">{{ t('正在读取说明……') }}</p>
         <div
           v-else-if="useWikiTranslation && description?.description"
@@ -545,14 +551,17 @@ onUnmounted(() => {
 .game-tip-baseline {
   margin-left: 4px;
 }
-/* 展开说明文字时换到下一行，不挤压数值列 */
-.game-tip-baseline.is-open {
-  flex-basis: 100%;
-  margin-left: 0;
+/* 描述来源 ℹ 放在标题区右上角（标题内容可能是链接，按钮不能放进链接内） */
+.game-tip-heading {
+  position: relative;
+}
+.game-tip-heading.has-source {
+  padding-right: 22px;
 }
 .game-tip-source {
-  display: flex;
-  margin: 0 0 4px;
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 .game-tip-summary.with-chart .game-tip-stats dd {
   display: flex;
