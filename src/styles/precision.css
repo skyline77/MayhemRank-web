@@ -159,11 +159,15 @@
 :root:not([data-theme='light']) .build-stat-name {
   color: color-mix(in srgb, var(--text) 88%, var(--muted));
 }
-:root:not([data-theme='light']) a.build-stat-card {
+:root:not([data-theme='light']) .build-stat-card {
   transition: border-color 160ms ease;
 }
+/* 可点击（链接）卡片悬停为金框；装备等不可点击的卡片只有悬停提示，用浅灰细框，不暗示可点 */
 :root:not([data-theme='light']) a.build-stat-card:hover {
   border-color: var(--accent);
+}
+:root:not([data-theme='light']) .build-detail .build-stat-card:not(a):hover {
+  border-color: rgba(255, 255, 255, 0.22);
 }
 :root:not([data-theme='light']) .build-stat-placeholder {
   border-radius: 4px;
@@ -174,6 +178,12 @@
     border-color: transparent;
     border-radius: 4px;
     background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.12), transparent 55%);
+  }
+  /* 海克斯组合栏的底色本身是三色渐变（背景图层），高光要叠在它上面，不能替换 */
+  :root:not([data-theme='light']) .rune-pairs .build-detail-rail {
+    background-image:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.12), transparent 55%),
+      linear-gradient(135deg, var(--prismatic) 0%, var(--gold) 50%, var(--rune-pair-blue) 100%);
   }
   :root:not([data-theme='light']) .build-detail-rail h3 {
     letter-spacing: 0.12em;
