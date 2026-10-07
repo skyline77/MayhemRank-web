@@ -100,7 +100,16 @@ function measurePortraitSize(force = false) {
 }
 // 每次表格更新后重新测量（相同几何会被跳过）
 onUpdated(measurePortraitSize)
+// 刚挂载时头像先按默认尺寸布局，测量后才写入实际尺寸档；这一次不播放尺寸过渡，
+// 否则头像在 120ms 内缩放，整张表的行高跟着连续变化，切换榜单时看起来像抖动。
+// 挂载两帧后恢复过渡，窗口缩放、筛选列等后续尺寸变化仍有动画。
+const settling = ref(true)
 onMounted(() => {
+  requestAnimationFrame(() =>
+    requestAnimationFrame(() => {
+      settling.value = false
+    }),
+  )
   let observedWidth = -1
   sizeObserver = new ResizeObserver(entries => {
     const width = entries[0]?.contentRect.width
@@ -139,6 +148,7 @@ defineExpose({ header, fadeNextBands, revealBands, beginBandLayout, finishBandLa
   <div
     ref="tableRoot"
     class="board-table"
+    :class="{ 'is-settling': settling }"
     role="table"
     :aria-label="label"
     :aria-rowcount="rowCount"

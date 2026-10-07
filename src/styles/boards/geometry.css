@@ -257,6 +257,10 @@
     transition: none;
   }
 }
+/* 表格刚挂载、首次写入尺寸档时不播放尺寸过渡（见 WinRateTable 的 settling） */
+.hero-board .board-table.is-settling :is(.build-tile, .build-portrait, .build-equipment-tag img) {
+  transition: none;
+}
 
 /* Size tiers describe the image itself; draw the frame without consuming pixels. */
 .hero-board .build-portrait {
