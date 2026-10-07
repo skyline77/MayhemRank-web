@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { t, message } from '@/i18n/i18n'
+import MetaNote from '@/shared/MetaNote.vue'
 import StatText from '@/stats/StatText.vue'
 import { computed, ref, watch } from 'vue'
 import { locale } from '@/i18n/locale'
@@ -54,9 +55,11 @@ watch(locale, load, { immediate: true })
   >
     <div v-if="!hideHeading" class="champion-patch-heading">
       <h3 :id="id + '-title'">{{ t('近期改动') }}</h3>
-      <small v-if="coverage">{{ t('已收录') }}{{ coverage }}</small>
+      <MetaNote v-if="coverage" :text="t('已收录') + coverage" />
     </div>
-    <p v-else-if="coverage" class="champion-patch-coverage">{{ t('版本范围') }}{{ coverage }}</p>
+    <p v-else-if="coverage" class="champion-patch-coverage">
+      <MetaNote :text="t('版本范围') + coverage" />
+    </p>
     <p v-if="loading" class="champion-patch-status" role="status">{{ t('正在读取近期改动……') }}</p>
     <p v-else-if="error" class="champion-patch-status" role="alert">
       {{ t(error) }} <button class="board-retry" @click="load">{{ t('重试') }}</button>

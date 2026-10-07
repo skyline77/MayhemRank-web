@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import MetaNote from '@/shared/MetaNote.vue'
 import { t, message } from '@/i18n/i18n'
 import { locale } from '@/i18n/locale'
 import { gameName } from '@/i18n/gameLocalization'
@@ -296,8 +297,7 @@ useFittedRuneHeading(headingName, [headingText, locale, change])
             @retry="retryDescription"
           />
           <p class="rune-description-warning">
-            <span aria-hidden="true">⚠</span
-            >{{ t('Wiki 社区说明不保证与所选统计版本一致；简中译文不是官方文本。') }}
+            <MetaNote :text="t('Wiki 社区说明不保证与所选统计版本一致；简中译文不是官方文本。')" />
           </p>
         </DetailSection>
         <DetailSection
@@ -475,12 +475,9 @@ useFittedRuneHeading(headingName, [headingText, locale, change])
 }
 .rune-description-warning {
   margin: 8px 0 0;
-  color: var(--win-negative-3);
+  color: var(--muted);
   font-size: 12px;
   line-height: 1.6;
-}
-.rune-description-warning span {
-  margin-right: 4px;
 }
 .rune-detail-overview .rune-description :deep(.detail-section-content) {
   height: auto;

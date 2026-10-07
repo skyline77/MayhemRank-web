@@ -178,6 +178,13 @@
     border-color: transparent;
     border-radius: 4px;
     background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.12), transparent 55%);
+    /* 背景铺到描边下面：描边透明时，渐变底在描边区域与内部连成一体，不出现单独的彩色边 */
+    background-origin: border-box;
+  }
+  /* 分类浏览时右侧保持直角，与连接线接成书签（原有设计） */
+  :root:not([data-theme='light']) .is-browsing .build-detail-rail {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
   }
   /* 海克斯组合栏的底色本身是三色渐变（背景图层），高光要叠在它上面，不能替换 */
   :root:not([data-theme='light']) .rune-pairs .build-detail-rail {
@@ -272,4 +279,27 @@
 }
 :root:not([data-theme='light']) .combo-table tbody tr[data-rank]:hover {
   background: rgba(255, 255, 255, 0.025);
+}
+
+/* ---- 游戏图像轻度降饱和、略压暗，与哑光黑金更贴近；悬停或选中时恢复原色 ----
+   范围：榜单与详情中的英雄头像、装备／海克斯／技能图标、组合榜图标。悬停提示框中的大图保持原色。
+   不加 filter 过渡：实测手机 4 倍降速下展开详情时，过渡使第二长任务多约 40–50ms；不加过渡则与无滤镜持平。 */
+:root:not([data-theme='light'])
+  :is(
+    .build-portrait img,
+    .build-detail-portrait > img,
+    .build-stat-card img,
+    .role-item-icons img,
+    .combo-pair img
+  ) {
+  filter: saturate(0.78) brightness(0.94);
+}
+:root:not([data-theme='light'])
+  :is(
+    .build-tile:hover .build-portrait img,
+    .build-tile[aria-expanded='true'] .build-portrait img,
+    .build-stat-card:hover img,
+    .combo-table tbody tr:hover .combo-pair img
+  ) {
+  filter: none;
 }

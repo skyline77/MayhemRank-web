@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { t, message } from '@/i18n/i18n'
+import MetaNote from '@/shared/MetaNote.vue'
 import { gameName } from '@/i18n/gameLocalization'
 import { locale } from '@/i18n/locale'
 import { formatCount } from '@/stats/formatCount'
@@ -269,15 +270,19 @@ onUnmounted(() => {
         </div>
       </header>
       <div class="game-tip-description" aria-live="polite">
-        <small v-if="description && data.kind !== 'spells'">{{
-          t(
-            data.kind === 'items'
-              ? '装备描述：Riot Data Dragon'
-              : locale === 'zh-CN'
-                ? 'Wiki 简中译文（非官方）'
-                : 'Wiki 英文原文（社区）',
-          )
-        }}</small>
+        <MetaNote
+          v-if="description && data.kind !== 'spells'"
+          class="game-tip-source"
+          :text="
+            t(
+              data.kind === 'items'
+                ? '装备描述：Riot Data Dragon'
+                : locale === 'zh-CN'
+                  ? 'Wiki 简中译文（非官方）'
+                  : 'Wiki 英文原文（社区）',
+            )
+          "
+        />
         <p v-if="loading">{{ t('正在读取说明……') }}</p>
         <div
           v-else-if="useWikiTranslation && description?.description"
@@ -365,9 +370,11 @@ onUnmounted(() => {
                 class="game-tip-metric"
                 :style="{ color: winRateColor(data.winRate, data.baseline) }"
                 >{{ winRateDelta(data.winRate, data.baseline) }}</span
-              ><small v-if="data.baselineLabel" class="game-tip-baseline">{{
-                message('较{baseline}', { baseline: data.baselineLabel })
-              }}</small>
+              ><MetaNote
+                v-if="data.baselineLabel"
+                class="game-tip-baseline"
+                :text="message('较{baseline}', { baseline: data.baselineLabel })"
+              />
             </dd>
           </div>
           <div>
@@ -536,13 +543,16 @@ onUnmounted(() => {
   min-width: 0;
 }
 .game-tip-baseline {
+  margin-left: 4px;
+}
+/* 展开说明文字时换到下一行，不挤压数值列 */
+.game-tip-baseline.is-open {
   flex-basis: 100%;
-  min-width: 0;
-  color: var(--muted);
-  font-size: 11px;
-  font-weight: 400;
-  line-height: 1.4;
-  overflow-wrap: anywhere;
+  margin-left: 0;
+}
+.game-tip-source {
+  display: flex;
+  margin: 0 0 4px;
 }
 .game-tip-summary.with-chart .game-tip-stats dd {
   display: flex;
