@@ -271,6 +271,12 @@ export async function transitionDetail(options: DetailTransition): Promise<boole
         : anchorTop
     if (old && !(await tween(old, 0, options.anchor, anchorTop, closeTop))) return false
     if (signal.aborted) return false
+    // 收起：先让高度为 0 的最后一帧画出来，再在下一个任务卸载详情。卸载约 30–40ms，
+    // 若与最后一帧同在一个动画回调里，收尾会顿一下；此时详情已不可见，卸载开销不再出现在动画中。
+    if (old && !options.opening) {
+      await new Promise(resolve => setTimeout(resolve, 0))
+      if (signal.aborted) return false
+    }
     await options.render()
     if (signal.aborted) return false
     const panel = options.panel()
