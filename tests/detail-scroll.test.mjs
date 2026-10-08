@@ -14,6 +14,8 @@ const {
 } = await loadTS('../src/details/detailScroll.ts')
 // 以下用例以粗粒度时间推进帧，关闭展开时的每帧限幅；限幅本身由单独用例覆盖
 motionTuning.openingMaxStep = Infinity
+// 用例按 220ms 推进收起；收起曲线本身由单独用例覆盖
+motionTuning.closing = { duration: 220, power: 3 }
 
 test('shared scroll aligns the panel and respects reduced motion', () => {
   const original = globalThis.window

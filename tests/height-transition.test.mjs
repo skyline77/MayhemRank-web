@@ -203,3 +203,22 @@ test('maxStep caps how far one long frame can advance the tween', () =>
     const expected = 1000 * (1 - Math.pow(1 - 25 / 220, 3))
     assert.ok(Math.abs(heights['25'] - expected) < 0.5)
   }))
+
+test('duration and power slow the end of a collapse', () =>
+  fixture(async ({ panel, tick }) => {
+    const done = animateHeight(panel, {
+      from: 1000,
+      to: 0,
+      signal: new AbortController().signal,
+      duration: 320,
+      power: 5,
+    })
+    tick(0)
+    tick(220)
+    // 默认 220ms 时已结束；320ms quint 在 220ms 时仍剩 (100/320)^5 的高度
+    const expected = 1000 * Math.pow(1 - 220 / 320, 5)
+    assert.ok(Math.abs(Number.parseFloat(panel.style.height) - expected) < 0.5)
+    // 剩余不足半像素时提前结束，不再等满 320ms
+    tick(260)
+    assert.equal(await done, true)
+  }))

@@ -132,8 +132,10 @@ export async function fadeDetailAtTop(
   }
 }
 
-/** 动画参数。openingMaxStep：展开时动画时钟每帧最多前进的毫秒数；测试以粗粒度时间推进时设为 Infinity */
-export const motionTuning = { openingMaxStep: 17 }
+/** 动画参数。openingMaxStep：展开时动画时钟每帧最多前进的毫秒数；测试以粗粒度时间推进时设为 Infinity。
+ * closing：收起的时长与 ease-out 幂次。详情高约 1300px，220ms cubic 的最后 30px 只有约 60ms，看不出减速；
+ * 320ms quint 首帧移动量相近，最后 30px 约 150ms，合上时明显越来越慢。拆分行内边距的 CSS 过渡与此同步（shared.css）。 */
+export const motionTuning = { openingMaxStep: 17, closing: { duration: 320, power: 5 } }
 
 const easeOut = (t: number) => 1 - Math.pow(1 - t, 3)
 const easeInOut = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2)
@@ -230,6 +232,7 @@ export async function transitionDetail(options: DetailTransition): Promise<boole
     toTop = fromTop,
     measureTo?: () => number,
     maxStep?: number,
+    curve?: { duration: number; power: number },
   ) {
     const initialAnchor = anchor(),
       panelRect = panel.getBoundingClientRect()
@@ -243,6 +246,7 @@ export async function transitionDetail(options: DetailTransition): Promise<boole
       signal,
       hideWhenCollapsed: true,
       maxStep,
+      ...curve,
       onProgress: headerMotion.progress,
       prepareProgress: (eased, nextHeight, previousHeight) => {
         const element = anchor()
@@ -269,7 +273,12 @@ export async function transitionDetail(options: DetailTransition): Promise<boole
             Math.min(window.innerHeight - 80, anchorTop),
           )
         : anchorTop
-    if (old && !(await tween(old, 0, options.anchor, anchorTop, closeTop))) return false
+    const curve = options.opening ? undefined : motionTuning.closing
+    if (
+      old &&
+      !(await tween(old, 0, options.anchor, anchorTop, closeTop, undefined, undefined, curve))
+    )
+      return false
     if (signal.aborted) return false
     // 收起：先让高度为 0 的最后一帧画出来，再在下一个任务卸载详情。卸载约 30–40ms，
     // 若与最后一帧同在一个动画回调里，收尾会顿一下；此时详情已不可见，卸载开销不再出现在动画中。

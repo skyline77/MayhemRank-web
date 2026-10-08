@@ -13,6 +13,9 @@ type HeightTween = {
   hideWhenCollapsed?: boolean
   /** 每帧动画时钟最多前进的毫秒数；不传则按实际时间 */
   maxStep?: number
+  /** 时长（毫秒）与 ease-out 幂次，默认 220ms、3（cubic）；幂次越高，末段减速越明显 */
+  duration?: number
+  power?: number
 }
 // Shared by full detail transitions and smaller disclosures; scrolling stays with callers.
 export function animateHeight(panel: HTMLElement, options: HeightTween): Promise<boolean> {
@@ -61,18 +64,21 @@ export function animateHeight(panel: HTMLElement, options: HeightTween): Promise
         to = measured
         start = clock
       }
-      const progress = reduced ? 1 : Math.min(1, (clock - start) / 220)
-      const eased = 1 - Math.pow(1 - progress, 3)
+      const duration = options.duration ?? 220,
+        power = options.power ?? 3
+      const progress = reduced ? 1 : Math.min(1, (clock - start) / duration)
+      const eased = 1 - Math.pow(1 - progress, power)
       const nextHeight = from + (to - from) * eased
       // Retargeting height must not rewind the outer detail's scroll alignment.
-      const scrollProgress = reduced ? 1 : Math.min(1, (clock - scrollStart) / 220)
-      const scrollEased = 1 - Math.pow(1 - scrollProgress, 3)
+      const scrollProgress = reduced ? 1 : Math.min(1, (clock - scrollStart) / duration)
+      const scrollEased = 1 - Math.pow(1 - scrollProgress, power)
       const commit = options.prepareProgress?.(scrollEased, nextHeight, paintedHeight)
       panel.style.height = nextHeight + 'px'
       paintedHeight = nextHeight
       commit?.()
       options.onProgress?.(scrollEased)
-      if (progress === 1) {
+      // 收起末段剩余不足半像素时直接结束：幂次高时最后约四分之一时长都在 1px 以内，画面像停顿
+      if (progress === 1 || (to === 0 && nextHeight < 0.5)) {
         if (to === 0 && options.hideWhenCollapsed) panel.style.visibility = 'hidden'
         finish(true)
       } else frame = requestAnimationFrame(tick)
