@@ -131,7 +131,9 @@ export function useBandTransitions(
     for (const item of previousList) olds.set(item.range, [...(olds.get(item.range) || []), item])
     for (const [range, labels] of groups) {
       const before = olds.get(range) || []
-      if (!before.length) continue
+      // 只处理被拆分或合并的区间；其余标签随布局移动（详情下方的行分帧渲染时也会重排，
+      // 若一并按旧位置平移，其他区间的标签会从上方扫过详情）
+      if (!before.length || before.length === labels.length) continue
       // 先读取新位置，再启动位移动画（动画开始后读到的是带位移的旧位置）
       const target = labels[labels.length - 1]!.getBoundingClientRect()
       labels.forEach((label, i) => {
