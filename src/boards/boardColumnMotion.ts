@@ -71,14 +71,16 @@ export function prepareColumns(root: HTMLElement, before: ColumnSnapshot) {
         continue
       row.element.classList.add('has-column-motion')
       active.push(row.element)
-      // 海克斯榜选中列的下划线用品质色（棱彩紫等），过渡层沿用同色，避免动画中先金后紫
-      const underlineColor =
-        isHeader && row.element.closest?.('.rune-board')
-          ? getComputedStyle(
-              row.element.querySelector<HTMLElement>('.board-column-filter[aria-pressed="true"]') ||
-                row.element,
-            ).color
-          : ''
+      // 海克斯榜各列下划线用该列的品质色（棱彩紫、黄金、白银），过渡层沿用同色，
+      // 避免展开时先金后紫、取消选中（此时已无选中按钮）时变成文字白色
+      const rarityHeader = isHeader && !!row.element.closest?.('.rune-board')
+      const columnColor = (index: number) => {
+        if (!rarityHeader) return ''
+        const filter = row.element
+          .querySelectorAll<HTMLElement>(':scope > .board-column')
+          [index]?.querySelector<HTMLElement>('.board-column-filter')
+        return filter ? getComputedStyle(filter).color : ''
+      }
       const selectedStart = previous.find(track => track.selected),
         selectedEnd = row.tracks.find(track => track.selected)
       const slidingUnderline =
@@ -87,7 +89,8 @@ export function prepareColumns(root: HTMLElement, before: ColumnSnapshot) {
         const underline = document.createElement('div'),
           width = Math.max(selectedStart.width, selectedEnd.width, 1)
         underline.className = 'column-motion-underline'
-        if (underlineColor) underline.style.background = underlineColor
+        const color = columnColor(row.tracks.indexOf(selectedEnd))
+        if (color) underline.style.background = color
         underline.setAttribute('aria-hidden', 'true')
         underline.style.width = width + 'px'
         row.element.append(underline)
@@ -142,7 +145,8 @@ export function prepareColumns(root: HTMLElement, before: ColumnSnapshot) {
             underline = document.createElement('div')
           highlight.className = 'column-motion-highlight'
           underline.className = 'column-motion-underline'
-          if (underlineColor) underline.style.background = underlineColor
+          const color = columnColor(i)
+          if (color) underline.style.background = color
           for (const el of slidingUnderline ? [highlight] : [highlight, underline]) {
             el.setAttribute('aria-hidden', 'true')
             el.style.width = width + 'px'
