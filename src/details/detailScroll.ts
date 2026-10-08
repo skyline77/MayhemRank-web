@@ -274,6 +274,9 @@ export async function transitionDetail(options: DetailTransition): Promise<boole
     // 收起：先让高度为 0 的最后一帧画出来，再在下一个任务卸载详情。卸载约 30–40ms，
     // 若与最后一帧同在一个动画回调里，收尾会顿一下；此时详情已不可见，卸载开销不再出现在动画中。
     if (old && !options.opening) {
+      // 高度动画结束时会清除行内高度；卸载前保持 0 高，否则中间这一帧详情恢复原高度（内容隐藏），整块黑底闪一下
+      old.style.height = '0px'
+      old.style.overflow = 'clip'
       await new Promise(resolve => setTimeout(resolve, 0))
       if (signal.aborted) return false
     }

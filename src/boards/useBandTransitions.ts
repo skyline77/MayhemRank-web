@@ -14,6 +14,16 @@ export function useBandTransitions(
     string,
     { top: number; left: number; width: number; height: number; copy: HTMLElement }
   >()
+  // 同一区间被展开的详情截成上下两段时有两个同名标签，previousBands 按区间名只能记一个；
+  // 这里按文档顺序记下全部标签，供详情展开／收起时的拆分与合并动画使用。
+  let previousList: {
+    range: string
+    top: number
+    left: number
+    width: number
+    height: number
+    copy: HTMLElement
+  }[] = []
   let bandCopies: HTMLElement[] = []
   let bandAnimations: Animation[] = []
   let fadeNextUpdate = false
@@ -61,33 +71,27 @@ export function useBandTransitions(
       stopBands()
       return
     }
-    previousBands = new Map(
-      bandLabels().flatMap(band => {
-        const label = band.querySelector<HTMLElement>('b')
-        if (!label) return []
-        const rect = label.getBoundingClientRect(),
-          copy = document.createElement('div')
-        copy.className = 'board-range-label band-fade-copy'
-        copy.setAttribute('aria-hidden', 'true')
-        copy.style.setProperty(
-          '--range-ink',
-          getComputedStyle(band).getPropertyValue('--range-ink'),
-        )
-        copy.append(label.cloneNode(true))
-        return [
-          [
-            band.dataset.range!,
-            {
-              top: rect.top + window.scrollY,
-              left: rect.left + window.scrollX,
-              width: rect.width,
-              height: rect.height,
-              copy,
-            },
-          ] as const,
-        ]
-      }),
-    )
+    previousList = bandLabels().flatMap(band => {
+      const label = band.querySelector<HTMLElement>('b')
+      if (!label) return []
+      const rect = label.getBoundingClientRect(),
+        copy = document.createElement('div')
+      copy.className = 'board-range-label band-fade-copy'
+      copy.setAttribute('aria-hidden', 'true')
+      copy.style.setProperty('--range-ink', getComputedStyle(band).getPropertyValue('--range-ink'))
+      copy.append(label.cloneNode(true))
+      return [
+        {
+          range: band.dataset.range!,
+          top: rect.top + window.scrollY,
+          left: rect.left + window.scrollX,
+          width: rect.width,
+          height: rect.height,
+          copy,
+        },
+      ]
+    })
+    previousBands = new Map(previousList.map(item => [item.range, item] as const))
     stopBands()
   }
   function beginBandLayout() {
@@ -106,9 +110,84 @@ export function useBandTransitions(
   onUpdated(() => {
     if (!batchingBands) animateBands()
   })
+  // 详情展开或收起时，同一区间被截成两段（展开）或两段合并（收起），标签的居中位置随之改变。
+  // 按区间分组、按上下顺序配对：保留的标签从旧位置平滑移到新位置；
+  // 多出的旧标签（收起）用副本移向最后一个新标签并淡出；多出的新标签（展开）原地淡入。
+  function moveSplitBands() {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches || !previousList.length) return
+    const root = tableRoot.value
+    if (!root) return
+    const bounds = root.getBoundingClientRect()
+    const timing = { duration: 220, easing: 'cubic-bezier(0.2, 0, 0, 1)' }
+    const groups = new Map<string, HTMLElement[]>()
+    for (const band of bandLabels()) {
+      const label = band.querySelector<HTMLElement>('b')
+      if (!label) continue
+      const list = groups.get(band.dataset.range!) || []
+      list.push(label)
+      groups.set(band.dataset.range!, list)
+    }
+    const olds = new Map<string, typeof previousList>()
+    for (const item of previousList) olds.set(item.range, [...(olds.get(item.range) || []), item])
+    for (const [range, labels] of groups) {
+      const before = olds.get(range) || []
+      if (!before.length) continue
+      // 先读取新位置，再启动位移动画（动画开始后读到的是带位移的旧位置）
+      const target = labels[labels.length - 1]!.getBoundingClientRect()
+      labels.forEach((label, i) => {
+        const from = before[Math.min(i, before.length - 1)]!
+        const dy = from.top - (label.getBoundingClientRect().top + window.scrollY)
+        if (Math.abs(dy) < 0.5 && i < before.length) return
+        // 新拆出的下半段标签位于展开的详情下方，原地淡入；若从上方旧位置移入，会扫过整个详情
+        const frames: Keyframe[] =
+          i < before.length
+            ? [{ transform: `translateY(${dy}px)` }, { transform: 'none' }]
+            : [{ opacity: 0 }, { opacity: 1 }]
+        bandAnimations.push(label.animate(frames, timing))
+      })
+      for (const extra of before.slice(labels.length)) {
+        const copy = extra.copy
+        Object.assign(copy.style, {
+          position: 'absolute',
+          left: extra.left - window.scrollX - bounds.left + 'px',
+          top: extra.top - window.scrollY - bounds.top + 'px',
+          width: extra.width + 'px',
+          height: extra.height + 'px',
+          display: 'grid',
+          placeItems: 'center',
+          border: '0',
+          padding: '0',
+          background: 'transparent',
+          pointerEvents: 'none',
+          zIndex: '2',
+        })
+        root.append(copy)
+        bandCopies.push(copy)
+        const animation = copy.animate(
+          [
+            { transform: 'none', opacity: 1 },
+            {
+              transform: `translateY(${target.top + window.scrollY - extra.top}px)`,
+              opacity: 0,
+            },
+          ],
+          { ...timing, fill: 'both' },
+        )
+        bandAnimations.push(animation)
+        void animation.finished.then(
+          () => copy.remove(),
+          () => {},
+        )
+      }
+    }
+  }
   function animateBands() {
     if (document.documentElement.classList.contains('is-detail-moving')) {
-      fadeNextBands()
+      // 先播放拆分／合并动画，再按原逻辑等布局稳定（不清除这些动画）
+      stopBands()
+      moveSplitBands()
+      cancelAnimationFrame(revealFrame)
+      fadeNextUpdate = true
       revealBands()
       return
     }
