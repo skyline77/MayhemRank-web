@@ -322,6 +322,23 @@ main.has-visible-detail .board-sticky-header {
 .board-strip-last .board-cell {
   padding-bottom: 10px;
 }
+/* 收起详情时，拆分区间加的上下内边距与详情高度同步收回（220ms ease-out cubic，同 animateHeight），
+   否则详情卸载时两行间距突然少约 20px；类名由 markSplitClosing 添加 */
+:is(.hero-board, .rune-board) .board-strip.is-split-closing-end .board-cell {
+  padding-bottom: calc(var(--board-portrait-gap) / 2);
+  transition: padding-bottom 220ms cubic-bezier(0.33, 1, 0.68, 1);
+}
+:is(.hero-board, .rune-board) .board-strip.is-split-closing-start .board-cell {
+  padding-top: calc(var(--board-portrait-gap) / 2);
+  transition: padding-top 220ms cubic-bezier(0.33, 1, 0.68, 1);
+}
+@media (prefers-reduced-motion: reduce) {
+  :is(.hero-board, .rune-board)
+    .board-strip:is(.is-split-closing-end, .is-split-closing-start)
+    .board-cell {
+    transition: none;
+  }
+}
 .board-cell.board-role-0,
 .board-cell.board-role-3 {
   grid-template-columns: repeat(4, var(--board-portrait-size));

@@ -21,6 +21,7 @@ import {
   cancelDetailTransition,
   preserveDetailPosition,
 } from '@/details/detailScroll'
+import { markSplitClosing } from '@/boards/splitClosing'
 import DetailEdges from '@/details/DetailEdges.vue'
 import DetailLink from '@/details/DetailLink.vue'
 import BuildDetail from '@/details/hero/BuildDetail.vue'
@@ -256,6 +257,11 @@ async function closeDetail(key = selectedStrip.value) {
     strip?.cells.flat().find(entry => entry.id === selectedTriggerId)?.id ||
     strip?.cells.flat()[0]?.id
   const trigger = anchorId ? findTrigger(anchorId) : null
+  const after = strips.value[strips.value.findIndex(strip => strip.key === key) + 1]
+  const unmark = markSplitClosing(detailPanel(key), {
+    end: !strip?.last,
+    start: !!after && after.index !== 0,
+  })
   const finished = await transitionDetail({
     panel: () => detailPanel(key),
     anchor: () => trigger,
@@ -269,7 +275,7 @@ async function closeDetail(key = selectedStrip.value) {
       if (selected.value?.id === id) selected.value = Object.values(remaining).at(-1) || null
       await nextTick()
     },
-  })
+  }).finally(unmark)
   await nextTick()
   table.value?.revealBands()
   if (finished) trigger?.focus({ preventScroll: true })

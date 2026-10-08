@@ -16,6 +16,7 @@ import {
   cancelDetailTransition,
   preserveDetailPosition,
 } from '@/details/detailScroll'
+import { markSplitClosing } from '@/boards/splitClosing'
 import { loadDetailSearch, type DetailSearchIndex } from '@/details/detailSearch'
 import DetailEdges from '@/details/DetailEdges.vue'
 import BuildStatCard from '@/details/BuildStatCard.vue'
@@ -396,6 +397,7 @@ async function closeDetail(key = selectedStrip.value) {
     ? id
     : strip?.cells.flat()[0]?.id
   const trigger = anchorId ? findTrigger(anchorId) : null
+  const unmark = markSplitClosing(detailPanel(key), { end: !strip?.last, start: false })
   const finished = await transitionDetail({
     panel: () => detailPanel(key),
     anchor: () => trigger,
@@ -408,7 +410,7 @@ async function closeDetail(key = selectedStrip.value) {
       if (selected.value?.id === id) selected.value = Object.values(rest).at(-1) || null
       await nextTick()
     },
-  })
+  }).finally(unmark)
   if (finished) trigger?.focus({ preventScroll: true })
 }
 
