@@ -20,6 +20,8 @@ const props = defineProps<{
   headingId?: string
   hideSourceNote?: boolean
 }>()
+// 标题隐藏时（由外层区块显示标题），把收录范围交给外层放在标题旁
+const emit = defineEmits<{ coverage: [value: string] }>()
 const data = ref<PatchCatalogue | null>(null),
   error = ref(''),
   loading = ref(true)
@@ -27,6 +29,7 @@ const patches = computed(() =>
   data.value ? recentPatches(data.value, props.kind, props.entityId, props.patch) : [],
 )
 const coverage = computed(() => (data.value ? coveredPatchLabel(data.value, props.patch) : ''))
+watch(coverage, value => emit('coverage', value), { immediate: true })
 const sourceUrl = (patch: string) => data.value?.sources.find(source => source.patch === patch)?.url
 let requestId = 0
 async function load() {
@@ -57,9 +60,7 @@ watch(locale, load, { immediate: true })
       <h3 :id="id + '-title'">{{ t('近期改动') }}</h3>
       <MetaNote v-if="coverage" :text="t('已收录') + coverage" />
     </div>
-    <p v-else-if="coverage" class="champion-patch-coverage">
-      <MetaNote :text="t('版本范围') + coverage" />
-    </p>
+
     <p v-if="loading" class="champion-patch-status" role="status">{{ t('正在读取近期改动……') }}</p>
     <p v-else-if="error" class="champion-patch-status" role="alert">
       {{ t(error) }} <button class="board-retry" @click="load">{{ t('重试') }}</button>

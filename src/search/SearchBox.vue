@@ -92,6 +92,7 @@ const props = defineProps<{
       <circle cx="10.5" cy="10.5" r="6.5" />
       <path d="m16 16 5 5" /></svg
     ><input
+      name="search"
       v-bind="inputAttrs"
       v-model="model"
       :data-site-search="scope"

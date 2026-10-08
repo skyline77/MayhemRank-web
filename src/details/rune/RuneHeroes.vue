@@ -172,6 +172,13 @@ const pct = (n: number) => (n * 100).toFixed(1) + '%'
   <RuneHeroChart v-if="showRuneHeroChart && data" :key="runeId + patch + snapshotId" :data="data" />
 </template>
 <style scoped>
+/* 桌面：标题到“英雄”行的距离与下方行间距一致（下方行间距含滚动条预留，约 34px） */
+@media (min-width: 701px) {
+  .rune-heroes > .build-detail-row:first-child {
+    padding-top: 34px;
+  }
+}
+
 .rune-heroes {
   --rarity: var(--silver);
   min-width: 0;

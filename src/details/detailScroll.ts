@@ -132,13 +132,28 @@ export async function fadeDetailAtTop(
   }
 }
 
-function scrollExpandedDetail(panel: HTMLElement, signal: AbortSignal, follow: () => boolean) {
+/** 动画参数。openingMaxStep：展开时动画时钟每帧最多前进的毫秒数；测试以粗粒度时间推进时设为 Infinity */
+export const motionTuning = { openingMaxStep: 17 }
+
+const easeOut = (t: number) => 1 - Math.pow(1 - t, 3)
+const easeInOut = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2)
+
+function scrollExpandedDetail(
+  panel: HTMLElement,
+  signal: AbortSignal,
+  follow: () => boolean,
+  fromRest = false,
+) {
   const fromTop = panel.getBoundingClientRect().top
   const targetTop = navigationInset()
   // Moving to an earlier row needs a gentler pace; preserve the existing
   // downward motion and the immediate sticky-header handoff.
   const upward = fromTop < targetTop
-  const duration = Math.max(upward ? 240 : 120, Math.abs(fromTop - targetTop) / (upward ? 1 : 2))
+  // fromRest：首次展开结束后再滚动，详情此时静止；ease-out 会让滚动以最高速度突然开始，
+  // 衔接处像一下顿挫，改用缓入缓出从静止起步，时长相应放宽。切换详情等其他滚动保持原曲线。
+  const duration = fromRest
+    ? Math.max(260, Math.abs(fromTop - targetTop) / 1.5)
+    : Math.max(upward ? 240 : 120, Math.abs(fromTop - targetTop) / (upward ? 1 : 2))
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
   return new Promise<boolean>(resolve => {
     let frame = 0,
@@ -166,7 +181,8 @@ function scrollExpandedDetail(panel: HTMLElement, signal: AbortSignal, follow: (
       const progress = reduced ? 1 : Math.min(1, (time - start) / duration)
       const delta =
         panel.getBoundingClientRect().top -
-        (targetTop + (fromTop - targetTop) * Math.pow(1 - progress, 3))
+        (targetTop +
+          (fromTop - targetTop) * (1 - (fromRest ? easeInOut(progress) : easeOut(progress))))
       // Late layout changes must not reverse an in-progress arrival scroll.
       // Wait for the easing path to catch up instead of visibly bouncing back.
       if (Math.abs(delta) > 0.1 && (upward ? delta < 0 : delta > 0))
@@ -213,6 +229,7 @@ export async function transitionDetail(options: DetailTransition): Promise<boole
     fromTop: number | undefined,
     toTop = fromTop,
     measureTo?: () => number,
+    maxStep?: number,
   ) {
     const initialAnchor = anchor(),
       panelRect = panel.getBoundingClientRect()
@@ -225,6 +242,7 @@ export async function transitionDetail(options: DetailTransition): Promise<boole
       measureTo,
       signal,
       hideWhenCollapsed: true,
+      maxStep,
       onProgress: headerMotion.progress,
       prepareProgress: (eased, nextHeight, previousHeight) => {
         const element = anchor()
@@ -283,13 +301,15 @@ export async function transitionDetail(options: DetailTransition): Promise<boole
           top,
           options.scrollAfterOpen ? top : navigationInset(),
           () => targetHeight,
+          // 展开刚挂载内容时第一帧很长，限幅避免高度一帧跳过大半（见 animateHeight）
+          motionTuning.openingMaxStep,
         )
       } finally {
         sizeObserver?.disconnect()
       }
       if (!expanded || signal.aborted) return false
       if (options.scrollAfterOpen) {
-        const arrived = await scrollExpandedDetail(panel, signal, () => follow)
+        const arrived = await scrollExpandedDetail(panel, signal, () => follow, true)
         if (arrived && follow && !signal.aborted && window.matchMedia('(max-width:700px)').matches)
           followInitialLayout(panel)
         return arrived
@@ -316,6 +336,8 @@ type DetailHandoff = {
   prepare: () => Promise<void>
   finish: () => Promise<void>
   sameRow: boolean
+  /** 被点击的卡片。新详情插在旧详情上方时改为固定它，而不是固定旧详情 */
+  anchor?: () => HTMLElement | null
 }
 
 // Keep both rows mounted until the destination is reached. Inserting above the
@@ -324,6 +346,8 @@ type DetailHandoff = {
 export async function handoffDetail(options: DetailHandoff): Promise<boolean> {
   const previous = options.previous()
   const previousTop = previous?.getBoundingClientRect().top
+  const anchor = options.anchor?.() ?? null
+  const anchorTop = anchor?.getBoundingClientRect().top
   let arriving: HTMLElement | null = null
   cancelDetailTransition()
   const controller = new AbortController(),
@@ -347,8 +371,17 @@ export async function handoffDetail(options: DetailHandoff): Promise<boolean> {
   try {
     await options.prepare()
     if (signal.aborted) return false
-    preserve(previous || null, previousTop)
     const destination = options.target()
+    // 新详情在旧详情上方：固定旧详情会让被点击的卡片连同上方内容一帧内被推出视口，
+    // 再滚回来，看起来像闪烁。改为固定被点击的卡片，新详情在它下方展开，旧详情被推到下方。
+    const insertedAbove =
+      !!anchor?.isConnected &&
+      !!previous &&
+      typeof destination?.compareDocumentPosition === 'function' &&
+      // 4 = Node.DOCUMENT_POSITION_FOLLOWING（测试环境没有 Node 全局对象）
+      !!(destination.compareDocumentPosition(previous) & 4)
+    if (insertedAbove) preserve(anchor, anchorTop)
+    else preserve(previous || null, previousTop)
     if (!destination?.isConnected) return false
     if (!options.sameRow && destination.getBoundingClientRect().top < navigationInset()) {
       // An upper destination is already above the viewport when mounted. Keep its

@@ -11,6 +11,8 @@ type HeightTween = {
   ) => (() => void) | undefined
   preserveHeightOnAbort?: boolean
   hideWhenCollapsed?: boolean
+  /** 每帧动画时钟最多前进的毫秒数；不传则按实际时间 */
+  maxStep?: number
 }
 // Shared by full detail transitions and smaller disclosures; scrolling stays with callers.
 export function animateHeight(panel: HTMLElement, options: HeightTween): Promise<boolean> {
@@ -25,7 +27,11 @@ export function animateHeight(panel: HTMLElement, options: HeightTween): Promise
     let frame = 0,
       start: number | undefined,
       scrollStart: number | undefined,
-      finished = false
+      finished = false,
+      // 动画时钟：传入 maxStep 时每帧最多前进 maxStep 毫秒。挂载新内容的长帧（实测约 60ms）
+      // 若按实际时间计，ease-out 会让高度一帧跳到六成以上；限幅后长帧只让动画稍慢，不跳。
+      clock = 0,
+      last: number | undefined
     function finish(ok: boolean) {
       if (finished) return
       finished = true
@@ -44,20 +50,22 @@ export function animateHeight(panel: HTMLElement, options: HeightTween): Promise
         finish(false)
         return
       }
-      start ??= time
-      scrollStart ??= time
+      clock += last === undefined ? 0 : Math.min(time - last, options.maxStep ?? Infinity)
+      last = time
+      start ??= clock
+      scrollStart ??= clock
       const measured = options.measureTo?.() ?? to
       if (Math.abs(measured - to) > 0.5) {
         // Retarget from the currently painted height; never snap to late-loaded content.
         from = paintedHeight
         to = measured
-        start = time
+        start = clock
       }
-      const progress = reduced ? 1 : Math.min(1, (time - start) / 220)
+      const progress = reduced ? 1 : Math.min(1, (clock - start) / 220)
       const eased = 1 - Math.pow(1 - progress, 3)
       const nextHeight = from + (to - from) * eased
       // Retargeting height must not rewind the outer detail's scroll alignment.
-      const scrollProgress = reduced ? 1 : Math.min(1, (time - scrollStart) / 220)
+      const scrollProgress = reduced ? 1 : Math.min(1, (clock - scrollStart) / 220)
       const scrollEased = 1 - Math.pow(1 - scrollProgress, 3)
       const commit = options.prepareProgress?.(scrollEased, nextHeight, paintedHeight)
       panel.style.height = nextHeight + 'px'

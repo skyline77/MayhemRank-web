@@ -236,7 +236,7 @@ const sampleText = (row: ComboEntry) =>
                         slot.row.championName,
                       )
                     "
-                    ><img :src="slot.row.championIcon" alt="" loading="lazy"
+                    ><img :src="slot.row.championIcon" alt="" loading="lazy" width="40" height="40"
                   /></a>
                   <span class="combo-plus">×</span>
                   <div class="combo-runes" :class="{ 'combo-runes-stack': dual }">
@@ -247,6 +247,8 @@ const sampleText = (row: ComboEntry) =>
                           class="augment-artwork"
                           alt=""
                           loading="lazy"
+                          width="45"
+                          height="45"
                         /><span
                           class="combo-rune-name"
                           :title="
@@ -271,6 +273,8 @@ const sampleText = (row: ComboEntry) =>
                           class="augment-artwork"
                           alt=""
                           loading="lazy"
+                          width="45"
+                          height="45"
                         /><span
                           class="combo-rune-name"
                           :title="

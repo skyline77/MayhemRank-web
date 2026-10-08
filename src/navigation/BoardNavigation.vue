@@ -33,6 +33,12 @@ function updateOpacity() {
   opacityFrame = 0
   const element = nav.value
   if (!element) return
+  // 详情展开／收起动画期间读取布局会强制每帧重算约 1300 个元素的样式（实测 7–10ms），
+  // 造成掉帧；动画进行中只等待，结束后再更新一次。
+  if (globalThis.document?.documentElement.classList?.contains('is-detail-moving')) {
+    if (!disposed) opacityFrame = requestAnimationFrame(updateOpacity)
+    return
+  }
   const mobile = window.innerWidth <= 700
 
   if (opacityTargetsDirty || background?.isConnected === false || header?.isConnected === false) {

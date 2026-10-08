@@ -1,4 +1,5 @@
-// 分步显示统计行：数据就绪后，从下一帧开始每帧换出一行真实卡片，其余行保持加载占位。
+// 分步显示统计行：数据就绪后，从下一帧开始每帧换出一行真实卡片，其余行保持加载占位；
+// 详情展开或滚动动画进行中暂停，动画结束后再继续。
 // 即使数据在组件挂载前就已就绪（提前请求或缓存），挂载那一帧也只渲染占位。
 // 占位与卡片同高，详情高度和最终画面都不变；只是把一帧内生成全部卡片的工作
 // 分摊到多帧，减少展开动画中的长时间停顿。
@@ -24,6 +25,12 @@ export function useStagedRows(
   function revealNext() {
     frame = requestAnimationFrame(() => {
       frame = 0
+      // 桌面（observing）详情正在展开或滚动时先不生成卡片：每行卡片要 12–18ms，叠加在动画帧上会掉帧。
+      // 等动画结束（is-detail-moving 移除）后再逐行换出。手机走淡入，不暂停。
+      if (observing && document.documentElement.classList.contains('is-detail-moving')) {
+        revealNext()
+        return
+      }
       if (!isNear(shown.value)) {
         waiting = true
         return

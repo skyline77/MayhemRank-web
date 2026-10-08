@@ -377,9 +377,18 @@ onUnmounted(() => {
                 :style="{ color: winRateColor(data.winRate, data.baseline) }"
                 >{{ winRateDelta(data.winRate, data.baseline) }}</span
               ><MetaNote
-                v-if="data.baselineLabel"
+                v-if="data.baselineLabel || data.statisticsNote"
                 class="game-tip-baseline"
-                :text="message('较{baseline}', { baseline: data.baselineLabel })"
+                :text="
+                  [
+                    data.baselineLabel
+                      ? message('较{baseline}', { baseline: data.baselineLabel })
+                      : '',
+                    data.statisticsNote || '',
+                  ]
+                    .filter(Boolean)
+                    .join('。')
+                "
               />
             </dd>
           </div>
@@ -430,7 +439,6 @@ onUnmounted(() => {
             /></svg
         ></span>
       </div>
-      <p v-if="data.statisticsNote" class="game-tip-statistics-note">{{ data.statisticsNote }}</p>
     </aside>
   </Teleport>
 </template>

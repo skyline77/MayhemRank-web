@@ -10,7 +10,10 @@ const {
   handoffDetail,
   cancelDetailTransition,
   preserveDetailPosition,
+  motionTuning,
 } = await loadTS('../src/details/detailScroll.ts')
+// 以下用例以粗粒度时间推进帧，关闭展开时的每帧限幅；限幅本身由单独用例覆盖
+motionTuning.openingMaxStep = Infinity
 
 test('shared scroll aligns the panel and respects reduced motion', () => {
   const original = globalThis.window
@@ -359,6 +362,49 @@ test('inserting a new upper row keeps the previous detail at its original viewpo
     await f.tick(871)
     assert.equal(await done, true)
     assert.equal(destination.getBoundingClientRect().top, 0)
+  }))
+
+test('with a clicked anchor, an upper row keeps the clicked card in place instead of the old detail', () =>
+  motionFixture(async f => {
+    let prepared = false
+    // 被点击的卡片在旧详情上方；新详情插在卡片下方，不会推动卡片，只会把旧详情往下推
+    const anchor = {
+      isConnected: true,
+      getBoundingClientRect: () => ({ top: 200 - window.scrollY, height: 80 }),
+    }
+    f.old.getBoundingClientRect = () => ({
+      top: 500 + (prepared ? 400 : 0) - window.scrollY,
+      height: 400,
+    })
+    const destination = {
+      isConnected: true,
+      getBoundingClientRect: () => ({ top: 280 - window.scrollY, height: 400 }),
+      // 旧详情在新详情之后
+      compareDocumentPosition: () => 4, // Node.DOCUMENT_POSITION_FOLLOWING
+    }
+    const anchorBefore = anchor.getBoundingClientRect().top
+    const oldBefore = f.old.getBoundingClientRect().top
+    const done = handoffDetail({
+      previous: () => f.old,
+      target: () => destination,
+      anchor: () => anchor,
+      sameRow: false,
+      prepare: async () => {
+        prepared = true
+      },
+      finish: async () => {
+        f.old.isConnected = false
+      },
+    })
+    await new Promise(resolve => setImmediate(resolve))
+    // 插入后的第一帧：被点击的卡片不动，旧详情被推到下方
+    assert.equal(anchor.getBoundingClientRect().top, anchorBefore)
+    assert.equal(f.old.getBoundingClientRect().top, oldBefore + 400)
+    await f.tick(0)
+    await f.tick(650)
+    await f.tick(651)
+    await f.tick(871)
+    assert.equal(await done, true)
   }))
 
 test('same-row update reuses the panel without height animation or scrolling', () =>

@@ -1,4 +1,5 @@
-/* 全站颜色变量。深色为“精工”方向（2026-10-07）：哑光纯黑、拉丝金、低饱和稀有度色，见 DESIGN.md。
+/* 全站颜色变量。深色为“精工”方向（2026-10-07）：哑光纯黑、拉丝金、稀有度色略低于原版饱和度，见 DESIGN.md。
+   2026-10-08 整体提高饱和度：用户多在游戏间隙查看，游戏画面饱和度高，页面过灰会不适应。
    Keep all theme colors here; rarity colors encode rarity, never win rate. */
 :root {
   --safe-area-top: env(safe-area-inset-top, 0px);
@@ -19,16 +20,16 @@
   --border-strong: rgba(255, 255, 255, 0.12);
   --muted: #8a8780;
   --text: #f2efe8;
-  --accent: #c9a45c;
-  --accent-text: #dcc08a;
+  --accent: #ddb24a;
+  --accent-text: #ecc970;
   --accent-on: #14100a;
   --chip: #18181a;
   --green: #94baa6;
-  --prismatic: #b9a6d8;
-  --gold: #c9a45c;
-  --silver: #a4acb6;
-  --silver-rail: #7f959b;
-  --rune-pair-blue: #6f8fc2;
+  --prismatic: #c8acf2;
+  --gold: #dbb556;
+  --silver: #afbac8;
+  --silver-rail: #84a3ab;
+  --rune-pair-blue: #5b90e0;
   --role-icon-filter: none;
   --icon-bg: #1a1a1c;
   --detail-card-width: 76px;
@@ -55,6 +56,8 @@
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
   /* 拉丝金：中间亮、两端暗的细渐变，只用于 1–2px 的线 */
   --brushed-gold: linear-gradient(90deg, #7d6130, #e6cc93 50%, #7d6130);
+  /* 游戏图像（头像、装备、海克斯图标）统一降饱和，见 precision.css */
+  --game-art-filter: saturate(0.92) brightness(0.98);
 }
 :root[data-theme='light'] {
   color-scheme: light;

@@ -31,6 +31,7 @@ defineEmits<{ 'update:modelValue': [value: boolean] }>()
           }}</span>
         </button>
       </h3>
+      <slot name="heading-end" />
     </header>
     <div :id="id + '-content'">
       <HeightReveal :open="nonCollapsible || (!disabled && !!modelValue)"
@@ -49,6 +50,10 @@ defineEmits<{ 'update:modelValue': [value: boolean] }>()
   display: flex;
   align-items: center;
   gap: 0;
+}
+/* 标题右侧的次级信息（如 ℹ），与标题留出间距 */
+.detail-section-heading > :slotted(.meta-note) {
+  margin-left: 10px;
 }
 .detail-section-heading h3 {
   margin: 0;

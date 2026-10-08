@@ -74,6 +74,8 @@ function tip(cell: RuneSynergy): TipData {
     ...cell,
     kind: props.kind,
     patch: props.patch,
+    // 海克斯与其他详情一致读取 Wiki 说明；缺少此标记时海克斯说明一律为空
+    wikiTranslation: props.kind === 'augments',
     baseline: cell.baselineWinRate,
     baselineLabel: t('英雄占比加权基准'),
     context: '按组合中的英雄占比校正；历史关联，不代表因果收益',

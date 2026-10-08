@@ -6,15 +6,15 @@
    注意：插画层与导航栏不能加 filter / backdrop-filter，否则插画会盖到表格上。 */
 
 /* ---- 顶部插画：保留原图，去色并压暗，贴合黑金调子 ----
-   插画层不能用 filter（会盖到表格上），改用背景混合：灰色层以 saturation 混合去掉约 75% 饱和度，
+   插画层不能用 filter（会盖到表格上），改用背景混合：灰色层以 saturation 混合去掉约 22% 饱和度，
    再叠黑色渐变压暗；底部仍渐隐到页面底色。层顺序：压暗、渐隐、去色、原图。 */
 :root:not([data-theme='light']) .shared-board-art {
-  --banner-shade: rgba(10, 10, 10, 0.72);
-  --banner-wash: rgba(10, 10, 10, 0.38);
+  --banner-shade: rgba(10, 10, 10, 0.64);
+  --banner-wash: rgba(10, 10, 10, 0.3);
   background-image:
     linear-gradient(90deg, var(--banner-shade), var(--banner-wash)),
     linear-gradient(0deg, var(--bg), transparent 96px),
-    linear-gradient(rgba(128, 128, 128, 0.75), rgba(128, 128, 128, 0.75)),
+    linear-gradient(rgba(128, 128, 128, 0.22), rgba(128, 128, 128, 0.22)),
     url('../assets/board-background.webp');
   background-position:
     center top,
@@ -25,12 +25,12 @@
 }
 @media (max-width: 700px) {
   :root:not([data-theme='light']) .board-banner {
-    --banner-shade: rgba(10, 10, 10, 0.72);
-    --banner-wash: rgba(10, 10, 10, 0.38);
+    --banner-shade: rgba(10, 10, 10, 0.64);
+    --banner-wash: rgba(10, 10, 10, 0.3);
     background-image:
       linear-gradient(90deg, var(--banner-shade), var(--banner-wash)),
       linear-gradient(0deg, var(--bg), transparent 70%),
-      linear-gradient(rgba(128, 128, 128, 0.75), rgba(128, 128, 128, 0.75)),
+      linear-gradient(rgba(128, 128, 128, 0.22), rgba(128, 128, 128, 0.22)),
       url('../assets/board-background.webp');
     background-blend-mode: normal, normal, saturation, normal;
   }
@@ -55,7 +55,12 @@
   :is(.product-nav .search, .product-nav .patch-picker select, .product-nav .language-picker) {
   border-color: rgba(255, 255, 255, 0.08);
   border-radius: 4px;
-  background-color: transparent;
+  /* 必须是不透明底色：Windows 上下拉选项列表沿用下拉框底色，透明会退回白底，浅色文字看不清 */
+  background-color: var(--bg);
+}
+:root:not([data-theme='light']) :is(.patch-picker select, .language-picker) option {
+  background-color: var(--card);
+  color: var(--text);
 }
 
 /* ---- 排序方式：去掉外框，改为文字页签 + 拉丝金细线 ---- */
@@ -77,8 +82,15 @@
 }
 /* 未选中项悬停：文字变亮，底部出现浅灰细线（选中项的拉丝金线不变） */
 :root:not([data-theme='light']) .hero-ranking-mode button:not([aria-pressed='true']):hover {
-  color: color-mix(in srgb, var(--text) 85%, var(--muted));
+  color: var(--text);
   box-shadow: inset 0 -1px rgba(255, 255, 255, 0.28);
+}
+/* 切换项位于插画上：未选中项提亮并加淡阴影，在偏亮的插画区域也能读清 */
+:root:not([data-theme='light']) .hero-ranking-mode button {
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+:root:not([data-theme='light']) .hero-ranking-mode button:not([aria-pressed='true']) {
+  color: color-mix(in srgb, var(--text) 72%, transparent);
 }
 
 /* ---- 表格：细线、小圆角、无竖线 ---- */
@@ -111,11 +123,40 @@
   background: transparent;
   box-shadow: inset 0 -1px var(--accent);
 }
+/* 海克斯榜的品质列选中时保持品质色（棱彩紫、黄金、白银），下划线同色，避免棱彩与黄金混淆 */
+:root:not([data-theme='light'])
+  .rune-board
+  .board-column-filter.rune-rarity-0[aria-pressed='true'] {
+  color: var(--prismatic);
+}
+:root:not([data-theme='light'])
+  .rune-board
+  .board-column-filter.rune-rarity-1[aria-pressed='true'] {
+  color: var(--gold);
+}
+:root:not([data-theme='light'])
+  .rune-board
+  .board-column-filter.rune-rarity-2[aria-pressed='true'] {
+  color: var(--silver);
+}
+:root:not([data-theme='light']) .rune-board .board-column-filter[aria-pressed='true'] {
+  box-shadow: inset 0 -1px currentColor;
+}
+/* 手机列很窄（约 119px），合并列要放两个职业图标加名称：去掉字距，第二个图标略叠在第一个上，
+   避免日文等较长名称溢出、与相邻列重叠 */
+@media (max-width: 700px) {
+  :root:not([data-theme='light']) .board-column-filter {
+    letter-spacing: 0;
+  }
+  :root:not([data-theme='light']) .board-role-pair > span + span {
+    margin-left: -4px;
+  }
+}
 /* 职业图标降饱和；悬停或选中列显示原色 */
 :root:not([data-theme='light']) .board-role-icon {
-  /* 保留约一半原色，不做成完全灰色，以免显得死板 */
-  filter: saturate(0.55) brightness(1.1);
-  opacity: 0.85;
+  /* 保留约八成原色，不做成灰色，以免显得死板 */
+  filter: saturate(0.8) brightness(1.05);
+  opacity: 0.9;
 }
 :root:not([data-theme='light']) .board-column-filter:hover .board-role-icon,
 :root:not([data-theme='light']) .board-column-filter[aria-pressed='true'] .board-role-icon {
@@ -172,11 +213,12 @@
 :root:not([data-theme='light']) .build-stat-card {
   transition: border-color 160ms ease;
 }
-/* 可点击（链接）卡片悬停为金框；装备等不可点击的卡片只有悬停提示，用浅灰细框，不暗示可点 */
-:root:not([data-theme='light']) a.build-stat-card:hover {
+/* 可点击卡片悬停为金框：链接卡片（跳转海克斯详情）与可操作卡片（装备，点击按该装备筛选）；
+   召唤师技能等只有悬停提示的卡片用浅灰细框，不暗示可点 */
+:root:not([data-theme='light']) :is(a.build-stat-card, .build-stat-card.is-actionable):hover {
   border-color: var(--accent);
 }
-:root:not([data-theme='light']) .build-detail .build-stat-card:not(a):hover {
+:root:not([data-theme='light']) .build-detail .build-stat-card:not(a, .is-actionable):hover {
   border-color: rgba(255, 255, 255, 0.22);
 }
 :root:not([data-theme='light']) .build-stat-placeholder {
@@ -195,6 +237,8 @@
   :root:not([data-theme='light']) .is-browsing .build-detail-rail {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
+    /* 连接线是纯色，分类栏的顶部高光会在交界处形成一道明暗边，浏览时去掉，与连接线成为整体 */
+    background-image: none;
   }
   /* 海克斯组合栏的底色本身是三色渐变（背景图层），高光要叠在它上面，不能替换 */
   :root:not([data-theme='light']) .rune-pairs .build-detail-rail {
@@ -272,13 +316,21 @@
 
 /* ---- 组合榜：分页按钮与详情分页一致，表头字距拉开 ---- */
 :root:not([data-theme='light']) .combo-pagination button {
-  border-color: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.16);
   border-radius: 4px;
-  background: transparent;
+  /* 半透明深底：按钮位于插画上，仍能看出是按钮 */
+  background: rgba(10, 10, 10, 0.45);
   letter-spacing: 0.06em;
 }
 :root:not([data-theme='light']) .combo-pagination button:disabled {
-  border-color: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.12);
+  color: var(--muted);
+  /* 原样式整体 40% 不透明，叠在插画上几乎看不出是按钮；保留外形，只把文字变灰 */
+  opacity: 0.75;
+}
+:root:not([data-theme='light']) .combo-pagination span {
+  color: color-mix(in srgb, var(--text) 72%, transparent);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
 }
 :root:not([data-theme='light']) .combo-table th {
   letter-spacing: 0.08em;
@@ -291,18 +343,12 @@
   background: rgba(255, 255, 255, 0.025);
 }
 
-/* ---- 游戏图像轻度降饱和、略压暗，与哑光黑金更贴近；悬停或选中时恢复原色 ----
-   范围：榜单与详情中的英雄头像、装备／海克斯／技能图标、组合榜图标。悬停提示框中的大图保持原色。
+/* ---- 游戏图像统一轻度降饱和、略压暗（滤镜值见 tokens.css 的 --game-art-filter），悬停或选中时恢复原色 ----
+   范围：页面主体（main）内的所有图片，新增图片自动生效。排除：招牌字标；文字中的属性小图标
+   （颜色与文字对应）；悬停提示框挂在 body 下，不在 main 内，大图保持原色。
    不加 filter 过渡：实测手机 4 倍降速下展开详情时，过渡使第二长任务多约 40–50ms；不加过渡则与无滤镜持平。 */
-:root:not([data-theme='light'])
-  :is(
-    .build-portrait img,
-    .build-detail-portrait > img,
-    .build-stat-card img,
-    .role-item-icons img,
-    .combo-pair img
-  ) {
-  filter: saturate(0.78) brightness(0.94);
+:root:not([data-theme='light']) main img:not(.product-nav-brand > img, .stat-inline > img) {
+  filter: var(--game-art-filter);
 }
 :root:not([data-theme='light'])
   :is(
@@ -322,4 +368,40 @@
 }
 :root:not([data-theme='light']) .overlay-scroll-thumb {
   background: rgba(255, 255, 255, 0.3);
+}
+
+/* ---- 悬停提示框的滚动条：细、无箭头、透明轨道，滑块为淡灰，悬停时稍亮 ----
+   系统默认滚动条宽且带上下箭头，在深色圆角提示框里很突兀。 */
+:root:not([data-theme='light']) .game-info-tooltip {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.22) transparent;
+}
+:root:not([data-theme='light']) .game-info-tooltip::-webkit-scrollbar {
+  width: 6px;
+}
+:root:not([data-theme='light']) .game-info-tooltip::-webkit-scrollbar-button {
+  display: none;
+}
+:root:not([data-theme='light']) .game-info-tooltip::-webkit-scrollbar-track {
+  background: transparent;
+  margin-block: 12px;
+}
+:root:not([data-theme='light']) .game-info-tooltip::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.22);
+}
+:root:not([data-theme='light']) .game-info-tooltip::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.36);
+}
+
+/* ---- 筛选列动画的过渡层（boardColumnMotion）与精工样式一致 ----
+   过渡层按原版样式绘制（不透明列底色、选中高亮底色、2px 金线、列间竖线），
+   动画结束移除时会露出精工样式的真实表头，造成下划线变细、底色变淡、竖线消失的突变。 */
+:root:not([data-theme='light']) .board-column-head .column-motion-fill,
+:root:not([data-theme='light']) .column-motion-highlight,
+:root:not([data-theme='light']) .column-motion-line {
+  background: transparent;
+}
+:root:not([data-theme='light']) .column-motion-underline {
+  height: 1px;
 }

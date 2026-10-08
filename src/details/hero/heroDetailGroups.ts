@@ -10,9 +10,9 @@ export const statGroups = [
 
 export const bootsGroup = { id: 'boots', name: '鞋子', label: '鞋子', css: 'items' }
 
-/** 手机 tab 顺序：棱彩、黄金、白银、组合、装备 */
+/** 手机 tab 顺序：装备、棱彩、黄金、白银、组合（装备在首位，打开详情默认显示装备） */
 export const mobileTabs = [
+  ...statGroups.slice(3).map(group => ({ id: group.id, label: group.label, css: group.css })),
   ...statGroups.slice(0, 3).map(group => ({ id: group.id, label: group.label, css: group.css })),
   { id: 'pairs', label: '组合', css: 'pairs' },
-  ...statGroups.slice(3).map(group => ({ id: group.id, label: group.label, css: group.css })),
 ]

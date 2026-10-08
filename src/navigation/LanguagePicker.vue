@@ -9,6 +9,7 @@ function change(event: Event) {
     ><span class="language-picker-icon" aria-hidden="true"></span
     ><select
       class="language-picker"
+      name="language"
       :value="locale"
       aria-label="Language / 语言 / 語言 / 言語"
       @change="change"

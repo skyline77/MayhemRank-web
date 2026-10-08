@@ -275,6 +275,9 @@ useFittedRuneHeading(headingName, [headingText, locale, change])
           :title="t('符文说明')"
           class="rune-description"
         >
+          <template #heading-end
+            ><MetaNote :text="t('Wiki 社区说明不保证与所选统计版本一致；简中译文不是官方文本。')"
+          /></template>
           <RuneDescriptionPanel
             :id="panelId + '-left'"
             :label="t('符文说明')"
@@ -293,9 +296,6 @@ useFittedRuneHeading(headingName, [headingText, locale, change])
             @request-translation="readTranslations"
             @retry="retryDescription"
           />
-          <p class="rune-description-warning">
-            <MetaNote :text="t('Wiki 社区说明不保证与所选统计版本一致；简中译文不是官方文本。')" />
-          </p>
         </DetailSection>
         <DetailSection
           :id="panelId + '-statistics'"
@@ -470,12 +470,6 @@ useFittedRuneHeading(headingName, [headingText, locale, change])
   font-size: 14px;
   line-height: 1.8;
 }
-.rune-description-warning {
-  margin: 8px 0 0;
-  color: var(--muted);
-  font-size: 12px;
-  line-height: 1.6;
-}
 .rune-detail-overview .rune-description :deep(.detail-section-content) {
   height: auto;
 }
@@ -554,7 +548,8 @@ useFittedRuneHeading(headingName, [headingText, locale, change])
 }
 .rune-detail .build-detail-heading {
   flex-wrap: wrap;
-  align-items: flex-end;
+  /* 桌面：图标、标题、搜索框与关闭按钮垂直居中，与英雄详情一致；手机另行底对齐 */
+  align-items: center;
 }
 .rune-detail .build-detail-title h2 {
   line-height: 1.35;

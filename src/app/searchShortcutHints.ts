@@ -20,6 +20,12 @@ export function observeSearchShortcutHints(root: Document = document, viewport =
   let frame = 0
   const update = () => {
     frame = 0
+    // 详情展开／收起动画期间每帧都有样式与滚动变化；此时读取布局会强制重算约 1300 个元素的样式
+    // （实测每帧 7–10ms，造成掉帧）。动画进行中只等待，结束后再更新一次。
+    if (root.documentElement?.classList?.contains('is-detail-moving')) {
+      frame = viewport.requestAnimationFrame(update)
+      return
+    }
     updateSearchShortcutHints(root, viewport)
   }
   const schedule = () => {

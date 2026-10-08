@@ -510,12 +510,21 @@ main.has-visible-detail .board-sticky-header {
   background: transparent;
 }
 
-/* 底部阴影直接锚定下金线，不用滚动帧计算纵向位置。 */
+/* 底部阴影直接锚定下金线，不用滚动帧计算纵向位置。
+   高度变量由 DetailEdges 在滚动与展开收起时写到详情行上。注册为不继承：普通自定义属性会
+   继承给整个详情（约 1300 个元素），每写一次都要全部重算样式，收起动画因此掉帧；
+   只让伪元素显式继承。 */
+@property --detail-bottom-shadow-height {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 16px;
+}
 .board-detail-row::after {
+  --detail-bottom-shadow-height: inherit;
   content: '';
   top: auto;
   bottom: 0;
-  height: var(--detail-bottom-shadow-height, 16px);
+  height: var(--detail-bottom-shadow-height);
   background: linear-gradient(to top, var(--detail-edge-shadow), transparent) bottom / 100% 16px
     no-repeat;
 }

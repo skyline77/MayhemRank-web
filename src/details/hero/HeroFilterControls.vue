@@ -282,6 +282,7 @@ const pct = (v: number) => (v * 100).toFixed(1) + '%'
     <input
       v-if="scrollLimit > 0"
       class="role-scrollbar"
+      name="role-scroll"
       type="range"
       min="0"
       :max="scrollLimit"

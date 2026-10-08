@@ -180,3 +180,26 @@ test('geometry is prepared before height writes and retargeting reuses painted h
       'scroll',
     ])
   }))
+
+test('maxStep caps how far one long frame can advance the tween', () =>
+  fixture(async ({ panel, tick }) => {
+    const heights = {}
+    for (const maxStep of [undefined, 25]) {
+      const done = animateHeight(panel, {
+        from: 0,
+        to: 1000,
+        signal: new AbortController().signal,
+        maxStep,
+      })
+      tick(0)
+      // 挂载内容后的长帧：实际过去 60ms
+      tick(60)
+      heights[String(maxStep)] = Number.parseFloat(panel.style.height)
+      for (let time = 76; time <= 600; time += 16) tick(time)
+      assert.equal(await done, true)
+    }
+    // 不限幅时一帧前进 60ms，高度已过六成；限幅后只前进 25ms
+    assert.ok(heights.undefined > 600)
+    const expected = 1000 * (1 - Math.pow(1 - 25 / 220, 3))
+    assert.ok(Math.abs(heights['25'] - expected) < 0.5)
+  }))

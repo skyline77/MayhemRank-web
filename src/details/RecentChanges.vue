@@ -2,6 +2,8 @@
 import { t } from '@/i18n/i18n'
 import DetailSection from './DetailSection.vue'
 import DetailPatchNotes from './DetailPatchNotes.vue'
+import MetaNote from '@/shared/MetaNote.vue'
+import { ref } from 'vue'
 import type { PatchKind } from '@/data/patchNotes'
 defineProps<{
   id: string
@@ -13,6 +15,7 @@ defineProps<{
   hideSourceNote?: boolean
 }>()
 defineEmits<{ 'update:modelValue': [value: boolean] }>()
+const coverage = ref('')
 </script>
 <template>
   <DetailSection
@@ -24,10 +27,12 @@ defineEmits<{ 'update:modelValue': [value: boolean] }>()
     :disabled="available === false"
   >
     <template #heading-note><slot name="heading-note" /></template>
+    <template #heading-end><MetaNote v-if="coverage" :text="t('版本范围') + coverage" /></template>
     <DetailPatchNotes
       :id="id + '-notes'"
       :heading-id="id + '-title'"
       hide-heading
+      @coverage="coverage = $event"
       :hide-source-note="hideSourceNote"
       :kind="kind"
       :entity-id="entityId"

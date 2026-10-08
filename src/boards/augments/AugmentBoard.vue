@@ -341,6 +341,7 @@ async function selectEntry(entry: RuneEntry, linked = false) {
       previous: () => detailPanel(previous),
       target: () => detailPanel(target),
       sameRow: previous === target,
+      anchor: () => findTrigger(entry.id),
       prepare,
       finish: async () => {
         openPanels.value = { [target]: entry }

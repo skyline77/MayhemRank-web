@@ -118,7 +118,9 @@ function revealSpell(event: Event, spell: { id: number; icon: string | null }) {
   gap: 4px;
   align-content: center;
 }
+/* 技能图标只用于显示说明（触屏点按也显示），不是可跳转或筛选的操作，不用手指光标 */
 .spell-tip-trigger {
+  cursor: default;
   padding: 0;
   border: 0;
   background: transparent;

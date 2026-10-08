@@ -219,7 +219,11 @@ onBeforeUnmount(() => {
       <div class="rune-hero-chart-controls">
         <label
           >{{ t('选用场次 ≥')
-          }}<select v-model.number="minimum" :aria-label="t('图表最低选用场次')">
+          }}<select
+            name="chart-minimum"
+            v-model.number="minimum"
+            :aria-label="t('图表最低选用场次')"
+          >
             <option :value="50">50</option>
             <option :value="100">100</option>
             <option :value="200">200</option>
@@ -230,6 +234,7 @@ onBeforeUnmount(() => {
         <label
           >{{ t('英雄')
           }}<select
+            name="chart-hero"
             :value="selected"
             :aria-label="t('在图表中选择英雄')"
             @change="select(($event.target as HTMLSelectElement).value)"
