@@ -8,6 +8,8 @@ import { winRateColor } from '@/stats/winRateColor'
 
 import DetailLink from '@/details/DetailLink.vue'
 import { readHistorySection, registerHistorySection } from '@/app/pageHistory'
+import SearchBox from '@/search/SearchBox.vue'
+import { loadDetailSearch, type DetailSearchIndex } from '@/details/detailSearch'
 import DetailHeading from '@/details/DetailHeading.vue'
 import DetailCategoryTabs from '@/details/DetailCategoryTabs.vue'
 import DesktopCategoryBrowser from '@/details/DesktopCategoryBrowser.vue'
@@ -46,6 +48,25 @@ watch(
   { immediate: true },
 )
 const panel = ref<HTMLElement | null>(null)
+const query = ref(''),
+  searchIndex = ref<DetailSearchIndex | null>(null)
+watch(
+  () => props.patch,
+  async (patch, _, onCleanup) => {
+    let stale = false
+    onCleanup(() => {
+      stale = true
+    })
+    searchIndex.value = null
+    try {
+      const index = await loadDetailSearch(patch)
+      if (!stale) searchIndex.value = index
+    } catch {
+      /* 名称搜索仍可使用。 */
+    }
+  },
+  { immediate: true },
+)
 const locked = false
 const compact = useCompactBoard(
   () => panel.value,
@@ -305,6 +326,15 @@ onUnmounted(() => {
         :patch="patch"
         @change="changeFilter"
       />
+      <SearchBox
+        v-if="!compact"
+        v-model="query"
+        scope="detail"
+        class="hero-detail-search"
+        :label="t('搜索详情中的英雄、符文或装备')"
+        placeholder=""
+        :hint-icons="['/build-assets/augment-1195.png', '/build-assets/item-2051.png']"
+      />
     </DetailHeading>
     <p v-if="error && data" class="detail-refresh-error" role="alert">
       {{ t(error) }}{{ t('；仍显示上次成功加载的统计。')
@@ -331,7 +361,11 @@ onUnmounted(() => {
       >
         <DesktopCategoryBrowser
           :enabled="!compact"
-          :groups="compact ? statGroups.filter(group => contentTab.id === group.id) : statGroups"
+          :groups="
+            compact
+              ? statGroups.filter(group => contentTab.id === group.id)
+              : statGroups.filter(group => group.id !== 'items')
+          "
           :panel-id="panelId"
           v-slot="{ group, expanded, toggle, rowAttrs, tabMode }"
         >
@@ -345,7 +379,7 @@ onUnmounted(() => {
             :class="{ 'mobile-tab-row': compact }"
             :visual-family-reference="allSortData?.detail.groups[group.id] || []"
             :visual-family-sort="!compact && expanded && group.id !== 'items'"
-            :expandable="!compact"
+            :expandable="!compact && group.id !== 'items'"
             :expanded="compact || expanded"
             @toggle-expand="toggle"
             :show-delta="!compact"
@@ -353,7 +387,8 @@ onUnmounted(() => {
             :cells="displayedGroups[group.id] || []"
             :loading="rowLoading(statRowIndex(group.id))"
             :locked="locked"
-            query=""
+            :query="compact ? '' : query"
+            :search-index="searchIndex"
             :patch="displayedPatch"
             :baseline="baseline"
             :context="tooltipContext"
@@ -363,6 +398,33 @@ onUnmounted(() => {
             @item="changeFilter({ type: 'item', item: $event })"
           />
         </DesktopCategoryBrowser>
+        <template v-if="!compact">
+          <FilterableStatRow
+            v-for="group in statGroups.filter(group => group.id === 'items')"
+            class="hero-equipment-row"
+            :key="group.id"
+            :managed-expansion="false"
+            :overlay-scrollbar="!compact"
+            :class="{ 'mobile-tab-row': compact }"
+            :visual-family-reference="allSortData?.detail.groups[group.id] || []"
+            :expandable="false"
+            :expanded="false"
+            :show-delta="!compact"
+            :group="group"
+            :cells="displayedGroups[group.id] || []"
+            :loading="rowLoading(statRowIndex(group.id))"
+            :locked="locked"
+            :query="compact ? '' : query"
+            :search-index="searchIndex"
+            :patch="displayedPatch"
+            :baseline="baseline"
+            :context="tooltipContext"
+            :selected-rune="displayedFilter.rune?.id"
+            :selected-item="displayedFilter.item?.id"
+            @rune="changeFilter({ type: 'rune', rune: $event })"
+            @item="changeFilter({ type: 'item', item: $event })"
+          />
+        </template>
         <div
           v-if="!compact"
           class="build-detail-paired"
@@ -383,7 +445,8 @@ onUnmounted(() => {
             :cells="displayedGroups.boots || []"
             :loading="rowLoading(5)"
             :locked="locked"
-            query=""
+            :query="compact ? '' : query"
+            :search-index="searchIndex"
             :patch="displayedPatch"
             :baseline="baseline"
             :context="tooltipContext"
@@ -391,7 +454,7 @@ onUnmounted(() => {
         </div>
         <HeroRunePairs
           :rune-cells="Object.values(allSortData?.detail.groups || {}).flat()"
-          :search-index="null"
+          :search-index="searchIndex"
           :floating-sort="compact && active"
           :show-delta="!compact"
           v-if="!compact || contentTab.id === 'pairs'"
@@ -400,7 +463,7 @@ onUnmounted(() => {
           :snapshot-id="entry.snapshotId"
           :deferred="stagedHidden(6)"
           :locked="locked"
-          query=""
+          :query="compact ? '' : query"
         />
       </DetailCategoryTabs>
     </div>
@@ -608,13 +671,17 @@ onUnmounted(() => {
     grid-template-columns: var(--detail-rail-width) minmax(0, 1fr);
     column-gap: 14px;
   }
+  .hero-detail :deep(.hero-equipment-row) {
+    padding-top: 34px;
+    padding-bottom: 0;
+  }
   .hero-detail :deep(.build-detail-paired) {
     grid-template-columns:
       calc(6 * (var(--detail-card-width) + var(--detail-card-gap)) + 6px)
       minmax(calc(var(--detail-rail-width) + 8px + var(--detail-card-width)), 1fr);
   }
   .hero-detail :deep(.build-detail-paired > .build-detail-row) {
-    padding-top: 20px;
+    padding-top: 6px;
     padding-bottom: 0;
   }
   .hero-detail :deep(.build-detail-paired > .spells) {
@@ -747,6 +814,25 @@ onUnmounted(() => {
   .hero-order-lock,
   .hero-cohort-summary {
     display: none;
+  }
+}
+/* 桌面：搜索框与关闭按钮放在同一行，相对整个标题区垂直居中，与海克斯详情一致 */
+@media (min-width: 701px) {
+  .build-detail.hero-detail .hero-detail-heading {
+    grid-template-columns: auto minmax(0, 1fr) minmax(200px, 352px) auto;
+  }
+  .build-detail.hero-detail .hero-detail-heading .hero-detail-search {
+    grid-column: 3;
+    grid-row: 1;
+    align-self: center;
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+  }
+  .build-detail.hero-detail .hero-detail-heading .build-detail-close {
+    grid-column: 4;
+    align-self: center;
+    margin: 0;
   }
 }
 </style>

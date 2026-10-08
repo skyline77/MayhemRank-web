@@ -200,7 +200,7 @@ onUnmounted(stopMotion)
   }
   .is-browsing {
     grid-template-rows: calc(var(--browser-card-height) + var(--browser-content-top) + 10px) repeat(
-        3,
+        2,
         calc(var(--browser-card-height) + 20px)
       );
     align-content: start;
@@ -233,7 +233,7 @@ onUnmounted(stopMotion)
     transition: opacity 260ms ease;
   }
   .is-browsing :deep(.build-detail-sort .sort-direction) {
-    opacity: 0;
+    opacity: 1;
   }
   .is-browsing :deep(.rarity-expand) {
     pointer-events: none;

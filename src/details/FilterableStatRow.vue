@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { sortRuneVisualFamilies } from './rune/runeVisualSort'
+import { sortRuneFamiliesByWinRate } from './rune/runeVisualSort'
 import { gameName } from '@/i18n/gameLocalization'
 import { t, message } from '@/i18n/i18n'
-import { computed } from 'vue'
+import { computed, ref, watch, nextTick, onUnmounted } from 'vue'
+import { captureCategoryContents, dissolveCategoryContents } from './categoryDissolve'
 const windowWidth = window.innerWidth
 import { matchesDetailSearch, type DetailSearchIndex } from './detailSearch'
 import DetailStatRow from './DetailStatRow.vue'
@@ -34,17 +35,47 @@ const props = defineProps<{
   selectedRune?: string
   selectedItem?: string
 }>()
+const byIcon = ref(false),
+  rowComponent = ref<{ $el: HTMLElement } | null>(null)
+let clearIconMotion = () => {},
+  iconRevision = 0
+watch(
+  () => props.expanded,
+  expanded => {
+    if (!expanded) {
+      byIcon.value = false
+      iconRevision++
+      clearIconMotion()
+    }
+  },
+)
+onUnmounted(() => {
+  iconRevision++
+  clearIconMotion()
+})
+async function toggleIcons() {
+  clearIconMotion()
+  const revision = ++iconRevision
+  const viewport =
+    rowComponent.value?.$el.querySelector<HTMLElement>('.detail-card-viewport') || null
+  const reduced = matchMedia('(prefers-reduced-motion:reduce)').matches
+  const old = reduced ? [] : captureCategoryContents(viewport)
+  byIcon.value = !byIcon.value
+  await nextTick()
+  if (revision === iconRevision && !reduced)
+    clearIconMotion = dissolveCategoryContents(viewport, old)
+}
 function matches(cell: DetailCell) {
   return (
     !props.query.trim() ||
     matchesDetailSearch(props.group.id, cell, props.query, props.searchIndex || null)
   )
 }
+const highlightSearch = computed(() => !!props.managedExpansion && !!props.expanded)
 function visibleCells(cells: readonly DetailCell[]) {
-  const visible = props.locked || !props.query.trim() ? cells : cells.filter(matches)
-  return props.visualFamilySort
-    ? sortRuneVisualFamilies(visible, props.visualFamilyReference || [])
-    : visible
+  const visible =
+    props.locked || highlightSearch.value || !props.query.trim() ? cells : cells.filter(matches)
+  return props.visualFamilySort && byIcon.value ? sortRuneFamiliesByWinRate(visible) : visible
 }
 const missingUsage = computed(() => (props.group.id === 'items' ? '≤0.5%' : '0.0%'))
 const missingNote = computed(() =>
@@ -101,6 +132,10 @@ function cardTip(cell: DetailCell & { missing?: boolean }): TipData {
 </script>
 <template>
   <DetailStatRow
+    ref="rowComponent"
+    :icon-toggle="!!visualFamilySort"
+    :by-icon="byIcon"
+    @toggle-icons="toggleIcons"
     :tab-mode="tabMode"
     :floating-sort="floatingSort"
     :expandable="expandable"
@@ -125,7 +160,7 @@ function cardTip(cell: DetailCell & { missing?: boolean }): TipData {
       v-slot="{ visibleCount, pageItems }"
       :expanded="expanded"
       :loading="loading"
-      :reset-key="group.id + (locked ? '' : query) + sortBy"
+      :reset-key="group.id + (locked || highlightSearch ? '' : query) + sortBy"
       :match-key="locked && query.trim() ? query : undefined"
       :match-revision="sortedCells"
       :aria-hidden="loading ? true : undefined"
@@ -147,7 +182,8 @@ function cardTip(cell: DetailCell & { missing?: boolean }): TipData {
           :key="cell.id"
           :data-search-match="locked && matches(cell) ? 'true' : undefined"
           :class="{
-            'search-mismatch': locked && !matches(cell),
+            'search-mismatch': locked && !highlightSearch && !matches(cell),
+            'search-highlight': highlightSearch && !!query.trim() && matches(cell),
             'low-sample-card': !isItemGroup && cell.lowSample,
           }"
           :missing-usage="missingUsage"
@@ -200,6 +236,10 @@ function cardTip(cell: DetailCell & { missing?: boolean }): TipData {
 </template>
 
 <style scoped>
+.build-stat-card.search-highlight {
+  border-color: var(--accent) !important;
+}
+
 .search-mismatch {
   filter: grayscale(1);
   opacity: 0.32;

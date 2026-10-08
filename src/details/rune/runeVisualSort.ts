@@ -36,3 +36,22 @@ export function sortRuneVisualFamilies<T extends SortableDetailCell>(
     )
   })
 }
+
+// 使用当前范围胜率；低样本不能把整个图标系列推到前面。
+export function sortRuneFamiliesByWinRate<T extends SortableDetailCell>(cells: readonly T[]): T[] {
+  const compare = (a: T, b: T) =>
+    Number(a.games < 50) - Number(b.games < 50) ||
+    b.winRate - a.winRate ||
+    b.games - a.games ||
+    a.id.localeCompare(b.id)
+  const groups = new Map<string, T[]>()
+  for (const cell of cells) {
+    const key = familyOf(cell.id)
+    const group = groups.get(key) || []
+    group.push(cell)
+    groups.set(key, group)
+  }
+  const ranked = [...groups.values()].map(group => group.sort(compare))
+  ranked.sort((a, b) => compare(a[0]!, b[0]!))
+  return ranked.flat()
+}

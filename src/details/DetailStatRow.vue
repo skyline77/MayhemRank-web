@@ -9,6 +9,8 @@ import LockIcon from './LockIcon.vue'
 import SortDirection from './SortDirection.vue'
 import { useLockedOrder } from '@/shared/useLockedOrder'
 const props = defineProps<{
+  iconToggle?: boolean
+  byIcon?: boolean
   tabMode?: boolean
   floatingSort?: boolean
   expandable?: boolean
@@ -26,7 +28,7 @@ const props = defineProps<{
   preserveLowSampleOrder?: boolean
   additionalMetrics?: readonly { key: 'pickRate' | 'games'; label: string }[]
 }>()
-const emit = defineEmits<{ 'toggle-expand': [] }>()
+const emit = defineEmits<{ 'toggle-expand': []; 'toggle-icons': [] }>()
 const row = ref<HTMLElement | null>(null)
 const expandButton = ref<HTMLButtonElement | null>(null)
 let arrowAnimations: Animation[] = []
@@ -93,8 +95,22 @@ const sortBy = ref<DetailSort>(
   savedSort && allowedSorts.includes(savedSort) ? savedSort : props.defaultSort || 'pickRate',
 )
 if (historyPanel) onUnmounted(registerHistorySection(historyKey, () => sortBy.value))
+// 展开分类时“使用率”按钮换成“按图标”开关，收起时换回。新插入的按钮淡入，
+// 与同一栏其他排序按钮 260ms 的颜色过渡同步，避免文字与颜色一帧跳变。
+const swappedIn = ref(false)
+watch(
+  () => !!props.iconToggle,
+  () => {
+    swappedIn.value = true
+  },
+)
 const currentCells = computed(() =>
-  sortDetailCells(props.cells, sortBy.value, props.lowSampleLast, props.preserveLowSampleOrder),
+  sortDetailCells(
+    props.cells,
+    props.iconToggle ? 'winRate' : sortBy.value,
+    props.lowSampleLast,
+    props.preserveLowSampleOrder,
+  ),
 )
 const sortedCells = useLockedOrder(
   () => currentCells.value,
@@ -207,7 +223,7 @@ async function chooseSort(value: DetailSort, event: Event) {
           @click="chooseSort('winRate', $event)"
         >
           <span class="detail-sort-label">{{ floatingSort ? t('按胜率') : t('胜率') }}</span
-          ><SortDirection :ascending="sortBy === 'winRateAsc'" />
+          ><SortDirection :ascending="!tabMode && sortBy === 'winRateAsc'" />
         </button>
         <button
           v-if="syncWinRateDelta"
@@ -221,11 +237,24 @@ async function chooseSort(value: DetailSort, event: Event) {
           @click="chooseSort('winRate', $event)"
         >
           <span class="detail-sort-label">{{ t('Δ胜率') }}</span
-          ><SortDirection :ascending="sortBy === 'winRateAsc'" />
+          ><SortDirection :ascending="!tabMode && sortBy === 'winRateAsc'" />
         </button>
         <button
+          v-if="iconToggle"
+          type="button"
+          class="build-detail-sort icon-group-switch sort-swap-in"
+          role="switch"
+          :aria-checked="!!byIcon"
+          @click.stop="emit('toggle-icons')"
+        >
+          <span class="detail-sort-label">{{ t('按图标') }}</span
+          ><span class="icon-switch-box" aria-hidden="true"></span>
+        </button>
+        <button
+          v-else
           type="button"
           class="build-detail-sort"
+          :class="{ 'sort-swap-in': swappedIn }"
           :tabindex="tabMode ? -1 : undefined"
           :aria-hidden="tabMode ? true : undefined"
           :disabled="locked"
@@ -276,6 +305,78 @@ async function chooseSort(value: DetailSort, event: Event) {
 </template>
 
 <style scoped>
+.build-detail-rail .icon-group-switch {
+  position: relative;
+  z-index: 4;
+  pointer-events: auto;
+  gap: 5px;
+  cursor: pointer;
+  color: var(--rail-ink);
+}
+/* 勾选框放在右侧，与“胜率↓”的箭头位置一致；左侧留同宽空位，文字保持居中 */
+.icon-group-switch::before {
+  flex: 0 0 10px;
+}
+/* 勾选框：与上方排序文字同色同字号，只用分类栏墨色，不另加强调色 */
+.icon-switch-box {
+  position: relative;
+  flex: none;
+  width: 10px;
+  height: 10px;
+  border: 1.5px solid currentColor;
+  border-radius: 2px;
+  opacity: 0.7;
+  transition:
+    background-color 120ms ease,
+    box-shadow 120ms ease,
+    opacity 120ms ease;
+}
+/* 悬停：勾选框变实、加一圈淡光晕，未勾选时内部浅填充，提示可点击 */
+.icon-group-switch:hover .icon-switch-box {
+  opacity: 1;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--rail-ink) 18%, transparent);
+}
+.icon-group-switch[aria-checked='false']:hover .icon-switch-box {
+  background: color-mix(in srgb, var(--rail-ink) 22%, transparent);
+}
+.icon-group-switch[aria-checked='true'] .icon-switch-box {
+  background: currentColor;
+  opacity: 1;
+}
+.icon-group-switch[aria-checked='true'] .icon-switch-box::after {
+  content: '';
+  position: absolute;
+  left: 2px;
+  top: 0;
+  width: 3px;
+  height: 5px;
+  border: solid var(--rarity);
+  border-width: 0 1.5px 1.5px 0;
+  transform: rotate(45deg);
+}
+.sort-swap-in {
+  animation: sort-swap-in 260ms ease;
+}
+@keyframes sort-swap-in {
+  from {
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sort-swap-in {
+    animation: none;
+  }
+}
+.icon-group-switch:focus-visible {
+  outline: 2px solid var(--rail-ink);
+  outline-offset: -2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .icon-switch-box {
+    transition: none;
+  }
+}
+
 .category-tab-action {
   position: absolute;
   inset: 0;
