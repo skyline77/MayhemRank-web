@@ -218,6 +218,10 @@
 :root:not([data-theme='light']) :is(a.build-stat-card, .build-stat-card.is-actionable):hover {
   border-color: var(--accent);
 }
+/* 当前筛选的卡片（aria-current）保持金框；上面的细描边规则优先级更高，否则会盖掉组件里的选中色 */
+:root:not([data-theme='light']) .stat-card-frame.build-stat-card[aria-current='true'] {
+  border-color: var(--accent);
+}
 :root:not([data-theme='light']) .build-detail .build-stat-card:not(a, .is-actionable):hover {
   border-color: rgba(255, 255, 255, 0.22);
 }
