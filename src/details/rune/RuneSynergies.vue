@@ -5,6 +5,7 @@ import { formatCount } from '@/stats/formatCount'
 import { matchesRuneDetailSearch, type DetailSearchIndex } from '@/details/detailSearch'
 import { computed, onBeforeUnmount, ref, shallowRef, watch } from 'vue'
 import DetailStatRow from '@/details/DetailStatRow.vue'
+import { useMotionDeferred } from '@/shared/useMotionDeferred'
 import DetailCardList from '@/details/DetailCardList.vue'
 import BuildStatCard from '@/details/BuildStatCard.vue'
 import {
@@ -32,6 +33,9 @@ const emit = defineEmits<{ loaded: [meta: RuneSynergies['meta'] | null] }>()
 const data = shallowRef<RuneSynergies | null>(null),
   loading = ref(false),
   error = ref('')
+// 桌面展开动画期间只显示占位卡片，落位后再分帧渲染（顺序：英雄、海克斯、装备）
+const deferred = useMotionDeferred(props.kind === 'items' ? 2 : 1)
+const showPlaceholder = computed(() => loading.value || deferred.value)
 const allEntries = computed(() =>
   (data.value?.[props.kind].entries || []).map(e => ({
     ...e,
@@ -114,16 +118,16 @@ function tip(cell: RuneSynergy): TipData {
     >
       <DetailCardList
         :expanded="gridMode"
-        :loading="loading"
+        :loading="showPlaceholder"
         :reset-key="JSON.stringify([runeId, patch, snapshotId, sortBy, query])"
         :item-count="sortedCells.length"
         :batch-size="20"
         tabindex="0"
         :aria-label="message('{p0}联动，可左右滚动查看更多', { p0: label })"
-        :class="{ 'is-empty': !loading && !sortedCells.length }"
+        :class="{ 'is-empty': !showPlaceholder && !sortedCells.length }"
         v-slot="{ visibleCount, pageItems }"
       >
-        <template v-if="loading"
+        <template v-if="showPlaceholder"
           ><div v-for="i in 10" :key="i" class="build-stat-placeholder"
         /></template>
         <template v-else>

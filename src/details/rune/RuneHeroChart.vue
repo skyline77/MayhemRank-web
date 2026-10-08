@@ -13,6 +13,7 @@ import {
   DEFAULT_RUNE_HERO_MIN_GAMES,
 } from './runeHeroChart'
 import { winRateColor } from '@/stats/winRateColor'
+import { useMotionDeferred } from '@/shared/useMotionDeferred'
 import type { HeroChartTheme, HeroChartZoom } from './runeHeroChartRuntime'
 const props = defineProps<{ data: RuneHeroes }>()
 const minimum = ref(DEFAULT_RUNE_HERO_MIN_GAMES),
@@ -116,8 +117,14 @@ function reset() {
   zoom = { x: [0, 100], y: [0, 100] }
   applyZoom()
 }
+// 图表初始化（ECharts）较重：桌面详情展开动画期间不启动，落位后排在卡片之后再启动
+const deferred = useMotionDeferred(3)
+watch(deferred, value => {
+  if (!value) void start()
+})
 async function start() {
   if (
+    deferred.value ||
     disposed ||
     chart ||
     loading.value ||

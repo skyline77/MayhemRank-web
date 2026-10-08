@@ -5,6 +5,7 @@ import { computed, onMounted, onBeforeUnmount, ref, watch } from 'vue'
 import type { EChartsType } from 'echarts/core'
 import type { RuneSlot } from '@/boards/augments/augmentBoard'
 import { runeChartOption, runeChartPoints, runeRateRange } from './runeChart'
+import { useMotionDeferred } from '@/shared/useMotionDeferred'
 const props = defineProps<{ slots: readonly RuneSlot[]; baseline: number; name: string }>()
 const host = ref<HTMLElement | null>(null),
   loading = ref(true),
@@ -59,8 +60,13 @@ function navigate(event: KeyboardEvent) {
           : Math.max(0, Math.min(last, active.value + (event.key === 'ArrowRight' ? 1 : -1)))
   select(index)
 }
+// 图表初始化（ECharts）较重：桌面详情展开动画期间不启动，落位后排在卡片之后再启动
+const deferred = useMotionDeferred(3)
+watch(deferred, value => {
+  if (!value) void start()
+})
 async function start() {
-  if (chart || disposed) return
+  if (deferred.value || chart || disposed) return
   loading.value = true
   failed.value = false
   try {

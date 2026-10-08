@@ -35,6 +35,7 @@ test('hero selection reuses theme and only updates series; zoom dispatches witho
     DEFAULT_RUNE_HERO_MIN_GAMES: 50,
     chartHeroes: () => [],
     heroChartBounds: () => ({ xMax: 1, yMin: 0, yMax: 1 }),
+    useMotionDeferred: () => ({ value: false }),
   }
   vm.createContext(sandbox)
   vm.runInContext(
