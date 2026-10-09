@@ -1,8 +1,8 @@
 [简体中文](README.md) | **日本語**
 
-# MayhemRank · フロントエンド
+# MayhemTier · フロントエンド
 
-<https://haidoubang.com>:
+<https://mayhemtier.com>:
 
 League of Legends「ARAM: Mayhem」モードの勝率・ビルド統計サイト
 
