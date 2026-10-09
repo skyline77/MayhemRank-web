@@ -1,6 +1,6 @@
 [简体中文](README.md) | **日本語**
 
-# 海斗榜（ハイドウバン）· フロントエンド
+# MayhemRank · フロントエンド
 
 <https://haidoubang.com>:
 
