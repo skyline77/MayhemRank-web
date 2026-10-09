@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict'
-import { readFileSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 import { test } from 'node:test'
 import { loadTS } from './load-ts.mjs'
 const { buildRows, buildStrips, columns, columnCapacities, championWinRates } = await loadTS(
@@ -49,15 +49,22 @@ test('search prunes empty bands and leaves labels and order intact', () => {
 })
 
 const { default: championSearch } = await loadTS('../src/data/championSearch.ts')
-test('all board heroes have Chinese names, titles and pinyin', () => {
-  const snapshot = JSON.parse(
-    readFileSync(
-      new URL('../../python/src/team_site/snapshots/build_roles_16_18.json', import.meta.url),
-      'utf8',
-    ),
-  )
-  for (const hero of snapshot.champions) assert.ok(championSearch[hero.id]?.length >= 3, hero.name)
-})
+// 英雄名单来自后端快照；公开仓库不含后端，缺少该文件时跳过
+const rolesFile = new URL(
+  '../../python/src/team_site/snapshots/build_roles_16_18.json',
+  import.meta.url,
+)
+test(
+  'all board heroes have Chinese names, titles and pinyin',
+  {
+    skip: !existsSync(rolesFile) && '缺少后端快照文件',
+  },
+  () => {
+    const snapshot = JSON.parse(readFileSync(rolesFile, 'utf8'))
+    for (const hero of snapshot.champions)
+      assert.ok(championSearch[hero.id]?.length >= 3, hero.name)
+  },
+)
 test('search matches Chinese titles and pinyin, excluding English names and codes', () => {
   const mao = [
     entry('57:AP', 0.49, 'AP输出', { searchTerms: championSearch[57] }),
