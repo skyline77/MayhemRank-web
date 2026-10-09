@@ -2,7 +2,8 @@
 
 # 海斗榜（ハイドウバン）· フロントエンド
 
-League of Legends「ARAM: Mayhem」モードの勝率・ビルド統計サイト：<https://haidoubang.com>
+<https://haidoubang.com>:
+League of Legends「ARAM: Mayhem」モードの勝率・ビルド統計サイト
 
 本リポジトリはサイトのフロントエンド（Vue 3 + TypeScript + Vite）です。簡体字・繁体字・日本語・英語に対応しています。統計データは別のバックエンドがスナップショットとして生成しており、本リポジトリには含まれません。
 
